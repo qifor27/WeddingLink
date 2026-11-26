@@ -1,7 +1,7 @@
 -- Tes RLS + GRANT. Jalankan: pnpm db:test
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(19);
+select plan(20);
 
 -- Data uji (sebagai postgres) --------------------------------------------------
 insert into auth.users (id, email) values
@@ -67,6 +67,7 @@ select throws_ok(
 set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-00000000000b","role":"authenticated","aal":"aal1"}';
 update public.wishes set is_hidden = true;
 select is((select bool_and(is_hidden) from public.wishes), true, 'B menyembunyikan ucapan');
+select throws_ok('select ip_hash from public.wishes', '42501', null, 'pasangan tidak bisa membaca ip_hash');
 
 -- Admin -----------------------------------------------------------------------
 set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000ad","role":"authenticated","aal":"aal1"}';

@@ -109,6 +109,7 @@ pnpm dev                     # buka http://localhost:3000
 | `NEXT_PUBLIC_SUPABASE_URL` | URL proyek Supabase |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Publishable key Supabase (aman di klien karena dibatasi RLS) |
 | `SUPABASE_SECRET_KEY` | Secret key (pengganti `service_role`). Hanya di server, jangan pernah dikirim ke klien |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Site key widget Turnstile di form RSVP |
 | `TURNSTILE_SECRET_KEY` | Verifikasi captcha di API RSVP |
 | `NEXT_PUBLIC_SITE_URL` | Domain utama, dipakai untuk sitemap dan Open Graph |
 
