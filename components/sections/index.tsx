@@ -2,10 +2,14 @@ import Image from "next/image";
 import { Suspense, type ReactNode } from "react";
 import { Ornament } from "@/components/ornaments";
 import { ZONES, type InvitationData } from "@/lib/invitation";
+import type { Wish } from "@/lib/data";
 import type { Section, ThemeConfig } from "@/lib/theme";
 import { CopyButton, Countdown, GuestName } from "./client";
+import { RsvpForm } from "./RsvpForm";
 
-type Props = { data: InvitationData; theme: ThemeConfig };
+// rsvp hanya ada di undangan terbit; preview tema tidak punya.
+export type RsvpContext = { invitationId: string; wishes: Wish[] };
+type Props = { data: InvitationData; theme: ThemeConfig; rsvp?: RsvpContext };
 
 const fmt = (iso: string, zona: InvitationData["zona"], opts: Intl.DateTimeFormatOptions) =>
   new Intl.DateTimeFormat("id-ID", { timeZone: zona, ...opts }).format(new Date(iso));
@@ -204,8 +208,40 @@ function Penutup({ data }: Props) {
   );
 }
 
-// rsvp & wishes: dibangun di minggu 3 (API anti-spam).
-const none = () => null;
+function Rsvp({ rsvp }: Props) {
+  return (
+    <Wrap title="Konfirmasi Kehadiran">
+      {rsvp ? (
+        <Suspense>
+          <RsvpForm invitationId={rsvp.invitationId} />
+        </Suspense>
+      ) : (
+        <p className="text-sm text-(--muted)">Formulir RSVP aktif setelah undangan diterbitkan.</p>
+      )}
+    </Wrap>
+  );
+}
+
+const ATTEND: Record<string, string> = { hadir: "Hadir", tidak_hadir: "Tidak hadir", ragu: "Masih ragu" };
+
+function Wishes({ data, rsvp }: Props) {
+  if (!rsvp?.wishes.length) return null;
+  return (
+    <Wrap title="Ucapan & Doa">
+      <ul className="max-h-[32rem] space-y-3 overflow-y-auto text-left">
+        {rsvp.wishes.map((w) => (
+          <li key={w.id} className="rounded-2xl bg-(--surface) p-4 shadow-sm">
+            <p className="font-semibold">
+              {w.name} <span className="text-xs font-normal text-(--muted)">· {ATTEND[w.attendance]}</span>
+            </p>
+            <p className="mt-1 whitespace-pre-line text-sm">{w.message}</p>
+            <p className="mt-2 text-xs text-(--muted)">{fmt(w.created_at, data.zona, { day: "numeric", month: "short", year: "numeric" })}</p>
+          </li>
+        ))}
+      </ul>
+    </Wrap>
+  );
+}
 
 export const sections: Record<Section, (p: Props) => ReactNode> = {
   cover: Cover,
@@ -216,8 +252,8 @@ export const sections: Record<Section, (p: Props) => ReactNode> = {
   maps: Maps,
   galeri: Galeri,
   story: Story,
-  rsvp: none,
-  wishes: none,
+  rsvp: Rsvp,
+  wishes: Wishes,
   gift: Gift,
   penutup: Penutup,
 };
