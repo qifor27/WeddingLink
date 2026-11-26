@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+/* Palet brand (PRD bagian 7). Tema undangan punya palet sendiri di theme.json. */
+@theme {
+  --color-bg: #fffaf8;
+  --color-blush: #f6dfe3;
+  --color-rose: #b85c73;
+  --color-gold: #c6a15b;
+  --color-ink: #3e2b30;
+  --font-display: var(--font-bodoni), serif;
+  --font-sans: var(--font-jost), system-ui, sans-serif;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
