@@ -11,7 +11,8 @@
     "db:reset": "supabase db reset",
     "db:test": "supabase test db",
     "db:migrate": "supabase db push",
-    "test": "node --test tests/unit/*.test.ts"
+    "test": "node --test tests/unit/*.test.ts",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.7",
@@ -22,6 +23,7 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
+    "@playwright/test": "1.65.1",
     "@tailwindcss/turbopack": "4.3.3",
     "@types/node": "^20",
     "@types/react": "^19",

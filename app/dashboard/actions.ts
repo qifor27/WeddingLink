@@ -6,6 +6,7 @@ import { requireUser } from "@/lib/auth";
 import { invTag, wishesTag } from "@/lib/data";
 import { parseGuests } from "@/lib/guests";
 import { invitationData, type InvitationData } from "@/lib/invitation";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { sampleData } from "@/themes/sample";
 
@@ -77,6 +78,26 @@ export async function setWishHidden(id: string, hidden: boolean) {
   const { data } = await supabase.from("wishes").update({ is_hidden: hidden }).eq("id", id).select("invitation_id").maybeSingle();
   if (data) revalidateTag(wishesTag(data.invitation_id), { expire: 0 });
   refresh();
+}
+
+// PRD bagian 5 langkah 5: terbit hanya jika order paid. Status & expires_at ditulis server
+// (pasangan tidak punya GRANT kolom itu), lalu cache halaman undangan di-revalidate.
+export async function publishInvitation(id: string) {
+  const { supabase } = await requireUser();
+  const [{ data: inv }, { data: order }] = await Promise.all([
+    supabase.from("invitations").select("slug, expires_at").eq("id", id).maybeSingle(), // RLS: hanya pemilik
+    supabase.from("orders").select("packages(active_days)").eq("invitation_id", id).eq("status", "paid")
+      .order("confirmed_at", { ascending: false }).limit(1).maybeSingle<{ packages: { active_days: number } }>(),
+  ]);
+  if (!inv) return { error: "Undangan tidak ditemukan" };
+  if (!order) return { error: "Pembayaran belum dikonfirmasi admin" };
+
+  const expires_at = inv.expires_at ?? new Date(Date.now() + order.packages.active_days * 86_400_000).toISOString();
+  const { error } = await createAdminClient().from("invitations").update({ status: "published", expires_at }).eq("id", id);
+  if (error) return { error: "Gagal menerbitkan" };
+  revalidateTag(invTag(inv.slug), { expire: 0 });
+  refresh();
+  return { ok: true as const };
 }
 
 export async function signOut() {
