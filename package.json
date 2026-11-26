@@ -12,7 +12,8 @@
     "db:test": "supabase test db",
     "db:migrate": "supabase db push",
     "test": "node --test tests/unit/*.test.ts",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "screens": "node scripts/screenshots.ts"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.7",

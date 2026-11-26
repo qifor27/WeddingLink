@@ -30,7 +30,7 @@ export function Invitation({
     <div style={style} className="flex-1 bg-(--bg) font-(family-name:--font-body) text-(--ink)">
       <main className="mx-auto max-w-md">
         {rendered.map(([s, el], i) => (
-          <div key={s}>
+          <div key={s} data-section={s}>
             {i > 0 && <Ornament name={theme.ornaments.divider} className="mx-auto h-6 w-40 text-(--accent)" />}
             {el}
           </div>

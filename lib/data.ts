@@ -1,4 +1,5 @@
 import "server-only";
+import type { Pkg } from "@/lib/marketing";
 import { cacheLife, cacheTag } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -36,6 +37,17 @@ export async function getWishes(invitationId: string) {
     .order("created_at", { ascending: false })
     .limit(50)
     .returns<Wish[]>();
+  if (error) throw error;
+  return data;
+}
+
+// Harga di landing & halaman tema (PRD bagian 6: harga dari DB). Diperbarui tiap jam.
+export async function getPackages() {
+  "use cache";
+  cacheTag("packages");
+  cacheLife("hours");
+  const { data, error } = await createAdminClient()
+    .from("packages").select("code, name, price, active_days, features").order("price").returns<Pkg[]>();
   if (error) throw error;
   return data;
 }

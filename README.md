@@ -114,6 +114,7 @@ pnpm dev                     # buka http://localhost:3000
 | `NEXT_PUBLIC_SITE_URL` | Domain utama, dipakai untuk sitemap dan Open Graph |
 | `PAYMENT_BANK`, `PAYMENT_ACCOUNT_NO`, `PAYMENT_ACCOUNT_NAME` | Rekening WeddingLink di halaman pembayaran |
 | `PAYMENT_QRIS_URL` | Gambar QRIS statis (opsional), mis. `/qris.png` di `public/` |
+| `NEXT_PUBLIC_WA_NUMBER` | Nomor WhatsApp admin (format `62…`) untuk tombol "Pesan via WhatsApp"; kosong = tombol disembunyikan |
 | `CRON_SECRET` | Rahasia acak untuk `/api/cron/expire` (Vercel Cron mengirimnya sebagai `Authorization: Bearer`) |
 
 Jangan commit `.env.local` ke repository.
@@ -137,6 +138,17 @@ Buka `/admin`. Kunjungan pertama meminta pendaftaran aplikasi autentikator (TOTP
 
 Undangan yang lewat masa aktif ditandai `expired` oleh `/api/cron/expire`, dijadwalkan harian pukul 00.00 WIB di `vercel.json`.
 
+### Tangkapan layar landing
+
+Mockup HP di landing dan katalog berisi tangkapan layar asli tema WeddingLink (PRD bagian 7), bukan foto stok. Buat ulang setelah tema berubah:
+
+```bash
+pnpm build && pnpm start -p 3123   # server produksi, tanpa indikator dev
+pnpm screens http://localhost:3123
+```
+
+Skrip membuat undangan demo terbit sementara di Supabase lokal (agar RSVP & ucapan tampil), memotret sampul tiap tema, section fitur, dan rekaman layar `demo.webm` (≤ 10 detik), lalu menghapus data demonya.
+
 ### Skrip
 
 | Perintah | Fungsi |
@@ -145,7 +157,8 @@ Undangan yang lewat masa aktif ditandai `expired` oleh `/api/cron/expire`, dijad
 | `pnpm build && pnpm start` | Build dan jalankan versi produksi |
 | `pnpm lint` | ESLint |
 | `pnpm test` | Tes unit (`tests/unit`) |
-| `pnpm test:e2e` | Tes Playwright alur lengkap di ukuran HP (butuh Supabase lokal) |
+| `pnpm test:e2e` | Tes Playwright: alur lengkap di 375 px, landing/katalog/SEO di 375/768/1440 px (butuh Supabase lokal) |
+| `pnpm screens [url]` | Buat ulang tangkapan layar tema di `public/screens/` untuk landing (lihat di bawah) |
 | `pnpm db:start` | Jalankan Supabase lokal |
 | `pnpm db:reset` | Bangun ulang DB lokal dari `supabase/migrations/` |
 | `pnpm db:test` | Tes RLS (pgTAP) di `supabase/tests/`; jalankan `pnpm db:reset` dulu bila DB berisi data tes e2e |

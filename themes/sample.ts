@@ -1,4 +1,4 @@
-import { invitationData } from "@/lib/invitation";
+import { invitationData } from "../lib/invitation.ts"; // relatif: dipakai juga oleh scripts/ (Node)
 
 // Data contoh untuk preview tema (PRD F2). Nama fiktif.
 export const sampleData = invitationData.parse({

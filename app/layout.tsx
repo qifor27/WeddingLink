@@ -6,6 +6,8 @@ const display = Bodoni_Moda({ variable: "--font-bodoni", subsets: ["latin"] });
 const body = Jost({ variable: "--font-jost", subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  openGraph: { siteName: "WeddingLink", locale: "id_ID", type: "website" },
   title: "WeddingLink — Undangan Pernikahan Digital",
   description: "Undangan pernikahan digital dengan tema adat Nusantara orisinal, RSVP, dan link per tamu.",
 };
