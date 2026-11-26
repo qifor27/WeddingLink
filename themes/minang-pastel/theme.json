@@ -1,0 +1,43 @@
+{
+  "slug": "minang-pastel",
+  "name": "Minang Pastel",
+  "category": [
+    "adat",
+    "minang",
+    "pastel",
+    "tanpa-foto"
+  ],
+  "photos": false,
+  "palette": {
+    "bg": "#fbf4e6",
+    "surface": "#fffaf0",
+    "ink": "#4f4a8a",
+    "accent": "#d98593",
+    "muted": "#6f6890"
+  },
+  "fonts": {
+    "script": "great-vibes",
+    "display": "italiana",
+    "body": "lora"
+  },
+  "ornaments": {
+    "cover": [
+      "marawa",
+      "rumah-gadang"
+    ],
+    "divider": "songket-band"
+  },
+  "sections": [
+    "cover",
+    "quote",
+    "mempelai",
+    "countdown",
+    "acara",
+    "maps",
+    "story",
+    "rsvp",
+    "wishes",
+    "gift",
+    "penutup"
+  ]
+}

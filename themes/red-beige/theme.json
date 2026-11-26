@@ -1,0 +1,42 @@
+{
+  "slug": "red-beige",
+  "name": "Red Beige",
+  "category": [
+    "modern",
+    "merah",
+    "foto"
+  ],
+  "photos": true,
+  "palette": {
+    "bg": "#f5ece1",
+    "surface": "#fffaf3",
+    "ink": "#5a1e1e",
+    "accent": "#a8322d",
+    "muted": "#7d6656"
+  },
+  "fonts": {
+    "script": "parisienne",
+    "display": "playfair",
+    "body": "lora"
+  },
+  "ornaments": {
+    "cover": [
+      "sprig"
+    ],
+    "divider": "divider"
+  },
+  "sections": [
+    "cover",
+    "quote",
+    "mempelai",
+    "countdown",
+    "acara",
+    "maps",
+    "galeri",
+    "story",
+    "rsvp",
+    "wishes",
+    "gift",
+    "penutup"
+  ]
+}

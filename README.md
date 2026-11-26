@@ -78,14 +78,16 @@ Satu data undangan bisa ditampilkan dengan tema apa pun. Setiap tema hanya beris
 {
   "slug": "minang-pastel",
   "name": "Minang Pastel",
-  "category": ["wedding", "minang"],
-  "palette": { "bg": "#fbf4e6", "ink": "#4f4a8a", "accent": "#d98593" },
-  "fonts": { "script": "Great Vibes", "display": "Italiana", "body": "Lora" },
-  "ornaments": ["songket-band", "marawa", "flower-column", "rumah-gadang"],
-  "sections": ["cover", "opening", "quote", "groom", "bride", "countdown", "akad", "resepsi", "maps", "gallery", "story", "rsvp", "wishes", "gift", "family", "closing"],
-  "music": "saluang-soft"
+  "category": ["adat", "minang", "pastel", "tanpa-foto"],
+  "photos": false,
+  "palette": { "bg": "#fbf4e6", "surface": "#fffaf0", "ink": "#4f4a8a", "accent": "#d98593", "muted": "#6f6890" },
+  "fonts": { "script": "great-vibes", "display": "italiana", "body": "lora" },
+  "ornaments": { "cover": ["marawa", "rumah-gadang"], "divider": "songket-band" },
+  "sections": ["cover", "quote", "mempelai", "countdown", "acara", "maps", "story", "rsvp", "wishes", "gift", "penutup"]
 }
 ```
+
+Skema: `lib/theme.ts` (tema) dan `lib/invitation.ts` (data undangan). Daftarkan tema baru di `themes/index.ts`, catat asetnya di `themes/<slug>/ASSETS.md`, lalu cek tampilannya di `/tema/<slug>/preview?nama=Rina%20%26%20Dimas`.
 
 ## Mulai mengembangkan
 

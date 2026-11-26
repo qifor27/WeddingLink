@@ -10,7 +10,8 @@
     "db:start": "supabase start",
     "db:reset": "supabase db reset",
     "db:test": "supabase test db",
-    "db:migrate": "supabase db push"
+    "db:migrate": "supabase db push",
+    "test": "node --test tests/unit/*.test.ts"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.7",

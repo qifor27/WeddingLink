@@ -1,0 +1,42 @@
+{
+  "slug": "blue-butterfly",
+  "name": "Blue Butterfly",
+  "category": [
+    "modern",
+    "biru",
+    "foto"
+  ],
+  "photos": true,
+  "palette": {
+    "bg": "#f4f1ea",
+    "surface": "#ffffff",
+    "ink": "#2b3f76",
+    "accent": "#5b84c4",
+    "muted": "#6b7590"
+  },
+  "fonts": {
+    "script": "great-vibes",
+    "display": "cormorant",
+    "body": "lora"
+  },
+  "ornaments": {
+    "cover": [
+      "butterfly"
+    ],
+    "divider": "sprig"
+  },
+  "sections": [
+    "cover",
+    "quote",
+    "mempelai",
+    "countdown",
+    "acara",
+    "maps",
+    "galeri",
+    "story",
+    "rsvp",
+    "wishes",
+    "gift",
+    "penutup"
+  ]
+}

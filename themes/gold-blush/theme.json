@@ -1,0 +1,43 @@
+{
+  "slug": "gold-blush",
+  "name": "Gold Blush Modern",
+  "category": [
+    "modern",
+    "emas",
+    "pink",
+    "foto"
+  ],
+  "photos": true,
+  "palette": {
+    "bg": "#fffaf8",
+    "surface": "#ffffff",
+    "ink": "#3e2b30",
+    "accent": "#c6a15b",
+    "muted": "#7a6468"
+  },
+  "fonts": {
+    "script": "great-vibes",
+    "display": "bodoni",
+    "body": "jost"
+  },
+  "ornaments": {
+    "cover": [
+      "sprig"
+    ],
+    "divider": "divider"
+  },
+  "sections": [
+    "cover",
+    "quote",
+    "mempelai",
+    "countdown",
+    "acara",
+    "maps",
+    "galeri",
+    "story",
+    "rsvp",
+    "wishes",
+    "gift",
+    "penutup"
+  ]
+}

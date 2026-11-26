@@ -1,0 +1,41 @@
+{
+  "slug": "sage-botanical",
+  "name": "Sage Botanical",
+  "category": [
+    "modern",
+    "hijau",
+    "tanpa-foto"
+  ],
+  "photos": false,
+  "palette": {
+    "bg": "#f2f4ee",
+    "surface": "#fbfcf8",
+    "ink": "#2f3d33",
+    "accent": "#7d9a7e",
+    "muted": "#5f6b61"
+  },
+  "fonts": {
+    "script": "great-vibes",
+    "display": "cormorant",
+    "body": "jost"
+  },
+  "ornaments": {
+    "cover": [
+      "sprig"
+    ],
+    "divider": "sprig"
+  },
+  "sections": [
+    "cover",
+    "quote",
+    "mempelai",
+    "countdown",
+    "acara",
+    "maps",
+    "story",
+    "rsvp",
+    "wishes",
+    "gift",
+    "penutup"
+  ]
+}

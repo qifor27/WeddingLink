@@ -1,0 +1,44 @@
+{
+  "slug": "sunda-minang",
+  "name": "Sunda–Minang",
+  "category": [
+    "adat",
+    "sunda",
+    "minang",
+    "foto"
+  ],
+  "photos": true,
+  "palette": {
+    "bg": "#f3efe6",
+    "surface": "#fffdf7",
+    "ink": "#3b2a1f",
+    "accent": "#9c6b2f",
+    "muted": "#6e5e4d"
+  },
+  "fonts": {
+    "script": "parisienne",
+    "display": "cinzel",
+    "body": "lora"
+  },
+  "ornaments": {
+    "cover": [
+      "mega-mendung",
+      "rumah-gadang"
+    ],
+    "divider": "songket-band"
+  },
+  "sections": [
+    "cover",
+    "quote",
+    "mempelai",
+    "countdown",
+    "acara",
+    "maps",
+    "galeri",
+    "story",
+    "rsvp",
+    "wishes",
+    "gift",
+    "penutup"
+  ]
+}
