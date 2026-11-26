@@ -112,6 +112,9 @@ pnpm dev                     # buka http://localhost:3000
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Site key widget Turnstile di form RSVP |
 | `TURNSTILE_SECRET_KEY` | Verifikasi captcha di API RSVP |
 | `NEXT_PUBLIC_SITE_URL` | Domain utama, dipakai untuk sitemap dan Open Graph |
+| `PAYMENT_BANK`, `PAYMENT_ACCOUNT_NO`, `PAYMENT_ACCOUNT_NAME` | Rekening WeddingLink di halaman pembayaran |
+| `PAYMENT_QRIS_URL` | Gambar QRIS statis (opsional), mis. `/qris.png` di `public/` |
+| `CRON_SECRET` | Rahasia acak untuk `/api/cron/expire` (Vercel Cron mengirimnya sebagai `Authorization: Bearer`) |
 
 Jangan commit `.env.local` ke repository.
 
@@ -122,6 +125,18 @@ Login memakai kode 6 digit, bukan magic link, supaya tetap jalan saat email dibu
 1. Pasang SMTP sendiri (Authentication → SMTP). SMTP bawaan Supabase dibatasi beberapa email per jam dan template-nya tidak bisa diubah di paket Free.
 2. Isi template **Magic Link** dan **Confirm signup** dengan `supabase/templates/otp.html` (memuat `{{ .Token }}`). Lokal sudah otomatis lewat `supabase/config.jsonc`; template bawaan Supabase hanya berisi link, tanpa kode.
 
+### Admin dan pembayaran manual
+
+Admin tidak bisa mendaftar sendiri. Setelah orangnya login sekali, beri peran lewat SQL editor Supabase:
+
+```sql
+update public.users set role = 'admin' where email = 'admin@contoh.id';
+```
+
+Buka `/admin`. Kunjungan pertama meminta pendaftaran aplikasi autentikator (TOTP); setelah itu setiap login admin wajib memasukkan kode. Tanpa 2FA, RLS tidak menampilkan pesanan sama sekali. Setiap perubahan status pesanan tercatat di tabel `audit_logs` oleh trigger database.
+
+Undangan yang lewat masa aktif ditandai `expired` oleh `/api/cron/expire`, dijadwalkan harian pukul 00.00 WIB di `vercel.json`.
+
 ### Skrip
 
 | Perintah | Fungsi |
@@ -129,10 +144,11 @@ Login memakai kode 6 digit, bukan magic link, supaya tetap jalan saat email dibu
 | `pnpm dev` | Server pengembangan |
 | `pnpm build && pnpm start` | Build dan jalankan versi produksi |
 | `pnpm lint` | ESLint |
-| `pnpm test:e2e` | Tes Playwright di ukuran HP dan desktop (minggu 6) |
+| `pnpm test` | Tes unit (`tests/unit`) |
+| `pnpm test:e2e` | Tes Playwright alur lengkap di ukuran HP (butuh Supabase lokal) |
 | `pnpm db:start` | Jalankan Supabase lokal |
 | `pnpm db:reset` | Bangun ulang DB lokal dari `supabase/migrations/` |
-| `pnpm db:test` | Tes RLS (pgTAP) di `supabase/tests/` |
+| `pnpm db:test` | Tes RLS (pgTAP) di `supabase/tests/`; jalankan `pnpm db:reset` dulu bila DB berisi data tes e2e |
 | `pnpm db:migrate` | Dorong migrasi ke proyek Supabase hosted (CLI meminta konfirmasi) |
 
 ## Keamanan

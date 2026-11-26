@@ -5,7 +5,7 @@ process.loadEnvFile(".env.local");
 
 export default defineConfig({
   testDir: "tests/e2e",
-  timeout: 90_000,
+  timeout: 180_000,
   use: { baseURL: "http://localhost:3123", trace: "retain-on-failure" },
   projects: [{ name: "hp", use: { ...devices["Pixel 7"], browserName: "chromium", viewport: { width: 375, height: 812 } } }],
   webServer: {

@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { requireUser } from "@/lib/auth";
 import { invTag, wishesTag } from "@/lib/data";
 import { parseGuests } from "@/lib/guests";
+import { randomUniqueCode } from "@/lib/payment";
 import { invitationData, type InvitationData } from "@/lib/invitation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
@@ -80,6 +81,28 @@ export async function setWishHidden(id: string, hidden: boolean) {
   refresh();
 }
 
+// PRD bagian 5 langkah 1: pilih paket -> order pending dengan nominal unik.
+// Nominal dihitung server; pasangan tidak punya GRANT insert ke orders.
+export async function createOrder(invitationId: string, formData: FormData) {
+  const { supabase, userId } = await requireUser();
+  const [{ data: inv }, { data: pkg }] = await Promise.all([
+    supabase.from("invitations").select("id").eq("id", invitationId).maybeSingle(), // RLS: hanya pemilik
+    supabase.from("packages").select("id, price").eq("code", String(formData.get("package"))).maybeSingle(),
+  ]);
+  if (!inv || !pkg) throw new Error("Undangan atau paket tidak ditemukan");
+
+  const admin = createAdminClient();
+  for (let i = 0; i < 10; i++) {
+    const unique_code = randomUniqueCode();
+    const { error } = await admin.from("orders").insert({
+      user_id: userId, invitation_id: invitationId, package_id: pkg.id, amount: pkg.price + unique_code, unique_code,
+    });
+    // 23505: nominal bentrok dengan pesanan terbuka lain (coba kode lain), atau undangan sudah punya pesanan terbuka.
+    if (!error || error.code !== "23505" || error.message.includes("open_invitation")) break;
+  }
+  refresh();
+}
+
 // PRD bagian 5 langkah 5: terbit hanya jika order paid. Status & expires_at ditulis server
 // (pasangan tidak punya GRANT kolom itu), lalu cache halaman undangan di-revalidate.
 export async function publishInvitation(id: string) {
@@ -90,6 +113,7 @@ export async function publishInvitation(id: string) {
       .order("confirmed_at", { ascending: false }).limit(1).maybeSingle<{ packages: { active_days: number } }>(),
   ]);
   if (!inv) return { error: "Undangan tidak ditemukan" };
+  if (inv.expires_at && new Date(inv.expires_at) < new Date()) return { error: "Masa aktif undangan sudah habis" };
   if (!order) return { error: "Pembayaran belum dikonfirmasi admin" };
 
   const expires_at = inv.expires_at ?? new Date(Date.now() + order.packages.active_days * 86_400_000).toISOString();

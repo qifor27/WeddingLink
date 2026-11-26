@@ -1,8 +1,10 @@
+import { createHmac } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
 import { expect, test, type Page } from "@playwright/test";
+import sharp from "sharp";
 
-// Alur MVP minggu 3–4 terhadap Supabase lokal: login OTP -> buat & edit undangan -> impor tamu
-// -> (terbit, disimulasikan; pembayaran = minggu 5) -> tamu membuka link & RSVP -> pasangan memoderasi.
+// Alur MVP terhadap Supabase lokal (PRD bagian 14): login OTP -> buat & edit undangan -> impor tamu
+// -> bayar manual (ditolak, bayar ulang) -> admin 2FA konfirmasi -> terbit -> tamu RSVP -> moderasi -> kedaluwarsa.
 
 const MAILPIT = "http://127.0.0.1:54324";
 const admin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
@@ -21,14 +23,29 @@ async function otp(email: string) {
   throw new Error(`OTP untuk ${email} tidak ditemukan di mailpit`);
 }
 
-async function login(page: Page, email: string) {
-  await page.goto("/dashboard");
-  await expect(page).toHaveURL(/\/masuk\?next=%2Fdashboard/);
+async function login(page: Page, email: string, path = "/dashboard") {
+  await page.goto(path);
+  await expect(page).toHaveURL(`/masuk?next=${encodeURIComponent(path)}`);
   await page.getByLabel("Email").fill(email);
   await page.getByRole("button", { name: "Kirim kode" }).click();
   await page.getByLabel("Kode 6 digit").fill(await otp(email));
   await page.getByRole("button", { name: "Masuk" }).click();
-  await expect(page).toHaveURL(/\/dashboard$/);
+}
+
+// RFC 6238 (SHA-1, 30 dtk, 6 digit) seperti aplikasi autentikator.
+function totp(base32: string) {
+  const bits = [...base32.replace(/=+$/, "")].map((c) => "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567".indexOf(c).toString(2).padStart(5, "0")).join("");
+  const key = Buffer.from(bits.match(/.{8}/g)!.map((b) => parseInt(b, 2)));
+  const counter = Buffer.alloc(8);
+  counter.writeBigUInt64BE(BigInt(Math.floor(Date.now() / 30_000)));
+  const h = createHmac("sha1", key).update(counter).digest();
+  const o = h[19] & 0xf;
+  return String((h.readUInt32BE(o) & 0x7fffffff) % 1_000_000).padStart(6, "0");
+}
+
+async function uploadProof(page: Page, file: { name: string; mimeType: string; buffer: Buffer }) {
+  await page.getByLabel(/bukti transfer/).setInputFiles(file);
+  await page.getByRole("button", { name: "Kirim bukti" }).click();
 }
 
 async function rsvp(page: Page, message: string) {
@@ -41,9 +58,10 @@ async function rsvp(page: Page, message: string) {
   await expect(page.getByText("Terima kasih!")).toBeVisible();
 }
 
-test("pasangan membuat undangan & tamu, tamu RSVP, pasangan memoderasi", async ({ page, browser }) => {
+test("pasangan membuat undangan, bayar, admin konfirmasi, tamu RSVP, moderasi, kedaluwarsa", async ({ page, browser }) => {
   const run = Date.now();
   await login(page, `pasangan-${run}@example.com`);
+  await expect(page).toHaveURL(/\/dashboard$/);
 
   // Buat undangan dari tema
   await page.getByRole("button", { name: /Minang Pastel/ }).click();
@@ -79,16 +97,61 @@ test("pasangan membuat undangan & tamu, tamu RSVP, pasangan memoderasi", async (
   expect(draft).toContain("Halaman tidak ditemukan");
   expect(draft).not.toContain("Ayu");
 
-  // Terbit tanpa bayar ditolak; setelah order paid (minggu 5: dikonfirmasi admin) berhasil
+  // Bayar manual: pilih paket -> nominal unik -> unggah bukti (tipe asli dicek)
   await page.goto(`/dashboard/${id}`);
-  await page.getByRole("button", { name: "Terbitkan" }).click();
-  await expect(page.getByText("Pembayaran belum dikonfirmasi admin")).toBeVisible();
-  const { data: pkg } = await admin.from("packages").select("id").eq("code", "populer").single();
-  const { data: owner } = await admin.from("invitations").select("owner_id").eq("id", id).single();
-  await admin.from("orders").insert({
-    user_id: owner!.owner_id, invitation_id: id, package_id: pkg!.id,
-    amount: 99_000 + (run % 999) + 1, unique_code: (run % 999) + 1, status: "paid",
-  });
+  await expect(page.getByRole("button", { name: "Terbitkan" })).toHaveCount(0);
+  await page.getByRole("link", { name: "Bayar untuk menerbitkan" }).click();
+  await page.getByRole("button", { name: /Populer/ }).click();
+  await expect(page.getByText(/^Rp99\.\d{3}$/)).toBeVisible();
+  await expect(page.getByText("1234567890")).toBeVisible();
+  await uploadProof(page, { name: "bukti.jpg", mimeType: "image/jpeg", buffer: Buffer.from("<svg onload=alert(1)>") });
+  await expect(page.getByText("Format harus JPG, PNG, atau PDF")).toBeVisible();
+  const png = await sharp({ create: { width: 40, height: 40, channels: 3, background: "#b85c73" } }).png().toBuffer();
+  await uploadProof(page, { name: "bukti.png", mimeType: "image/png", buffer: png });
+  await expect(page.getByText("Menunggu konfirmasi admin")).toBeVisible();
+
+  // Admin: role diberi lewat database, wajib daftar & verifikasi TOTP sebelum melihat pesanan
+  const adminPage = await (await browser.newContext()).newPage();
+  const adminEmail = `admin-${run}@example.com`;
+  await login(adminPage, adminEmail, "/admin");
+  await expect(adminPage.getByText("Halaman tidak ditemukan")).toBeVisible(); // belum admin
+  const { data: adminUser } = await admin.from("users").select("id").eq("email", adminEmail).single();
+  await admin.from("users").update({ role: "admin" }).eq("id", adminUser!.id);
+  await adminPage.goto("/admin");
+  await expect(adminPage).toHaveURL(/\/admin\/2fa$/);
+  await adminPage.getByRole("button", { name: "Siapkan aplikasi autentikator" }).click();
+  const secret = (await adminPage.getByTestId("totp-secret").textContent())!.trim();
+  await adminPage.getByLabel("Kode autentikator").fill(totp(secret));
+  await adminPage.getByRole("button", { name: "Verifikasi" }).click();
+  await expect(adminPage).toHaveURL(/\/admin$/);
+
+  const { data: order1 } = await admin.from("orders").select("id, amount").eq("invitation_id", id).single();
+  const row = () => adminPage.locator("li", { hasText: `Rp${order1!.amount.toLocaleString("id-ID")}` });
+  const proof = await adminPage.request.get((await row().getByRole("link", { name: "Lihat bukti transfer" }).getAttribute("href"))!);
+  expect(proof.headers()["content-type"]).toBe("image/png");
+  await row().getByRole("button", { name: "Tolak" }).click();
+  await expect(adminPage.getByText("Isi alasan penolakan")).toBeVisible();
+  await row().getByLabel("Alasan penolakan").fill("Nominal tidak cocok");
+  await row().getByRole("button", { name: "Tolak" }).click();
+  await expect(row()).toContainText("ditolak: Nominal tidak cocok");
+
+  // Pasangan melihat alasan, memesan ulang, admin konfirmasi
+  await page.reload();
+  await expect(page.getByText("Nominal tidak cocok")).toBeVisible();
+  await page.getByRole("button", { name: /Populer/ }).click();
+  await uploadProof(page, { name: "bukti2.png", mimeType: "image/png", buffer: png });
+  await expect(page.getByText("Menunggu konfirmasi admin")).toBeVisible();
+  await adminPage.reload();
+  const { data: order2 } = await admin.from("orders").select("id, amount").eq("invitation_id", id).eq("status", "waiting_confirmation").single();
+  const row2 = adminPage.locator("li", { hasText: `Rp${order2!.amount.toLocaleString("id-ID")}`, hasNotText: "ditolak" });
+  await row2.getByRole("button", { name: "Konfirmasi" }).click();
+  await expect(row2).toContainText("Lunas");
+  const { data: audit } = await admin.from("audit_logs").select("actor_id, to_status").in("order_id", [order1!.id, order2!.id]).order("id");
+  expect(audit!.map((a) => a.to_status)).toEqual(["pending", "waiting_confirmation", "rejected", "pending", "waiting_confirmation", "paid"]);
+  expect(audit!.filter((a) => a.to_status === "paid" || a.to_status === "rejected").every((a) => a.actor_id === adminUser!.id)).toBe(true);
+
+  // Terbit setelah lunas
+  await page.goto(`/dashboard/${id}`);
   await page.getByRole("button", { name: "Terbitkan" }).click();
   await expect(page.getByText(/^Terbit:/)).toBeVisible();
   const { data: pub } = await admin.from("invitations").select("status, expires_at").eq("id", id).single();
@@ -136,8 +199,22 @@ test("pasangan membuat undangan & tamu, tamu RSVP, pasangan memoderasi", async (
   // Pasangan lain tidak bisa membuka undangan ini
   const lain = await (await browser.newContext()).newPage();
   await login(lain, `lain-${run}@example.com`);
+  await expect(lain).toHaveURL(/\/dashboard$/);
   await lain.goto(`/dashboard/${id}`);
   await expect(lain.getByText("Halaman tidak ditemukan")).toBeVisible();
   await expect(lain.getByText("Ayu")).toHaveCount(0);
   expect((await lain.request.get(`/api/invitations/${id}/export`)).status()).toBe(404);
+  const { data: lainOrder } = await admin.from("orders").select("id").eq("invitation_id", id).eq("status", "paid").single();
+  const steal = await lain.request.post(`/api/orders/${lainOrder!.id}/proof`, { multipart: { file: { name: "x.png", mimeType: "image/png", buffer: png } } });
+  expect(steal.status()).toBe(404);
+
+  // Masa aktif habis: cron menandai expired & membuang cache, link tamu berhenti tampil
+  expect((await page.request.get("/api/cron/expire")).status()).toBe(401);
+  await admin.from("invitations").update({ expires_at: new Date(Date.now() - 60_000).toISOString() }).eq("id", id);
+  const cron = await page.request.get("/api/cron/expire", { headers: { authorization: `Bearer ${process.env.CRON_SECRET}` } });
+  expect((await cron.json()).expired).toBeGreaterThanOrEqual(1);
+  await iseng.goto(`/${inv!.slug}`);
+  await expect(iseng.getByText("Halaman tidak ditemukan")).toBeVisible();
+  await page.goto(`/dashboard/${id}`);
+  await expect(page.getByText("Masa aktif undangan sudah habis.")).toBeVisible();
 });
