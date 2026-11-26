@@ -26,6 +26,7 @@ export default async function Page() {
                 <div className="mt-3 flex flex-wrap gap-2 text-sm">
                   <Link href={`/dashboard/${inv.id}`} className="rounded-full bg-rose px-4 py-2 text-white">Edit</Link>
                   <Link href={`/dashboard/${inv.id}/tamu`} className="rounded-full border border-rose px-4 py-2 text-rose">Tamu &amp; RSVP</Link>
+                  <Link href={`/dashboard/${inv.id}/bayar`} className="rounded-full border border-rose px-4 py-2 text-rose">Pembayaran</Link>
                 </div>
               </li>
             ))}
