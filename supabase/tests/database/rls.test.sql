@@ -1,7 +1,7 @@
 -- Tes RLS + GRANT. Jalankan: pnpm db:test
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(20);
+select plan(22);
 
 -- Data uji (sebagai postgres) --------------------------------------------------
 insert into auth.users (id, email) values
@@ -38,28 +38,31 @@ select is((select count(*)::int from public.wishes), 0, 'A tidak melihat ucapan 
 select is((select count(*)::int from public.orders), 0, 'A tidak melihat pesanan B');
 select is((select count(*)::int from public.users), 1, 'A hanya melihat dirinya');
 
-select lives_ok(
-  $$insert into public.invitations (id, theme_id) values ('10000000-0000-0000-0000-00000000000a',
+select throws_ok(
+  $$insert into public.invitations (id, theme_id) values (gen_random_uuid(),
     (select id from public.themes where slug = 'minang-pastel'))$$,
+  '42501', null, 'A tidak bisa menentukan id/slug sendiri (GRANT kolom)');
+select lives_ok(
+  $$insert into public.invitations (theme_id) values ((select id from public.themes where slug = 'minang-pastel'))$$,
   'A membuat undangan sendiri');
-select is((select owner_id from public.invitations where id = '10000000-0000-0000-0000-00000000000a'),
-  '00000000-0000-0000-0000-00000000000a'::uuid, 'owner_id otomatis = A');
+select is((select count(*)::int from public.invitations), 1, 'A melihat tepat satu undangan: miliknya');
+select is((select owner_id from public.invitations), '00000000-0000-0000-0000-00000000000a'::uuid, 'owner_id otomatis = A');
 
 select throws_ok(
-  $$update public.invitations set status = 'published' where id = '10000000-0000-0000-0000-00000000000a'$$,
+  $$update public.invitations set status = 'published'$$,
   '42501', null, 'A tidak bisa menerbitkan sendiri (status)');
 select throws_ok(
   $$insert into public.guests (invitation_id, name) values ('10000000-0000-0000-0000-00000000000b', 'Penyusup')$$,
   '42501', null, 'A tidak bisa menambah tamu di undangan B');
 select lives_ok(
-  $$insert into public.guests (invitation_id, name) values ('10000000-0000-0000-0000-00000000000a', 'Budi')$$,
+  $$insert into public.guests (invitation_id, name) values ((select id from public.invitations where owner_id = '00000000-0000-0000-0000-00000000000a'), 'Budi')$$,
   'A menambah tamu di undangannya');
 select throws_ok(
-  $$insert into public.wishes (invitation_id, name, attendance) values ('10000000-0000-0000-0000-00000000000a', 'x', 'hadir')$$,
+  $$insert into public.wishes (invitation_id, name, attendance) values ((select id from public.invitations where owner_id = '00000000-0000-0000-0000-00000000000a'), 'x', 'hadir')$$,
   '42501', null, 'ucapan tidak bisa diinsert dari klien');
 select throws_ok(
   $$insert into public.orders (user_id, invitation_id, package_id, amount, unique_code)
-    values ('00000000-0000-0000-0000-00000000000a', '10000000-0000-0000-0000-00000000000a',
+    values ('00000000-0000-0000-0000-00000000000a', (select id from public.invitations where owner_id = '00000000-0000-0000-0000-00000000000a'),
     (select id from public.packages limit 1), 1, 1)$$,
   '42501', null, 'pesanan tidak bisa dibuat dari klien');
 
