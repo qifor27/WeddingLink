@@ -1,6 +1,6 @@
 import { createHmac } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Browser, type Page } from "@playwright/test";
 import sharp from "sharp";
 
 // Alur MVP terhadap Supabase lokal (PRD bagian 14): login OTP -> buat & edit undangan -> impor tamu
@@ -43,6 +43,14 @@ function totp(base32: string) {
   return String((h.readUInt32BE(o) & 0x7fffffff) % 1_000_000).padStart(6, "0");
 }
 
+// Pelanggaran CSP muncul di console browser; tes gagal bila ada (Turnstile, login Supabase, MFA, gambar).
+const cspErrors: string[] = [];
+function watchCsp(p: Page) {
+  p.on("console", (m) => m.type() === "error" && /Content Security Policy/i.test(m.text()) && cspErrors.push(m.text()));
+  return p;
+}
+const newPage = async (browser: Browser) => watchCsp(await (await browser.newContext()).newPage());
+
 async function uploadProof(page: Page, file: { name: string; mimeType: string; buffer: Buffer }) {
   await page.getByLabel(/bukti transfer/).setInputFiles(file);
   await page.getByRole("button", { name: "Kirim bukti" }).click();
@@ -60,6 +68,7 @@ async function rsvp(page: Page, message: string) {
 
 test("pasangan membuat undangan, bayar, admin konfirmasi, tamu RSVP, moderasi, kedaluwarsa", async ({ page, browser }) => {
   const run = Date.now();
+  watchCsp(page);
   await login(page, `pasangan-${run}@example.com`);
   await expect(page).toHaveURL(/\/dashboard$/);
 
@@ -111,7 +120,7 @@ test("pasangan membuat undangan, bayar, admin konfirmasi, tamu RSVP, moderasi, k
   await expect(page.getByText("Menunggu konfirmasi admin")).toBeVisible();
 
   // Admin: role diberi lewat database, wajib daftar & verifikasi TOTP sebelum melihat pesanan
-  const adminPage = await (await browser.newContext()).newPage();
+  const adminPage = await newPage(browser);
   const adminEmail = `admin-${run}@example.com`;
   await login(adminPage, adminEmail, "/admin");
   await expect(adminPage.getByText("Halaman tidak ditemukan")).toBeVisible(); // belum admin
@@ -159,7 +168,7 @@ test("pasangan membuat undangan, bayar, admin konfirmasi, tamu RSVP, moderasi, k
   expect(new Date(pub!.expires_at).getTime()).toBeGreaterThan(Date.now() + 179 * 86_400_000); // paket Populer 6 bulan
 
   // Tamu: tanpa akun, nama dari link, RSVP
-  const tamu = await (await browser.newContext()).newPage();
+  const tamu = await newPage(browser);
   await tamu.goto(guestUrl);
   await expect(tamu.getByRole("heading", { level: 1 })).toContainText("Ayu");
   await expect(tamu.getByText("Bapak Ahmad").first()).toBeVisible();
@@ -167,7 +176,7 @@ test("pasangan membuat undangan, bayar, admin konfirmasi, tamu RSVP, moderasi, k
   await rsvp(tamu, "Selamat menempuh hidup baru");
 
   // Ucapan kasar otomatis disembunyikan
-  const iseng = await (await browser.newContext()).newPage();
+  const iseng = await newPage(browser);
   await iseng.goto(`/${inv!.slug}`);
   await iseng.getByLabel("Nama").fill("Iseng");
   await rsvp(iseng, "dasar anjing");
@@ -197,7 +206,7 @@ test("pasangan membuat undangan, bayar, admin konfirmasi, tamu RSVP, moderasi, k
   await expect(iseng.getByText("Selamat menempuh hidup baru")).toHaveCount(0);
 
   // Pasangan lain tidak bisa membuka undangan ini
-  const lain = await (await browser.newContext()).newPage();
+  const lain = await newPage(browser);
   await login(lain, `lain-${run}@example.com`);
   await expect(lain).toHaveURL(/\/dashboard$/);
   await lain.goto(`/dashboard/${id}`);
@@ -217,4 +226,19 @@ test("pasangan membuat undangan, bayar, admin konfirmasi, tamu RSVP, moderasi, k
   await expect(iseng.getByText("Halaman tidak ditemukan")).toBeVisible();
   await page.goto(`/dashboard/${id}`);
   await expect(page.getByText("Masa aktif undangan sudah habis.")).toBeVisible();
+
+  expect(cspErrors).toEqual([]);
+});
+
+test("header keamanan terpasang di semua halaman", async ({ request }) => {
+  for (const path of ["/", "/masuk", "/tema/minang-pastel/preview", "/__contoh__"]) {
+    const h = (await request.get(path)).headers();
+    expect(h["content-security-policy"]).toContain("frame-ancestors 'none'");
+    expect(h["content-security-policy"]).toContain("object-src 'none'");
+    expect(h["strict-transport-security"]).toContain("max-age=63072000");
+    expect(h["x-content-type-options"]).toBe("nosniff");
+    expect(h["referrer-policy"]).toBe("strict-origin-when-cross-origin");
+    expect(h["x-frame-options"]).toBe("DENY");
+    expect(h["x-powered-by"]).toBeUndefined();
+  }
 });
