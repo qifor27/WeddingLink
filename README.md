@@ -115,6 +115,13 @@ pnpm dev                     # buka http://localhost:3000
 
 Jangan commit `.env.local` ke repository.
 
+### Login pasangan (OTP email)
+
+Login memakai kode 6 digit, bukan magic link, supaya tetap jalan saat email dibuka di browser bawaan aplikasi. Di proyek Supabase hosted:
+
+1. Pasang SMTP sendiri (Authentication → SMTP). SMTP bawaan Supabase dibatasi beberapa email per jam dan template-nya tidak bisa diubah di paket Free.
+2. Isi template **Magic Link** dan **Confirm signup** dengan `supabase/templates/otp.html` (memuat `{{ .Token }}`). Lokal sudah otomatis lewat `supabase/config.jsonc`; template bawaan Supabase hanya berisi link, tanpa kode.
+
 ### Skrip
 
 | Perintah | Fungsi |

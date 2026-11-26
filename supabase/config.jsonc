@@ -282,13 +282,17 @@
       //   "sender_name": "Admin"
       // },
 
-      // Uncomment to customize email template
-      // "template": {
-      //   "invite": {
-      //     "subject": "You have been invited",
-      //     "content_path": "./supabase/templates/invite.html"
-      //   }
-      // },
+      // Login OTP (kode 6 digit). Salin isi template yang sama ke dashboard Supabase hosted.
+      "template": {
+        "magic_link": {
+          "subject": "Kode masuk WeddingLink",
+          "content_path": "./supabase/templates/otp.html"
+        },
+        "confirmation": {
+          "subject": "Kode masuk WeddingLink",
+          "content_path": "./supabase/templates/otp.html"
+        }
+      },
 
       // Uncomment to customize notification email template
       // "notification": {

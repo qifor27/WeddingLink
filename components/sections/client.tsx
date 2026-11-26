@@ -41,7 +41,7 @@ export function Countdown({ target }: { target: string }) {
   );
 }
 
-export function CopyButton({ text }: { text: string }) {
+export function CopyButton({ text, label = "Salin nomor" }: { text: string; label?: string }) {
   const [done, setDone] = useState(false);
   return (
     <button
@@ -54,7 +54,7 @@ export function CopyButton({ text }: { text: string }) {
         })
       }
     >
-      {done ? "Tersalin" : "Salin nomor"}
+      {done ? "Tersalin" : label}
     </button>
   );
 }
