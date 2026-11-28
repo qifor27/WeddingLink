@@ -62,7 +62,7 @@ export default async function Page({ params }: PageProps<"/tema/[slug]">) {
           <form action={`/tema/${theme.slug}/preview`} className="space-y-2">
             <label className="block">
               <span className="mb-1 block text-sm">Coba dengan nama Anda</span>
-              <input name="nama" maxLength={61} placeholder="Rina & Dimas" className="w-full rounded-xl border border-ink/20 bg-white px-3 py-2.5" />
+              <input name="nama" maxLength={61} placeholder="Latifa & Latif" className="w-full rounded-xl border border-ink/20 bg-white px-3 py-2.5" />
             </label>
             <button className={`${btn} w-full border border-ink/30 hover:border-gold sm:w-auto`}>Lihat preview</button>
           </form>

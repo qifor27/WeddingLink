@@ -6,7 +6,7 @@ import type { ThemeConfig } from "@/lib/theme";
 import { getTheme, themes } from "@/themes";
 import { sampleData } from "@/themes/sample";
 
-// PRD F2: /tema/[slug]/preview?nama=Rina%20%26%20Dimas
+// PRD F2: /tema/[slug]/preview?nama=Latifa%20%26%20Latif
 export const generateStaticParams = () => themes.map((t) => ({ slug: t.slug }));
 
 export async function generateMetadata({ params }: PageProps<"/tema/[slug]/preview">): Promise<Metadata> {

@@ -86,7 +86,7 @@ Satu data undangan bisa ditampilkan dengan tema apa pun. Setiap tema hanya beris
 }
 ```
 
-Skema: `lib/theme.ts` (tema) dan `lib/invitation.ts` (data undangan). Tampilan khusus (ornamen SVG + CSS) ada di `themes/<slug>/skin.ts` & `skin.css`, didaftarkan di `themes/skins.ts`; tema tanpa skin memakai `components/sections/base.css`. Daftarkan tema baru di `themes/index.ts`, catat asetnya di `themes/<slug>/ASSETS.md`, lalu cek tampilannya di `/tema/<slug>/preview?nama=Rina%20%26%20Dimas`.
+Skema: `lib/theme.ts` (tema) dan `lib/invitation.ts` (data undangan). Tampilan khusus (ornamen SVG + CSS) ada di `themes/<slug>/skin.ts` & `skin.css`, didaftarkan di `themes/skins.ts`; tema tanpa skin memakai `components/sections/base.css`. Daftarkan tema baru di `themes/index.ts`, catat asetnya di `themes/<slug>/ASSETS.md`, lalu cek tampilannya di `/tema/<slug>/preview?nama=Latifa%20%26%20Latif`.
 
 ## Mulai mengembangkan
 

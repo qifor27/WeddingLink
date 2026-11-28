@@ -4,13 +4,13 @@ import { invitationData } from "../lib/invitation.ts"; // relatif: dipakai juga 
 export const sampleData = invitationData.parse({
   zona: "Asia/Jakarta",
   pria: {
-    nama: "Dimas Pratama, S.T.",
-    panggilan: "Dimas",
+    nama: "Latif Pratama, S.T.",
+    panggilan: "Latif",
     ortu: "Putra dari Bapak Hendra & Ibu Sari",
   },
   wanita: {
-    nama: "Rina Maharani, S.Pd.",
-    panggilan: "Rina",
+    nama: "Latifa Maharani, S.Pd.",
+    panggilan: "Latifa",
     ortu: "Putri dari Bapak Yusuf & Ibu Nurhayati",
   },
   acara: [
@@ -39,5 +39,5 @@ export const sampleData = invitationData.parse({
     { tahun: "2021", judul: "Pertama bertemu", isi: "Kami bertemu di sebuah acara kampus." },
     { tahun: "2026", judul: "Lamaran", isi: "Dengan restu keluarga, kami melangkah ke jenjang berikutnya." },
   ],
-  hadiah: [{ bank: "Bank Contoh", nomor: "1234567890", atasNama: "Rina Maharani" }],
+  hadiah: [{ bank: "Bank Contoh", nomor: "1234567890", atasNama: "Latifa Maharani" }],
 });

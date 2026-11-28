@@ -20,7 +20,7 @@ test("link tamu meng-encode nama", () => {
 });
 
 test("pesan WhatsApp berisi nama dan link", () => {
-  const url = decodeURIComponent(waLink("Budi", "Rina & Dimas", "https://w.id/abc").split("text=")[1]);
+  const url = decodeURIComponent(waLink("Budi", "Latifa & Latif", "https://w.id/abc").split("text=")[1]);
   assert.match(url, /Kepada Yth\. Budi/);
   assert.match(url, /https:\/\/w\.id\/abc/);
 });

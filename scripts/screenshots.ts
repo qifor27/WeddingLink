@@ -48,7 +48,7 @@ if (invErr) throw invErr;
 inv = created;
 const { error: wishErr } = await db.from("wishes").insert([
   { invitation_id: inv.id, name: "Bapak Ahmad", attendance: "hadir", pax: 2, message: "Selamat menempuh hidup baru, semoga sakinah mawaddah warahmah." },
-  { invitation_id: inv.id, name: "Ibu Sari", attendance: "hadir", pax: 1, message: "Bahagia selalu untuk Rina & Dimas!" },
+  { invitation_id: inv.id, name: "Ibu Sari", attendance: "hadir", pax: 1, message: "Bahagia selalu untuk Latifa & Latif!" },
   { invitation_id: inv.id, name: "Andi", attendance: "ragu", pax: 1, message: "Barakallah, semoga lancar sampai hari H." },
 ]);
 if (wishErr) throw wishErr;
