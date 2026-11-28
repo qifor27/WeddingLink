@@ -21,23 +21,23 @@ export default async function Page({ params }: PageProps<"/dashboard/[id]">) {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-2">
         <h1 className="font-display text-3xl">Edit undangan</h1>
-        <Link href={`/dashboard/${id}/preview`} target="_blank" className="rounded-full border border-rose px-4 py-2 text-sm text-rose">
+        <Link href={`/dashboard/${id}/preview`} target="_blank" className="rounded-full border border-gold px-4 py-2 text-sm text-gold-deep">
           Lihat preview
         </Link>
       </div>
       {inv.status === "published" ? (
-        <p className="rounded-xl bg-blush px-3 py-2 text-sm">
+        <p className="rounded-xl bg-cream px-3 py-2 text-sm">
           Terbit: <a href={`/${inv.slug}`} target="_blank" className="font-semibold underline">{`${process.env.NEXT_PUBLIC_SITE_URL}/${inv.slug}`}</a>
           {inv.expires_at && <> · aktif s.d. {new Date(inv.expires_at).toLocaleDateString("id-ID", { dateStyle: "long", timeZone: "Asia/Jakarta" })}</>}
         </p>
       ) : inv.status === "expired" ? (
-        <p className="rounded-xl bg-blush px-3 py-2 text-sm">Masa aktif undangan sudah habis.</p>
+        <p className="rounded-xl bg-cream px-3 py-2 text-sm">Masa aktif undangan sudah habis.</p>
       ) : order?.status === "paid" ? (
         <PublishButton id={id} />
       ) : (
-        <p className="rounded-xl bg-blush px-3 py-2 text-sm">
+        <p className="rounded-xl bg-cream px-3 py-2 text-sm">
           {order ? ORDER_STATUS[order.status] : "Belum dibayar"} ·{" "}
-          <Link href={`/dashboard/${id}/bayar`} className="font-semibold text-rose underline">
+          <Link href={`/dashboard/${id}/bayar`} className="font-semibold text-gold-deep underline">
             {order?.status === "waiting_confirmation" ? "Lihat pembayaran" : "Bayar untuk menerbitkan"}
           </Link>
         </p>

@@ -1,15 +1,17 @@
 import Image from "next/image";
-import { Suspense, type ReactNode } from "react";
+import { Fragment, Suspense, type ReactNode } from "react";
 import { Ornament } from "@/components/ornaments";
 import { ZONES, type InvitationData } from "@/lib/invitation";
 import type { Wish } from "@/lib/data";
-import type { Section, ThemeConfig } from "@/lib/theme";
+import type { LabelKey, Section, ThemeConfig } from "@/lib/theme";
+import { esc, type Skin } from "@/themes/skin";
 import { CopyButton, Countdown, GuestName } from "./client";
 import { RsvpForm } from "./RsvpForm";
 
 // rsvp hanya ada di undangan terbit; preview tema tidak punya.
 export type RsvpContext = { invitationId: string; wishes: Wish[] };
-type Props = { data: InvitationData; theme: ThemeConfig; rsvp?: RsvpContext };
+// n = urutan section, dipakai skin untuk menyelang-nyeling ornamen.
+type Props = { data: InvitationData; theme: ThemeConfig; skin: Skin; n: number; rsvp?: RsvpContext };
 
 const fmt = (iso: string, zona: InvitationData["zona"], opts: Intl.DateTimeFormatOptions) =>
   new Intl.DateTimeFormat("id-ID", { timeZone: zona, ...opts }).format(new Date(iso));
@@ -17,229 +19,296 @@ const tanggal = (iso: string, zona: InvitationData["zona"]) =>
   fmt(iso, zona, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
 const jam = (iso: string, zona: InvitationData["zona"]) => fmt(iso, zona, { hour: "2-digit", minute: "2-digit" });
 
-const Wrap = ({ title, children }: { title?: string; children: ReactNode }) => (
-  <section className="px-6 py-12 text-center">
-    {title && <h2 className="mb-6 font-(family-name:--font-display) text-3xl">{title}</h2>}
-    {children}
-  </section>
+// Judul bawaan; tema boleh menggantinya lewat theme.json "labels".
+const DEFAULT_TITLE: Partial<Record<LabelKey, string>> = {
+  mempelai: "Mempelai",
+  wanita: "Mempelai Wanita",
+  pria: "Mempelai Pria",
+  countdown: "Menuju Hari Bahagia",
+  maps: "Lokasi",
+  galeri: "Galeri",
+  story: "Kisah Kami",
+  rsvp: "Konfirmasi Kehadiran",
+  wishes: "Ucapan & Doa",
+  gift: "Tanda Kasih",
+};
+
+// "*kata*" di judul tema -> <em> (aksen huruf skrip).
+const Title = ({ text }: { text: string }) => (
+  <h2>{text.split("*").map((part, i) => (i % 2 ? <em key={i}>{part}</em> : <Fragment key={i}>{part}</Fragment>))}</h2>
 );
 
-const Couple = ({ data }: { data: InvitationData }) => (
-  <>
-    {data.wanita.panggilan} &amp; {data.pria.panggilan}
-  </>
-);
+// Ornamen skin: SVG statis milik repo, bukan input pengguna (lihat themes/skin.ts).
+const Decor = ({ html }: { html?: string }) =>
+  html ? <div className="decor" aria-hidden="true" dangerouslySetInnerHTML={{ __html: html }} /> : null;
 
-function Cover({ data, theme }: Props) {
+function Page({
+  id, label, title, box, className = "", p, children,
+}: {
+  id: string; label?: LabelKey; title?: string; box?: boolean; className?: string; p: Props; children: ReactNode;
+}) {
+  const l = label ? p.theme.labels[label] : undefined;
+  const heading = title ?? l?.title ?? (label && DEFAULT_TITLE[label]);
   return (
-    <section className="flex min-h-svh flex-col items-center justify-center gap-5 px-6 py-16 text-center">
-      <div className="flex items-end gap-4 text-(--accent)">
-        {theme.ornaments.cover.map((o) => (
-          <Ornament key={o} name={o} className="h-20 w-auto" />
-        ))}
-      </div>
-      <p className="text-xs uppercase tracking-[0.3em] text-(--muted)">Undangan Pernikahan</p>
-      <h1 className="font-(family-name:--font-script) text-6xl leading-tight">
-        <Couple data={data} />
-      </h1>
-      <p className="font-(family-name:--font-display) text-lg">{tanggal(data.acara[0].mulai, data.zona)}</p>
-      <div className="mt-6 rounded-2xl bg-(--surface) px-6 py-4 shadow-sm">
-        <p className="text-sm text-(--muted)">Kepada Yth. Bapak/Ibu/Saudara/i</p>
-        <Suspense fallback={<p className="mt-1 text-lg font-semibold">Tamu Undangan</p>}>
-          <GuestName />
-        </Suspense>
+    <section id={id} className={`pg ${className}`}>
+      <Decor html={p.skin.page?.(p.n, !!box)} />
+      <div className={box ? "card box" : "card"}>
+        <Decor html={p.skin.card?.(p.n, !!box)} />
+        {l?.kicker && <p className="kicker">{l.kicker}</p>}
+        {heading && <Title text={heading} />}
+        {children}
       </div>
     </section>
   );
 }
 
-function Quote({ data }: Props) {
-  if (!data.kutipan) return null;
-  return (
-    <Wrap>
-      <blockquote className="mx-auto max-w-sm italic leading-relaxed">“{data.kutipan.teks}”</blockquote>
-      <p className="mt-3 text-sm text-(--muted)">{data.kutipan.sumber}</p>
-    </Wrap>
-  );
-}
+const Names = ({ data }: { data: InvitationData }) => (
+  <>
+    <span className="big">{data.wanita.panggilan}</span> <span className="amp">&amp;</span>{" "}
+    <span className="big">{data.pria.panggilan}</span>
+  </>
+);
 
-function Mempelai({ data, theme }: Props) {
+function Cover(p: Props) {
+  const { data, theme, skin } = p;
   return (
-    <Wrap title="Mempelai">
-      <div className="space-y-10">
-        {[data.wanita, data.pria].map((p) => (
-          <div key={p.nama} className="flex flex-col items-center gap-2">
-            {theme.photos && p.foto ? (
-              <Image src={p.foto} alt={p.nama} width={160} height={160} className="size-40 rounded-full object-cover" />
-            ) : (
-              <div className="flex size-24 items-center justify-center rounded-full bg-(--surface) font-(family-name:--font-script) text-5xl text-(--accent)">
-                {p.panggilan[0]}
-              </div>
-            )}
-            <h3 className="font-(family-name:--font-display) text-2xl">{p.nama}</h3>
-            <p className="text-sm text-(--muted)">{p.ortu}</p>
-            {p.instagram && (
-              <a className="text-sm underline" href={`https://instagram.com/${p.instagram}`} rel="noopener noreferrer" target="_blank">
-                @{p.instagram}
-              </a>
-            )}
-          </div>
-        ))}
+    <Page id="cover" label="cover" className="cover" p={p}>
+      {/* Skin kosong = tampilan base: pakai ornamen cover dari theme.json. */}
+      {Object.keys(skin).length ? (
+        <Decor html={skin.coverTop?.(esc(`${data.wanita.panggilan[0]}&${data.pria.panggilan[0]}`))} />
+      ) : (
+        <div className="orn" aria-hidden="true">
+          {theme.ornaments.cover.map((o) => (
+            <Ornament key={o} name={o} />
+          ))}
+        </div>
+      )}
+      <h1 className="names">
+        <Names data={data} />
+      </h1>
+      <p className="dline">{tanggal(data.acara[0].mulai, data.zona)}</p>
+      <div className="to">
+        <p>Kepada Yth. Bapak/Ibu/Saudara/i</p>
+        <Suspense fallback={<p className="guest">Tamu Undangan</p>}>
+          <GuestName />
+        </Suspense>
       </div>
-    </Wrap>
+      <Decor html={skin.coverBottom} />
+    </Page>
   );
 }
 
-function CountdownSection({ data }: Props) {
+function Quote(p: Props) {
+  if (!p.data.kutipan) return null;
   return (
-    <Wrap title="Menuju Hari Bahagia">
-      <Countdown target={data.acara[0].mulai} />
-    </Wrap>
+    <Page id="quote" label="quote" p={p}>
+      <p className="it">“{p.data.kutipan.teks}”</p>
+      <p className="src">{p.data.kutipan.sumber}</p>
+    </Page>
   );
 }
 
-function Acara({ data }: Props) {
+function Person({ who, p }: { who: "pria" | "wanita"; p: Props }) {
+  const x = p.data[who];
+  return (
+    <div className="person">
+      <Decor html={p.skin.person?.(who)} />
+      <div className="photo">
+        {p.theme.photos && x.foto ? (
+          <Image src={x.foto} alt={x.nama} width={240} height={320} sizes="200px" />
+        ) : (
+          <div>{x.panggilan[0]}</div>
+        )}
+      </div>
+      <p className="pn">{x.panggilan}</p>
+      <p className="full">{x.nama}</p>
+      <p className="par">{x.ortu}</p>
+      {x.instagram && (
+        <a className="ig" href={`https://instagram.com/${x.instagram}`} rel="noopener noreferrer" target="_blank">
+          @{x.instagram}
+        </a>
+      )}
+    </div>
+  );
+}
+
+function Mempelai(p: Props) {
+  if (p.theme.splitCouple) {
+    return (["wanita", "pria"] as const).map((who, i) => (
+      <Page key={who} id={who} label={who} box p={{ ...p, n: p.n + i }}>
+        <Person who={who} p={p} />
+      </Page>
+    ));
+  }
+  return (
+    <Page id="mempelai" label="mempelai" p={p}>
+      <div className="couple">
+        <Person who="wanita" p={p} />
+        <Person who="pria" p={p} />
+      </div>
+    </Page>
+  );
+}
+
+function CountdownSection(p: Props) {
+  return (
+    <Page id="countdown" label="countdown" p={p}>
+      <p className="mute">{tanggal(p.data.acara[0].mulai, p.data.zona)}</p>
+      <Countdown target={p.data.acara[0].mulai} />
+    </Page>
+  );
+}
+
+// Satu halaman per acara (akad, resepsi, ...), seperti kartu undangan cetak.
+function Acara(p: Props) {
+  const { data } = p;
   const zona = ZONES[data.zona];
-  return (
-    <Wrap title="Acara">
-      <div className="space-y-6">
-        {data.acara.map((a) => (
-          <div key={a.judul + a.mulai} className="rounded-2xl bg-(--surface) p-6 shadow-sm">
-            <h3 className="font-(family-name:--font-display) text-2xl">{a.judul}</h3>
-            <p className="mt-2">{tanggal(a.mulai, data.zona)}</p>
-            <p>
-              {jam(a.mulai, data.zona)}
-              {a.selesai ? ` – ${jam(a.selesai, data.zona)}` : " – selesai"} {zona}
-            </p>
-            <p className="mt-3 font-semibold">{a.tempat}</p>
-            <p className="text-sm text-(--muted)">{a.alamat}</p>
-          </div>
-        ))}
+  return data.acara.map((a, i) => (
+    <Page key={a.judul + a.mulai} id={`acara-${i + 1}`} label="acara" title={a.judul} box p={{ ...p, n: p.n + i }}>
+      <div className="date">
+        <span>{fmt(a.mulai, data.zona, { weekday: "long" })}</span>
+        <b>{fmt(a.mulai, data.zona, { day: "numeric" })}</b>
+        <span>
+          {fmt(a.mulai, data.zona, { month: "long" })}
+          <br />
+          {fmt(a.mulai, data.zona, { year: "numeric" })}
+        </span>
       </div>
-    </Wrap>
-  );
+      <p className="time">
+        {jam(a.mulai, data.zona)}
+        {a.selesai ? ` – ${jam(a.selesai, data.zona)}` : " – selesai"} {zona}
+      </p>
+      <p className="place">
+        <b>{a.tempat}</b>
+        {a.alamat && (
+          <>
+            <br />
+            {a.alamat}
+          </>
+        )}
+      </p>
+      {a.peta && (
+        <a className="btn ghost" href={a.peta} target="_blank" rel="noopener noreferrer">
+          Petunjuk arah
+        </a>
+      )}
+    </Page>
+  ));
 }
 
-function Maps({ data }: Props) {
-  const withMap = data.acara.filter((a) => a.peta);
+function Maps(p: Props) {
+  const withMap = p.data.acara.filter((a) => a.peta);
   if (!withMap.length) return null;
   return (
-    <Wrap title="Lokasi">
-      <div className="flex flex-col items-center gap-3">
+    <Page id="maps" label="maps" p={p}>
+      <div className="stack">
         {withMap.map((a) => (
-          <a
-            key={a.judul + a.mulai}
-            href={a.peta}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex min-h-11 items-center rounded-full bg-(--ink) px-6 text-(--surface)"
-          >
+          <a key={a.judul + a.mulai} href={a.peta} target="_blank" rel="noopener noreferrer" className="btn">
             Buka peta {a.judul}
           </a>
         ))}
       </div>
-    </Wrap>
+    </Page>
   );
 }
 
-function Galeri({ data, theme }: Props) {
-  if (!theme.photos || !data.galeri.length) return null;
+function Galeri(p: Props) {
+  if (!p.theme.photos || !p.data.galeri.length) return null;
   return (
-    <Wrap title="Galeri">
-      <div className="grid grid-cols-2 gap-2">
-        {data.galeri.map((src, i) => (
-          <Image key={src} src={src} alt={`Foto ${i + 1}`} width={400} height={400} sizes="50vw" className="aspect-square rounded-xl object-cover" />
+    <Page id="galeri" label="galeri" p={p}>
+      <div className="gal">
+        {p.data.galeri.map((src, i) => (
+          <Image key={src} src={src} alt={`Foto ${i + 1}`} width={400} height={400} sizes="(min-width: 448px) 200px, 45vw" />
         ))}
       </div>
-    </Wrap>
+    </Page>
   );
 }
 
-function Story({ data }: Props) {
-  if (!data.cerita.length) return null;
+function Story(p: Props) {
+  if (!p.data.cerita.length) return null;
   return (
-    <Wrap title="Kisah Kami">
-      <ol className="space-y-6 text-left">
-        {data.cerita.map((c) => (
-          <li key={c.tahun + c.judul} className="border-l-2 border-(--accent) pl-4">
-            <p className="text-sm text-(--muted)">{c.tahun}</p>
-            <h3 className="font-semibold">{c.judul}</h3>
-            <p className="text-sm">{c.isi}</p>
+    <Page id="story" label="story" p={p}>
+      <ol className="story">
+        {p.data.cerita.map((c) => (
+          <li key={c.tahun + c.judul}>
+            <h3>
+              {c.judul} · {c.tahun}
+            </h3>
+            <p>{c.isi}</p>
           </li>
         ))}
       </ol>
-    </Wrap>
+    </Page>
   );
 }
 
-function Gift({ data }: Props) {
+function Gift(p: Props) {
+  const { data } = p;
   if (!data.hadiah.length && !data.qris) return null;
   return (
-    <Wrap title="Tanda Kasih">
-      <p className="mb-6 text-sm text-(--muted)">Doa restu Anda adalah hadiah terindah. Bila ingin memberi tanda kasih:</p>
-      <div className="space-y-4">
+    <Page id="gift" label="gift" p={p}>
+      <p className="mute">Doa restu Anda adalah hadiah terindah. Bila ingin memberi tanda kasih:</p>
+      <div className="stack">
         {data.hadiah.map((h) => (
-          <div key={h.nomor} className="flex flex-col items-center gap-2 rounded-2xl bg-(--surface) p-6 shadow-sm">
-            <p className="font-semibold">{h.bank}</p>
-            <p className="text-xl tabular-nums tracking-wider">{h.nomor}</p>
-            <p className="text-sm text-(--muted)">a.n. {h.atasNama}</p>
-            <CopyButton text={h.nomor} />
+          <div key={h.nomor} className="box">
+            <p className="kicker">{h.bank}</p>
+            <p className="acct">{h.nomor}</p>
+            <p className="mute">a.n. {h.atasNama}</p>
+            <CopyButton text={h.nomor} className="btn ghost" />
           </div>
         ))}
-        {data.qris && (
-          <Image src={data.qris} alt="QRIS" width={240} height={240} className="mx-auto rounded-xl bg-white p-2" />
-        )}
+        {data.qris && <Image src={data.qris} alt="QRIS" width={240} height={240} className="qris" />}
       </div>
-    </Wrap>
+    </Page>
   );
 }
 
-function Penutup({ data }: Props) {
+function Penutup(p: Props) {
   return (
-    <Wrap>
-      <p className="mx-auto max-w-sm leading-relaxed">
-        {data.penutup ||
+    <Page id="penutup" label="penutup" className="last" p={p}>
+      <p className="it">
+        {p.data.penutup ||
           "Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu."}
       </p>
-      <p className="mt-8 font-(family-name:--font-script) text-5xl">
-        <Couple data={data} />
+      <p className="names">
+        <Names data={p.data} />
       </p>
-    </Wrap>
+      <Decor html={p.skin.closing} />
+    </Page>
   );
 }
 
-function Rsvp({ rsvp }: Props) {
+function Rsvp(p: Props) {
   return (
-    <Wrap title="Konfirmasi Kehadiran">
-      {rsvp ? (
+    <Page id="rsvp" label="rsvp" p={p}>
+      {p.rsvp ? (
         <Suspense>
-          <RsvpForm invitationId={rsvp.invitationId} />
+          <RsvpForm invitationId={p.rsvp.invitationId} />
         </Suspense>
       ) : (
-        <p className="text-sm text-(--muted)">Formulir RSVP aktif setelah undangan diterbitkan.</p>
+        <p className="mute">Formulir RSVP aktif setelah undangan diterbitkan.</p>
       )}
-    </Wrap>
+    </Page>
   );
 }
 
 const ATTEND: Record<string, string> = { hadir: "Hadir", tidak_hadir: "Tidak hadir", ragu: "Masih ragu" };
 
-function Wishes({ data, rsvp }: Props) {
-  if (!rsvp?.wishes.length) return null;
+function Wishes(p: Props) {
+  if (!p.rsvp?.wishes.length) return null;
   return (
-    <Wrap title="Ucapan & Doa">
-      <ul className="max-h-[32rem] space-y-3 overflow-y-auto text-left">
-        {rsvp.wishes.map((w) => (
-          <li key={w.id} className="rounded-2xl bg-(--surface) p-4 shadow-sm">
-            <p className="font-semibold">
-              {w.name} <span className="text-xs font-normal text-(--muted)">· {ATTEND[w.attendance]}</span>
-            </p>
-            <p className="mt-1 whitespace-pre-line text-sm">{w.message}</p>
-            <p className="mt-2 text-xs text-(--muted)">{fmt(w.created_at, data.zona, { day: "numeric", month: "short", year: "numeric" })}</p>
+    <Page id="wishes" label="wishes" p={p}>
+      <ul className="wishes">
+        {p.rsvp.wishes.map((w) => (
+          <li key={w.id} className="wish">
+            <b>{w.name}</b> <em className={w.attendance === "hadir" ? "" : "no"}>{ATTEND[w.attendance]}</em>
+            <p>{w.message}</p>
+            <small>{fmt(w.created_at, p.data.zona, { day: "numeric", month: "short", year: "numeric" })}</small>
           </li>
         ))}
       </ul>
-    </Wrap>
+    </Page>
   );
 }
 

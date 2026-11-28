@@ -24,9 +24,9 @@ export default async function Page() {
                 <p className="font-semibold">{inv.data.wanita.panggilan} &amp; {inv.data.pria.panggilan}</p>
                 <p className="text-sm text-ink/70">{inv.themes.name} · {STATUS[inv.status]}</p>
                 <div className="mt-3 flex flex-wrap gap-2 text-sm">
-                  <Link href={`/dashboard/${inv.id}`} className="rounded-full bg-rose px-4 py-2 text-white">Edit</Link>
-                  <Link href={`/dashboard/${inv.id}/tamu`} className="rounded-full border border-rose px-4 py-2 text-rose">Tamu &amp; RSVP</Link>
-                  <Link href={`/dashboard/${inv.id}/bayar`} className="rounded-full border border-rose px-4 py-2 text-rose">Pembayaran</Link>
+                  <Link href={`/dashboard/${inv.id}`} className="rounded-full bg-ink px-4 py-2 text-white">Edit</Link>
+                  <Link href={`/dashboard/${inv.id}/tamu`} className="rounded-full border border-gold px-4 py-2 text-gold-deep">Tamu &amp; RSVP</Link>
+                  <Link href={`/dashboard/${inv.id}/bayar`} className="rounded-full border border-gold px-4 py-2 text-gold-deep">Pembayaran</Link>
                 </div>
               </li>
             ))}

@@ -6,7 +6,7 @@ import { safeNext } from "@/lib/guests";
 import { createClient } from "@/lib/supabase/client";
 
 const input = "w-full rounded-xl border border-ink/20 bg-white px-4 py-3";
-const button = "min-h-11 w-full rounded-full bg-rose font-semibold text-white disabled:opacity-60";
+const button = "min-h-11 w-full rounded-full bg-ink font-semibold text-white disabled:opacity-60";
 
 // Login tanpa password: kode OTP 6 digit lewat email. Kode (bukan magic link) supaya tetap
 // jalan saat email dibuka di aplikasi lain (Gmail/WhatsApp in-app browser).

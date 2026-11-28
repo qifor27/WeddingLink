@@ -1,0 +1,88 @@
+/* Port dari "tema dari saya/blue-butterfly.html". Font: script = Pinyon Script, display = Cormorant Garamond, body = Nunito Sans. */
+.skin-blue-butterfly { --soft: #5b7f9a; --mute: #7d93a8; --line: #c9d9e6; --acc: #4e7fb2; --paper: #fbfdff; font: 16px/1.6 var(--font-body), sans-serif; }
+.skin-blue-butterfly main { max-width: 480px; overflow: hidden; background: radial-gradient(120% 60% at 0 0, #e9f1f8, transparent 60%), radial-gradient(120% 60% at 100% 100%, #e6eef7, transparent 60%), var(--paper); box-shadow: 0 0 60px #2f4a6322; }
+.skin-blue-butterfly .pg { position: relative; padding: 72px 26px 64px; text-align: center; }
+.skin-blue-butterfly .card { z-index: 3; }
+.skin-blue-butterfly h2 { font: 600 34px/1.1 var(--font-display), serif; margin: 0 0 6px; text-wrap: balance; }
+.skin-blue-butterfly h2 em { font-style: italic; }
+.skin-blue-butterfly .kicker { font: italic 500 19px var(--font-display), serif; color: var(--soft); margin-bottom: 6px; }
+.skin-blue-butterfly .mute, .skin-blue-butterfly .sub { color: var(--mute); margin: 0 0 22px; font-size: 15px; }
+.skin-blue-butterfly .corner { position: absolute; width: clamp(190px, 58vw, 250px); height: clamp(190px, 58vw, 250px); pointer-events: none; z-index: 2; }
+.skin-blue-butterfly .corner svg { width: 100%; height: 100%; overflow: visible; }
+.skin-blue-butterfly .corner.tl { top: -14px; left: -16px; transform-origin: 0 0; animation: bb-sway 7s ease-in-out infinite; }
+.skin-blue-butterfly .corner.tr { top: -14px; right: -16px; transform: scaleX(-1); transform-origin: 100% 0; }
+.skin-blue-butterfly .corner.bl { bottom: -14px; left: -16px; transform: scaleY(-1); }
+.skin-blue-butterfly .corner.br { bottom: -14px; right: -16px; transform: scale(-1, -1); }
+.skin-blue-butterfly .corner:is(.tr, .bl, .br) svg { transform-origin: 0 0; animation: bb-sway 8s ease-in-out infinite; }
+@keyframes bb-sway { 0%, 100% { rotate: 0deg; } 50% { rotate: 2.5deg; } }
+.skin-blue-butterfly .fly { position: absolute; width: 46px; height: 42px; z-index: 4; pointer-events: none; animation: bb-drift 14s ease-in-out infinite; }
+.skin-blue-butterfly .fly svg { width: 100%; height: 100%; overflow: visible; }
+.skin-blue-butterfly .wl, .skin-blue-butterfly .wr { transform-box: fill-box; animation: bb-flap .32s ease-in-out infinite alternate; }
+.skin-blue-butterfly .wl { transform-origin: 100% 50%; }
+.skin-blue-butterfly .wr { transform-origin: 0% 50%; }
+@keyframes bb-flap { to { transform: scaleX(.22); } }
+@keyframes bb-drift { 0% { translate: 0 0; rotate: -8deg; } 25% { translate: 60px -40px; rotate: 10deg; } 50% { translate: 20px -90px; rotate: -4deg; } 75% { translate: -40px -30px; rotate: 12deg; } 100% { translate: 0 0; rotate: -8deg; } }
+/* cover: kapsul penuh layar */
+.skin-blue-butterfly .cover { min-height: 100svh; display: grid; place-items: center; padding: 28px 22px; }
+.skin-blue-butterfly .cover .card { width: 100%; min-height: min(calc(100svh - 56px), 760px); border-radius: 999px; background: #ffffffe6; border: 1px solid var(--line); box-shadow: inset 0 0 0 8px #fff, inset 0 0 0 9px var(--line); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 26px; }
+.skin-blue-butterfly .mono { width: 150px; height: 150px; margin: 14px auto 10px; }
+.skin-blue-butterfly .mono-t { font-family: var(--font-script), cursive; }
+.skin-blue-butterfly .names { font: 400 52px/1.1 var(--font-script), cursive; margin: 4px 0; }
+.skin-blue-butterfly .last .names { margin-top: 26px; }
+.skin-blue-butterfly .dline { letter-spacing: .12em; color: var(--soft); font-weight: 600; font-size: 14px; text-transform: uppercase; }
+.skin-blue-butterfly .to { margin-top: 34px; color: var(--mute); font-size: 14px; }
+.skin-blue-butterfly .guest { font: 600 26px/1.2 var(--font-display), serif; color: var(--ink); margin: 4px 0 0; }
+.skin-blue-butterfly .it { font: italic 500 19px/1.6 var(--font-display), serif; max-width: 34ch; margin: 0 auto; }
+.skin-blue-butterfly .src { margin-top: 10px; font-size: 13px; color: var(--mute); }
+.skin-blue-butterfly .btn { border: 0; background: var(--soft); color: #fff; font: 700 15px var(--font-body), sans-serif; box-shadow: 0 6px 18px #2f4a6333; transition: background .2s, transform .2s; }
+.skin-blue-butterfly .btn:hover { background: var(--ink); }
+.skin-blue-butterfly .btn.ghost { background: #fff; color: var(--soft); border: 1px solid var(--line); box-shadow: none; }
+.skin-blue-butterfly :is(.btn, input, select, textarea, .ig):focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; }
+.skin-blue-butterfly .couple { display: grid; gap: 30px; margin-top: 18px; }
+.skin-blue-butterfly .person { position: relative; margin: 10px 0 6px; }
+.skin-blue-butterfly .ringfl { position: absolute; top: 0; left: 50%; translate: -50% 0; width: 170px; height: 170px; overflow: visible; pointer-events: none; }
+.skin-blue-butterfly .ringfl circle { display: none; }
+.skin-blue-butterfly .photo { position: relative; width: 121px; height: 121px; margin: 24px auto 29px; border-radius: 50%; background: #eef4fa; border: 1px solid var(--line); }
+.skin-blue-butterfly .photo > div { width: 100%; height: 100%; display: grid; place-items: center; font: 70px var(--font-script), cursive; color: var(--soft); }
+.skin-blue-butterfly .person .decor + .photo { z-index: 0; }
+.skin-blue-butterfly .ringfl { z-index: 1; }
+.skin-blue-butterfly .pn { font: 400 42px/1.1 var(--font-script), cursive; margin: 0; }
+.skin-blue-butterfly .full { font: 600 20px var(--font-display), serif; margin: 2px 0; }
+.skin-blue-butterfly .par { color: var(--mute); font-size: 15px; margin: 0 0 12px; }
+.skin-blue-butterfly .ig { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 99px; border: 1px solid var(--line); color: var(--soft); font-size: 14px; font-weight: 600; }
+.skin-blue-butterfly .card.box { background: #fff; border: 1px solid var(--line); border-radius: 28px; padding: 28px 22px; box-shadow: 0 10px 30px #2f4a6314; }
+.skin-blue-butterfly .card.box h2 { font-size: 26px; margin-bottom: 10px; }
+.skin-blue-butterfly .card.box .kicker { font-size: 16px; }
+.skin-blue-butterfly .date { display: flex; justify-content: center; align-items: center; gap: 14px; margin: 6px 0 12px; }
+.skin-blue-butterfly .date b { font: 600 46px/1 var(--font-display), serif; color: var(--soft); }
+.skin-blue-butterfly .date span { text-align: start; font-size: 14px; color: var(--mute); line-height: 1.35; }
+.skin-blue-butterfly .date span:first-child { text-align: end; }
+.skin-blue-butterfly .time { font-weight: 700; white-space: nowrap; }
+.skin-blue-butterfly .place { color: var(--mute); font-size: 15px; margin: 6px 0 18px; }
+.skin-blue-butterfly .place b { color: var(--ink); }
+.skin-blue-butterfly .count { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 8px 0 22px; }
+.skin-blue-butterfly .count div { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 14px 4px; }
+.skin-blue-butterfly .count b { display: block; font: 600 32px/1 var(--font-display), serif; }
+.skin-blue-butterfly .count small { font-size: 13px; color: var(--mute); }
+.skin-blue-butterfly .gal { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.skin-blue-butterfly .gal img { border-radius: 18px; border: 1px solid var(--line); }
+.skin-blue-butterfly .story { position: relative; margin: 0; padding: 0 0 0 26px; text-align: start; }
+.skin-blue-butterfly .story::before { content: ""; position: absolute; left: 7px; top: 6px; bottom: 6px; width: 1px; background: var(--line); }
+.skin-blue-butterfly .story li { position: relative; margin: 0 0 22px; }
+.skin-blue-butterfly .story li::before { content: ""; position: absolute; left: -24px; top: 7px; width: 11px; height: 11px; border-radius: 50%; background: #fff; border: 2px solid var(--soft); }
+.skin-blue-butterfly .story h3 { font: 600 21px var(--font-display), serif; }
+.skin-blue-butterfly .story p { margin: 2px 0 0; color: var(--mute); font-size: 15px; }
+.skin-blue-butterfly .rsvp label > span, .skin-blue-butterfly .rsvp legend { font-weight: 700; font-size: 14px; }
+.skin-blue-butterfly .rsvp input:not([type="radio"]), .skin-blue-butterfly .rsvp select, .skin-blue-butterfly .rsvp textarea { background: #f7fafd; border: 1px solid var(--line); }
+.skin-blue-butterfly .rsvp .att label { border: 1px solid var(--line); background: #fff; color: var(--soft); font-weight: 700; }
+.skin-blue-butterfly .rsvp .att label:has(:checked) { background: var(--soft); border-color: var(--soft); color: #fff; }
+.skin-blue-butterfly .wishes { max-height: 360px; overflow: auto; display: grid; gap: 10px; text-align: start; padding-right: 4px; }
+.skin-blue-butterfly .wish { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 12px 14px; }
+.skin-blue-butterfly .wish em { font-style: normal; font-size: 12px; font-weight: 700; color: #fff; background: var(--soft); border-radius: 99px; padding: 1px 9px; }
+.skin-blue-butterfly .wish em.no { background: #a9b6c3; }
+.skin-blue-butterfly .wish p { margin: 4px 0 0; color: #4d647a; font-size: 15px; }
+.skin-blue-butterfly .wish small { display: block; margin-top: 4px; font-size: 12px; color: var(--mute); }
+.skin-blue-butterfly .stack .box { background: #fff; border: 1px solid var(--line); border-radius: 28px; padding: 28px 22px; box-shadow: 0 10px 30px #2f4a6314; }
+.skin-blue-butterfly .stack .box .kicker { font: 600 15px var(--font-body), sans-serif; font-style: normal; color: var(--soft); }
+.skin-blue-butterfly .acct { font: 600 26px var(--font-display), serif; letter-spacing: .06em; margin: 4px 0; }
+.skin-blue-butterfly .last { padding-bottom: 150px; }

@@ -1,6 +1,6 @@
 # WeddingLink
 
-Platform undangan pernikahan digital berbasis website dengan tema adat Nusantara orisinal, RSVP bebas spam, dan fitur hari H (QR check-in, layar ucapan live, galeri tamu).
+Platform undangan pernikahan digital berbasis website yang bisa di-custom (gaya adat Nusantara, modern, atau minimalis), RSVP bebas spam, dan fitur hari H (QR check-in, layar ucapan live, galeri tamu).
 
 > Status: tahap pengembangan MVP. Detail produk ada di dokumen PRD WeddingLink.
 
@@ -37,10 +37,9 @@ Platform undangan pernikahan digital berbasis website dengan tema adat Nusantara
 
 ## Desain
 
-- Warna utama pink dan emas, gaya sederhana: Rose `#B85C73`, Blush `#F6DFE3`, Gold `#C6A15B`, latar `#FFFAF8`, teks `#3E2B30`.
+- Warna putih dengan sentuhan emas: latar `#FFFFFF`, Cream `#F8F4EC`, Gold `#C6A15B` (garis/aksen), Gold Deep `#8C6A2C` (teks emas), teks `#3E2B30`.
 - Font: Bodoni Moda (judul) + Jost (isi).
-- Landing page menampilkan banyak contoh produk di dalam mockup HP (hero 3 HP, galeri tema, video demo, fitur, testimoni). Isi mockup adalah tangkapan layar asli tema WeddingLink.
-- Bingkai HP satu komponen reusable: `components/marketing/PhoneMockup.tsx`.
+- Navbar: menu kiri, logo tengah, menu kanan. Tanpa mockup HP: tangkapan layar asli tema tampil di bingkai lengkung `components/marketing/Arch.tsx`.
 
 ## Struktur proyek
 
@@ -87,7 +86,7 @@ Satu data undangan bisa ditampilkan dengan tema apa pun. Setiap tema hanya beris
 }
 ```
 
-Skema: `lib/theme.ts` (tema) dan `lib/invitation.ts` (data undangan). Daftarkan tema baru di `themes/index.ts`, catat asetnya di `themes/<slug>/ASSETS.md`, lalu cek tampilannya di `/tema/<slug>/preview?nama=Rina%20%26%20Dimas`.
+Skema: `lib/theme.ts` (tema) dan `lib/invitation.ts` (data undangan). Tampilan khusus (ornamen SVG + CSS) ada di `themes/<slug>/skin.ts` & `skin.css`, didaftarkan di `themes/skins.ts`; tema tanpa skin memakai `components/sections/base.css`. Daftarkan tema baru di `themes/index.ts`, catat asetnya di `themes/<slug>/ASSETS.md`, lalu cek tampilannya di `/tema/<slug>/preview?nama=Latifa%20%26%20Latif`.
 
 ## Mulai mengembangkan
 
@@ -114,6 +113,7 @@ pnpm dev                     # buka http://localhost:3000
 | `NEXT_PUBLIC_SITE_URL` | Domain utama, dipakai untuk sitemap dan Open Graph |
 | `PAYMENT_BANK`, `PAYMENT_ACCOUNT_NO`, `PAYMENT_ACCOUNT_NAME` | Rekening WeddingLink di halaman pembayaran |
 | `PAYMENT_QRIS_URL` | Gambar QRIS statis (opsional), mis. `/qris.png` di `public/` |
+| `NEXT_PUBLIC_WA_NUMBER` | Nomor WhatsApp admin (format `62…`) untuk tombol "Pesan via WhatsApp"; kosong = tombol disembunyikan |
 | `CRON_SECRET` | Rahasia acak untuk `/api/cron/expire` (Vercel Cron mengirimnya sebagai `Authorization: Bearer`) |
 
 Jangan commit `.env.local` ke repository.
@@ -137,6 +137,17 @@ Buka `/admin`. Kunjungan pertama meminta pendaftaran aplikasi autentikator (TOTP
 
 Undangan yang lewat masa aktif ditandai `expired` oleh `/api/cron/expire`, dijadwalkan harian pukul 00.00 WIB di `vercel.json`.
 
+### Tangkapan layar landing
+
+Mockup HP di landing dan katalog berisi tangkapan layar asli tema WeddingLink (PRD bagian 7), bukan foto stok. Buat ulang setelah tema berubah:
+
+```bash
+pnpm build && pnpm start -p 3123   # server produksi, tanpa indikator dev
+pnpm screens http://localhost:3123
+```
+
+Skrip membuat undangan demo terbit sementara di Supabase lokal (agar RSVP & ucapan tampil), memotret sampul tiap tema, section fitur, dan rekaman layar `demo.webm` (≤ 10 detik), lalu menghapus data demonya.
+
 ### Skrip
 
 | Perintah | Fungsi |
@@ -145,7 +156,8 @@ Undangan yang lewat masa aktif ditandai `expired` oleh `/api/cron/expire`, dijad
 | `pnpm build && pnpm start` | Build dan jalankan versi produksi |
 | `pnpm lint` | ESLint |
 | `pnpm test` | Tes unit (`tests/unit`) |
-| `pnpm test:e2e` | Tes Playwright alur lengkap di ukuran HP (butuh Supabase lokal) |
+| `pnpm test:e2e` | Tes Playwright: alur lengkap di 375 px, landing/katalog/SEO di 375/768/1440 px (butuh Supabase lokal) |
+| `pnpm screens [url]` | Buat ulang tangkapan layar tema di `public/screens/` untuk landing (lihat di bawah) |
 | `pnpm db:start` | Jalankan Supabase lokal |
 | `pnpm db:reset` | Bangun ulang DB lokal dari `supabase/migrations/` |
 | `pnpm db:test` | Tes RLS (pgTAP) di `supabase/tests/`; jalankan `pnpm db:reset` dulu bila DB berisi data tes e2e |

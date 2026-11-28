@@ -6,13 +6,18 @@ export const SECTIONS = [
   "galeri", "story", "rsvp", "wishes", "gift", "penutup",
 ] as const;
 export const FONTS = [
-  "great-vibes", "parisienne", "cormorant", "italiana", "cinzel", "playfair", "bodoni", "lora", "jost",
+  "great-vibes", "parisienne", "allura", "pinyon-script", "cormorant", "italiana", "cinzel", "playfair", "bodoni",
+  "lora", "jost", "nunito-sans",
 ] as const;
 export const ORNAMENTS = [
   "divider", "songket-band", "marawa", "rumah-gadang", "mega-mendung", "butterfly", "sprig",
 ] as const;
 
 const hex = z.string().regex(/^#[0-9a-f]{6}$/i);
+// Label per halaman; "pria"/"wanita" dipakai bila mempelai dipecah jadi dua halaman.
+export const LABEL_KEYS = [...SECTIONS, "pria", "wanita"] as const;
+// Judul boleh memuat *kata* -> <em> (aksen skrip). Teks konfigurasi, bukan input pengguna.
+const label = z.object({ kicker: z.string().max(40).optional(), title: z.string().max(60).optional() });
 
 export const themeConfig = z.object({
   slug: z.string().regex(/^[a-z0-9-]+$/),
@@ -23,9 +28,12 @@ export const themeConfig = z.object({
   fonts: z.object({ script: z.enum(FONTS), display: z.enum(FONTS), body: z.enum(FONTS) }),
   ornaments: z.object({ cover: z.array(z.enum(ORNAMENTS)), divider: z.enum(ORNAMENTS) }),
   sections: z.array(z.enum(SECTIONS)).min(1),
+  labels: z.partialRecord(z.enum(LABEL_KEYS), label).default({}),
+  splitCouple: z.boolean().default(false), // true: mempelai wanita & pria di halaman terpisah
 });
 
 export type ThemeConfig = z.infer<typeof themeConfig>;
 export type Section = (typeof SECTIONS)[number];
 export type Ornament = (typeof ORNAMENTS)[number];
 export type FontKey = (typeof FONTS)[number];
+export type LabelKey = (typeof LABEL_KEYS)[number];

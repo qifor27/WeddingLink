@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
-/* Palet brand (PRD bagian 7). Tema undangan punya palet sendiri di theme.json. */
+/* Palet brand putih + emas (PRD bagian 7). Tema undangan punya palet sendiri di theme.json. */
 @theme {
-  --color-bg: #fffaf8;
-  --color-blush: #f6dfe3;
-  --color-rose: #b85c73;
-  --color-gold: #c6a15b;
+  --color-bg: #ffffff;
+  --color-cream: #f8f4ec;
+  --color-gold: #c6a15b; /* garis & aksen, bukan teks kecil (kontras rendah) */
+  --color-gold-deep: #8c6a2c; /* teks emas: kontras 4.5:1 di putih & cream */
   --color-ink: #3e2b30;
   --font-display: var(--font-bodoni), serif;
   --font-sans: var(--font-jost), system-ui, sans-serif;

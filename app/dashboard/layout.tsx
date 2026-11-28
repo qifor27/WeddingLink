@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: "Dashboard — WeddingLink", robots: 
 export default function Layout({ children }: LayoutProps<"/dashboard">) {
   return (
     <div className="flex flex-1 flex-col">
-      <header className="flex items-center justify-between border-b border-blush px-4 py-3">
+      <header className="flex items-center justify-between border-b border-gold/30 px-4 py-3">
         <Link href="/dashboard" className="font-display text-xl">WeddingLink</Link>
         <form action={signOut}>
           <button className="text-sm underline">Keluar</button>

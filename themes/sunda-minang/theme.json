@@ -1,44 +1,25 @@
 {
   "slug": "sunda-minang",
   "name": "Sunda–Minang",
-  "category": [
-    "adat",
-    "sunda",
-    "minang",
-    "foto"
-  ],
+  "category": ["adat", "sunda", "minang", "foto"],
   "photos": true,
-  "palette": {
-    "bg": "#f3efe6",
-    "surface": "#fffdf7",
-    "ink": "#3b2a1f",
-    "accent": "#9c6b2f",
-    "muted": "#6e5e4d"
-  },
-  "fonts": {
-    "script": "parisienne",
-    "display": "cinzel",
-    "body": "lora"
-  },
-  "ornaments": {
-    "cover": [
-      "mega-mendung",
-      "rumah-gadang"
-    ],
-    "divider": "songket-band"
-  },
-  "sections": [
-    "cover",
-    "quote",
-    "mempelai",
-    "countdown",
-    "acara",
-    "maps",
-    "galeri",
-    "story",
-    "rsvp",
-    "wishes",
-    "gift",
-    "penutup"
-  ]
+  "palette": { "bg": "#e9dcc2", "surface": "#fffaf0", "ink": "#4a2a22", "accent": "#b08a4a", "muted": "#7d6450" },
+  "fonts": { "script": "parisienne", "display": "cinzel", "body": "lora" },
+  "ornaments": { "cover": ["mega-mendung", "rumah-gadang"], "divider": "songket-band" },
+  "sections": ["cover", "quote", "mempelai", "countdown", "acara", "maps", "galeri", "story", "rsvp", "wishes", "gift", "penutup"],
+  "splitCouple": true,
+  "labels": {
+    "cover": { "kicker": "The Wedding of" },
+    "quote": { "kicker": "Bismillahirrahmanirrahim" },
+    "wanita": { "kicker": "Mojang Sunda", "title": "" },
+    "pria": { "kicker": "Bujang Minang", "title": "" },
+    "countdown": { "title": "Menghitung Hari" },
+    "maps": { "title": "Lokasi Acara" },
+    "galeri": { "title": "Galeri" },
+    "story": { "title": "Kisah Kami" },
+    "rsvp": { "title": "Konfirmasi Kehadiran" },
+    "wishes": { "title": "Ucapan & Doa" },
+    "gift": { "title": "Tanda Kasih" },
+    "penutup": { "kicker": "Kami yang berbahagia" }
+  }
 }

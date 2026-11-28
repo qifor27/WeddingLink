@@ -1,43 +1,24 @@
 {
   "slug": "gold-blush",
   "name": "Gold Blush Modern",
-  "category": [
-    "modern",
-    "emas",
-    "pink",
-    "foto"
-  ],
+  "category": ["modern", "emas", "pink", "foto"],
   "photos": true,
-  "palette": {
-    "bg": "#fffaf8",
-    "surface": "#ffffff",
-    "ink": "#3e2b30",
-    "accent": "#c6a15b",
-    "muted": "#7a6468"
-  },
-  "fonts": {
-    "script": "great-vibes",
-    "display": "bodoni",
-    "body": "jost"
-  },
-  "ornaments": {
-    "cover": [
-      "sprig"
-    ],
-    "divider": "divider"
-  },
-  "sections": [
-    "cover",
-    "quote",
-    "mempelai",
-    "countdown",
-    "acara",
-    "maps",
-    "galeri",
-    "story",
-    "rsvp",
-    "wishes",
-    "gift",
-    "penutup"
-  ]
+  "palette": { "bg": "#f3dade", "surface": "#fffdfb", "ink": "#3e2b30", "accent": "#c6a15b", "muted": "#86707a" },
+  "fonts": { "script": "allura", "display": "bodoni", "body": "jost" },
+  "ornaments": { "cover": ["sprig"], "divider": "divider" },
+  "sections": ["cover", "quote", "mempelai", "story", "countdown", "acara", "maps", "galeri", "rsvp", "wishes", "gift", "penutup"],
+  "labels": {
+    "cover": { "kicker": "Together with their families" },
+    "quote": { "kicker": "We're getting married", "title": "Save *our* Day" },
+    "mempelai": { "kicker": "The couple", "title": "Bride *&* Groom" },
+    "story": { "kicker": "How it started", "title": "Our *Story*" },
+    "countdown": { "kicker": "Counting down", "title": "Until We *Say* I Do" },
+    "acara": { "kicker": "Save the date" },
+    "maps": { "kicker": "Where", "title": "The *Venue*" },
+    "galeri": { "kicker": "Moments", "title": "Our *Gallery*" },
+    "rsvp": { "kicker": "Kindly reply", "title": "R.S.V.P" },
+    "wishes": { "kicker": "Love notes", "title": "Wishes" },
+    "gift": { "kicker": "Wedding gift", "title": "With *Love*" },
+    "penutup": { "kicker": "Thank you" }
+  }
 }

@@ -13,7 +13,7 @@ const OFFSET: Record<Data["zona"], string> = { "Asia/Jakarta": "+07:00", "Asia/M
 const toIso = (local: string, zona: Data["zona"]) => (local ? `${local.slice(0, 16)}:00${OFFSET[zona]}` : "");
 
 const input = "w-full rounded-xl border border-ink/20 bg-white px-3 py-2.5";
-const small = "rounded-full border border-rose px-3 py-1.5 text-sm text-rose";
+const small = "rounded-full border border-gold px-3 py-1.5 text-sm text-gold-deep";
 
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
@@ -93,7 +93,7 @@ export function Editor({ id, initialData, initialTheme, themes }: { id: string; 
 
   return (
     <div className="space-y-4 pb-20">
-      <p role="status" className="sticky top-0 z-10 rounded-xl bg-blush px-3 py-2 text-sm">{status}</p>
+      <p role="status" className="sticky top-0 z-10 rounded-xl bg-cream px-3 py-2 text-sm">{status}</p>
 
       <Card title="Tema">
         <select value={theme} onChange={(e) => setTheme(e.target.value)} className={input} aria-label="Tema">
@@ -121,7 +121,7 @@ export function Editor({ id, initialData, initialTheme, themes }: { id: string; 
           </select>
         </Field>
         {data.acara.map((a, i) => (
-          <div key={i} className="space-y-3 border-t border-blush pt-3">
+          <div key={i} className="space-y-3 border-t border-gold/30 pt-3">
             <Text label="Nama acara" max={40} value={a.judul} onChange={(v) => setItem("acara", i, { judul: v })} />
             <Field label="Mulai">
               <input type="datetime-local" value={a.mulai.slice(0, 16)} onChange={(e) => setItem("acara", i, { mulai: toIso(e.target.value, data.zona) })} className={input} />
@@ -155,7 +155,7 @@ export function Editor({ id, initialData, initialTheme, themes }: { id: string; 
 
       <Card title="Kisah kami">
         {data.cerita.map((c, i) => (
-          <div key={i} className="space-y-3 border-t border-blush pt-3">
+          <div key={i} className="space-y-3 border-t border-gold/30 pt-3">
             <Text label="Tahun" max={10} value={c.tahun} onChange={(v) => setItem("cerita", i, { tahun: v })} />
             <Text label="Judul" max={60} value={c.judul} onChange={(v) => setItem("cerita", i, { judul: v })} />
             <Text label="Cerita" max={400} area value={c.isi} onChange={(v) => setItem("cerita", i, { isi: v })} />
@@ -171,7 +171,7 @@ export function Editor({ id, initialData, initialTheme, themes }: { id: string; 
 
       <Card title="Rekening tanda kasih">
         {data.hadiah.map((h, i) => (
-          <div key={i} className="space-y-3 border-t border-blush pt-3">
+          <div key={i} className="space-y-3 border-t border-gold/30 pt-3">
             <Text label="Bank / e-wallet" max={30} value={h.bank} onChange={(v) => setItem("hadiah", i, { bank: v })} />
             <Text label="Nomor rekening" max={30} value={h.nomor} onChange={(v) => setItem("hadiah", i, { nomor: v })} />
             <Text label="Atas nama" max={80} value={h.atasNama} onChange={(v) => setItem("hadiah", i, { atasNama: v })} />

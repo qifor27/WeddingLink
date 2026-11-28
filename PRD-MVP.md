@@ -8,7 +8,7 @@
 WeddingLink adalah platform undangan pernikahan digital berbasis website. Pasangan memilih tema, mengisi data lewat HP, membayar secara manual, lalu membagikan link personal ke setiap tamu. Tamu membuka undangan, melihat info acara, dan mengisi RSVP serta ucapan.
 
 **Pembeda MVP**
-- Tema orisinal bertema adat (Minang, Sunda–Minang) dan modern, ornamen SVG buatan sendiri.
+- Undangan custom, bukan hanya tradisional: gaya adat (Minang, Sunda–Minang), modern, atau minimalis, berisi cerita pasangan sendiri; isi sendiri atau dibuatkan admin. Tema orisinal, ornamen SVG buatan sendiri.
 - RSVP dan ucapan bebas spam (captcha, rate limit, moderasi).
 - Undangan cepat dibuka di HP (halaman di-cache, gambar dikompres).
 
@@ -49,9 +49,9 @@ WeddingLink adalah platform undangan pernikahan digital berbasis website. Pasang
 
 | # | Fitur | Prioritas | Kriteria selesai |
 | --- | --- | --- | --- |
-| F1 | Landing page pink-emas + katalog tema dengan filter (adat, warna, foto/tanpa foto) | P0 | Katalog bisa difilter; setiap tema punya halaman sendiri yang diindeks |
+| F1 | Landing page putih-emas + katalog tema dengan filter (adat, warna, foto/tanpa foto) | P0 | Katalog bisa difilter; setiap tema punya halaman sendiri yang diindeks |
 | F2 | Preview tema dengan data contoh / nama pemesan | P0 | `/tema/[slug]/preview?nama=...` menampilkan tema dengan data contoh |
-| F3 | Mesin tema: `invitation.data` (JSON) + `theme.json` → halaman undangan | P0 | Ganti tema tidak perlu isi ulang data; tema baru = file konfigurasi |
+| F3 | Mesin tema: `invitation.data` (JSON) + `theme.json` (+ skin opsional) → halaman undangan | P0 | Ganti tema tidak perlu isi ulang data; tema baru = `theme.json` (+ `skin.ts`/`skin.css` untuk ornamen & tata letak khusus) |
 | F4 | Editor data undangan (mempelai, acara, galeri, rekening/QRIS pasangan, musik) | P0 | Nyaman di layar 360 px; simpan otomatis; validasi zod |
 | F5 | Link per tamu `/{slug}?to=Nama` + impor daftar tamu | P0 | Nama di-escape, maks. 60 karakter; link unik per tamu |
 | F6 | RSVP + ucapan anti-spam | P0 | Captcha Turnstile, rate limit, filter kata kasar, pasangan bisa sembunyikan |
@@ -87,18 +87,20 @@ Harga disimpan di database/konfigurasi, bukan di-hardcode.
 
 ## 7. Desain
 
-- **Warna:** latar `#FFFAF8`, Blush `#F6DFE3`, Rose `#B85C73` (tombol/tautan), Gold `#C6A15B` (aksen tipis), teks `#3E2B30`.
-- **Font:** Bodoni Moda (judul), Jost (isi). Gaya sederhana: ruang kosong lega, sudut membulat, bayangan halus, tanpa gradien mencolok.
+- **Warna (putih + sentuhan emas):** latar putih `#FFFFFF`, Cream `#F8F4EC` (section selang-seling, kotak info), Gold `#C6A15B` (garis, bingkai, aksen; bukan teks kecil), Gold Deep `#8C6A2C` (teks emas, kontras ≥ 4.5:1), teks/tombol utama `#3E2B30`. Berlaku untuk landing, katalog, dashboard, admin, dan halaman masuk.
+- **Font:** Bodoni Moda (judul), Jost (isi). Gaya sederhana: ruang kosong lega, garis tipis emas, label kecil huruf kapital berjarak di atas judul, tanpa gradien mencolok.
+- **Navbar:** menu kiri (Tema, Fitur, Cara kerja), logo di tengah, menu kanan (Harga, FAQ, Masuk). Di HP: logo di atas, menu satu baris di bawahnya.
+- **Tanpa mockup HP.** Tangkapan layar ditampilkan dalam bingkai lengkung (arch) bergaris emas atau kotak bersudut membulat.
 - **Landing page (urutan section):**
-  1. Hero — judul singkat, tombol "Lihat Tema" & "Pesan via WhatsApp", 3 mockup HP bertumpuk miring berisi cover tema berbeda.
-  2. Galeri tema — grid 8–12 mockup HP + filter; ketuk untuk preview.
-  3. Cara kerja — satu HP besar memutar rekaman layar ≤ 10 detik (autoplay saat terlihat, tanpa suara).
-  4. Fitur unggulan — 4–6 kartu, masing-masing dengan mockup HP kecil.
-  5. Sebelum vs sesudah — undangan cetak vs HP.
+  1. Hero — panel cream, label "Undangan pernikahan digital custom", judul besar, tombol "Lihat Tema" & "Pesan via WhatsApp", 3 bingkai lengkung berisi cover tema berbeda.
+  2. Fitur unggulan — daftar bernomor 01–05; fitur yang dipilih terbuka dan tangkapan layarnya tampil di bingkai lengkung.
+  3. Galeri tema — kolase tangkapan layar tema + filter; ketuk untuk halaman tema & preview.
+  4. Cara kerja — judul besar, 3 langkah bernomor, rekaman layar ≤ 10 detik (autoplay saat terlihat, tanpa suara).
+  5. Sebelum vs sesudah — undangan cetak vs WeddingLink.
   6. Paket harga — 3 kartu, paket tengah ditandai emas.
-  7. Testimoni/portofolio — tangkapan layar undangan nyata (dengan izin) dalam bingkai HP.
+  7. Testimoni/portofolio — tangkapan layar undangan nyata (dengan izin).
   8. FAQ + tombol WhatsApp menempel.
-- **Komponen:** `PhoneMockup` (CSS/SVG) reusable; isi = tangkapan layar asli tema WeddingLink (WebP/AVIF), bukan foto stok.
+- **Komponen:** `Arch` (bingkai lengkung) reusable; isi = tangkapan layar asli tema WeddingLink (WebP/AVIF), bukan foto stok.
 - **Tema undangan MVP:** Blue Butterfly, Red Beige, Minang Pastel, Sunda–Minang, Gold Blush Modern (sudah ada demo HTML) + Sage Botanical (baru).
 
 ## 8. Arsitektur teknis
@@ -124,8 +126,8 @@ app/
 components/
   sections/   # Cover, Quote, Mempelai, Countdown, Acara, Maps, Galeri, Story, Rsvp, Wishes, Gift, Penutup
   ornaments/  # SVG ornamen
-  marketing/PhoneMockup.tsx
-themes/<slug>/theme.json
+  marketing/Arch.tsx
+themes/<slug>/theme.json   # + skin.ts, skin.css, defs.ts (ornamen SVG & CSS tema)
 lib/        # supabase, zod schemas, escape, rate-limit
 supabase/migrations/
 tests/      # Playwright
@@ -180,7 +182,7 @@ Indeks: `invitations(slug)` unik, `guests(invitation_id, code)`, `wishes(invitat
 3. Halaman undangan `/[slug]` + cache + nama tamu + RSVP anti-spam.
 4. Editor & dashboard pasangan + impor tamu + bagikan WhatsApp.
 5. Pembayaran manual + dashboard admin + masa aktif otomatis.
-6. Landing page pink-emas dengan mockup HP, SEO, uji keamanan & Playwright, rilis.
+6. Landing page putih-emas dengan bingkai lengkung, SEO, uji keamanan & Playwright, rilis.
 
 ## 14. Definition of done MVP
 
