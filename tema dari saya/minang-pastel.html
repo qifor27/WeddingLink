@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Baralek Hafiz & Aulia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Great+Vibes&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* VOICE: hangat, ramah, beradat; baralek Minang dalam warna pastel
+   IDEA: kartu undangan kapsul di halaman Rumah Gadang, dibingkai pita songket pucuak rebuang
+   PICTURE: Rumah Gadang bergonjong, marawa pastel berkibar, bunga pastel bergoyang, kelopak berjatuhan
+   COLOUR and TYPE: krem #fbf4e6, lavender tua #4f4a8a teks, mawar #d98593 aksen, sage #a9c2a5, emas lembut #c9a54e; Great Vibes + Italiana + Lora
+   LAYOUT: ponsel = halaman-halaman penuh bergulir; layar lebar = panel Rumah Gadang menempel di kiri + kolom undangan di kanan */
+:root{color-scheme:light;--cream:#fbf4e6;--card:#fffaf0;--ink:#4f4a8a;--lav:#8e88c7;--lav2:#e9e4f6;--rose:#d98593;--rose2:#f6dbe0;--sage:#a9c2a5;--gold:#c9a54e;--mute:#8a7f98;--line:#e3d5c0}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth}
+body{margin:0;background:#f3ead9;color:var(--ink);font:16px/1.65 Lora,Georgia,serif;overflow-x:clip}
+body.locked{overflow:hidden}
+.script{font-family:"Great Vibes",cursive;font-weight:400;line-height:1.05}
+.disp{font-family:Italiana,Georgia,serif;letter-spacing:.06em}
+.layout{position:relative}
+aside{display:none}
+main{max-width:500px;margin:0 auto;background:var(--cream);box-shadow:0 0 50px #4f4a8a1f}
+.pg{position:relative;min-height:100svh;padding:70px 18px 60px;display:grid;place-items:center;overflow:hidden;background:radial-gradient(90% 50% at 50% 0,#f8eefa,transparent 70%),radial-gradient(80% 40% at 50% 100%,#eef4ea,transparent 70%),var(--cream)}
+.band{position:absolute;left:0;right:0;top:0;height:46px;z-index:1}
+.band.bot{top:auto;bottom:0;transform:scaleY(-1)}
+.band svg{width:100%;height:100%;display:block}
+.card{position:relative;z-index:3;width:min(100%,400px);background:#fffaf0e8;border:1.5px solid var(--lav);border-radius:999px;box-shadow:inset 0 0 0 7px var(--card),inset 0 0 0 8px var(--line),0 14px 40px #4f4a8a14;padding:clamp(70px,20vw,96px) 26px;text-align:center}
+.card.box{border-radius:200px 200px 28px 28px;padding-bottom:40px}
+.side{position:absolute;z-index:2;width:clamp(90px,26vw,130px);pointer-events:none}
+.side svg{width:100%;height:auto;overflow:visible;display:block}
+.side.l{left:-18px;top:30%;transform-origin:0 50%;animation:sway 7s ease-in-out infinite}
+.side.r{right:-18px;top:46%;transform:scaleX(-1)}
+.side.r svg{transform-origin:0 50%;animation:sway 8s ease-in-out infinite}
+@keyframes sway{50%{rotate:3deg}}
+.flag{position:absolute;z-index:2;width:clamp(44px,12vw,60px);top:62px;pointer-events:none}
+.flag.l{left:10px}.flag.r{right:10px;transform:scaleX(-1)}
+.flag svg{width:100%;height:auto;display:block;overflow:visible}
+.cloth{transform-box:fill-box;transform-origin:0 50%;animation:wave 2.4s ease-in-out infinite}
+@keyframes wave{0%,100%{transform:skewY(0) scaleX(1)}50%{transform:skewY(-6deg) scaleX(.92)}}
+.house{width:min(100%,380px);margin:0 auto;display:block}
+.house.rise{animation:rise 1.6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(30px)}}
+h2{font:400 clamp(30px,8.5vw,38px)/1.1 Italiana,Georgia,serif;letter-spacing:.04em;margin:0 0 10px;color:var(--ink);text-wrap:balance}
+.kicker{font:600 13px Lora,serif;letter-spacing:.16em;color:var(--rose);margin-bottom:8px}
+.big{font-size:clamp(48px,14vw,64px);color:var(--ink);margin:2px 0}
+p{margin:0 0 12px}
+.mute{color:var(--mute)}
+.adat{font-style:italic;color:var(--ink);font-size:17px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 24px;border:0;border-radius:99px;background:var(--rose);color:#fff;font:600 15px Lora,serif;cursor:pointer;text-decoration:none;box-shadow:0 8px 20px #d9859340;transition:background .2s,transform .2s}
+.btn:hover{background:#c96f7f}.btn:active{transform:scale(.97)}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--lav);box-shadow:none}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.nav button:focus-visible,.tabs button:focus-visible{outline:2px solid var(--lav);outline-offset:3px}
+.orn-line{width:140px;height:18px;margin:12px auto;color:var(--gold)}
+/* cover */
+.cover{position:fixed;inset:0;z-index:40;background:#f3ead9;overflow:auto;transition:transform 1.3s cubic-bezier(.7,0,.2,1)}
+.cover.open{transform:translateY(-105%);pointer-events:none}
+.cover .pg{max-width:500px;margin:0 auto;padding-bottom:0;align-content:start;gap:0}
+.guest{font:600 22px Lora,serif;color:var(--ink);margin:2px 0 18px}
+.mono{width:110px;height:110px;margin:0 auto 8px}
+/* orang */
+.photo{width:clamp(150px,44vw,180px);aspect-ratio:3/4;margin:6px auto 14px;border-radius:999px;border:1.5px solid var(--lav);padding:6px}
+.photo div{width:100%;height:100%;border-radius:inherit;background:linear-gradient(170deg,var(--lav2),var(--rose2));display:grid;place-items:center;font:72px "Great Vibes",cursive;color:var(--ink)}
+.full{font:600 19px Lora,serif;margin:4px 0}
+.gelar{font-size:14px;color:var(--rose);letter-spacing:.08em;margin-bottom:8px}
+.ig{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 16px;border-radius:99px;border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:14px;background:#fff}
+.ig svg,.nav svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+/* acara */
+.date{display:flex;align-items:center;justify-content:center;gap:12px;margin:8px 0}
+.date b{font:400 60px/1 Italiana,serif;color:var(--rose);padding:0 14px;border-inline:1px solid var(--line)}
+.date span{font-size:15px;color:var(--mute);line-height:1.35}
+.time{font-weight:600;white-space:nowrap;margin:4px 0}
+.count{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:10px 0 18px}
+.count div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 2px}
+.count b{display:block;font:400 clamp(26px,8vw,32px)/1 Italiana,serif;color:var(--ink)}
+.count small{font-size:13px;color:var(--mute)}
+.map{width:100%;aspect-ratio:4/3;border-radius:22px;border:1px solid var(--line);background:#fff;margin:8px 0 14px;display:block}
+.gal{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:8px}
+.gal div{aspect-ratio:3/4;border-radius:18px;background:linear-gradient(170deg,var(--lav2),var(--rose2));display:grid;place-items:center;color:var(--mute);font-size:13px;border:1px solid var(--line)}
+.gal div:first-child{grid-column:span 2;aspect-ratio:16/10;border-radius:120px 120px 18px 18px}
+.story{list-style:none;margin:6px 0 0;padding:0 0 0 26px;text-align:start;position:relative}
+.story::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:1px;background:var(--line)}
+.story li{position:relative;margin:0 0 18px}
+.story li::before{content:"";position:absolute;left:-24px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--rose2);border:2px solid var(--rose)}
+.story h4{margin:0;font:600 17px Lora,serif;color:var(--ink)}
+.story p{margin:2px 0 0;color:var(--mute);font-size:15px}
+form{text-align:start;display:grid;gap:13px}
+label{font-weight:600;font-size:14px;color:var(--ink)}
+input,select,textarea{width:100%;margin-top:6px;font:16px Lora,serif;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 14px;min-height:46px}
+textarea{min-height:96px;resize:vertical}
+.row2{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:10px}
+.wishes{max-height:50svh;overflow:auto;display:grid;gap:10px;text-align:start;padding-right:4px}
+.wish{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.wish b{color:var(--ink)}
+.wish em{font-style:normal;font-size:12px;font-weight:600;color:#fff;background:var(--sage);border-radius:99px;padding:1px 9px;margin-left:6px;white-space:nowrap}
+.wish em.no{background:#c4b8c9}
+.wish p{margin:4px 0 0;font-size:15px;color:#5f5874}
+.stat{display:flex;gap:10px;justify-content:center;margin:0 0 12px;color:var(--mute);font-size:15px}
+.stat b{color:var(--ink)}
+.tabs{display:flex;justify-content:center;gap:8px;margin:10px 0 14px}
+.tabs button{min-height:44px;padding:0 18px;border-radius:99px;border:1px solid var(--lav);background:#fff;color:var(--ink);font:600 14px Lora,serif;cursor:pointer}
+.tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tabp{display:none;background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px 14px}
+.tabp.on{display:block}
+.acct{font:400 26px Italiana,serif;letter-spacing:.1em;color:var(--ink);margin:4px 0}
+.fam{display:grid;gap:12px;margin:8px 0}
+.fam div{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px}
+.fam b{display:block;color:var(--rose);font-size:14px;letter-spacing:.08em}
+.sample{font-size:13px;color:var(--mute);margin-top:12px}
+/* kelopak jatuh */
+.petals{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden;display:none}
+.petals.on{display:block}
+.petals i{position:absolute;top:-20px;width:12px;height:8px;border-radius:60% 40% 60% 40%;background:var(--rose2);border:1px solid #efc3cc;animation:fall linear infinite}
+@keyframes fall{to{transform:translate(var(--dx),110vh) rotate(540deg)}}
+/* nav */
+.nav{position:fixed;left:50%;bottom:10px;translate:-50% 0;z-index:30;width:min(480px,calc(100vw - 20px));display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:6px;border-radius:22px;background:#fffaf0eb;backdrop-filter:blur(8px);border:1px solid var(--line);box-shadow:0 10px 30px #4f4a8a26;opacity:0;transform:translateY(30px);transition:.6s}
+.nav::-webkit-scrollbar{display:none}
+.nav.show{opacity:1;transform:none}
+.nav button{flex:none;min-width:62px;min-height:52px;border:0;border-radius:16px;background:none;color:var(--lav);display:grid;justify-items:center;align-content:center;gap:2px;font:12px Lora,serif;cursor:pointer;padding:4px 6px}
+.nav button.on{background:var(--ink);color:#fff}
+.music{position:fixed;right:max(12px,calc(50vw - 240px));bottom:86px;z-index:31;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--rose);display:none;place-items:center;cursor:pointer;box-shadow:0 6px 18px #4f4a8a33}
+.music.show{display:grid}
+.music svg{width:22px;height:22px;fill:currentColor}
+.music.playing svg{animation:spin 4s linear infinite}
+@keyframes spin{to{rotate:360deg}}
+.toast{position:fixed;left:50%;bottom:150px;translate:-50% 20px;z-index:60;background:var(--ink);color:#fff;padding:10px 18px;border-radius:99px;font-size:14px;opacity:0;transition:.3s;pointer-events:none}
+.toast.show{opacity:1;translate:-50% 0}
+.rv .card>*{opacity:0;transform:translateY(20px);transition:opacity .9s ease .15s,transform .9s ease .15s}
+.rv.in .card>*{opacity:1;transform:none}
+.last{padding-bottom:110px}
+@media(min-width:960px){
+ body{background:#efe4d0}
+ .layout{display:grid;grid-template-columns:minmax(0,1fr) 500px;max-width:1240px;margin:0 auto;gap:40px;padding:0 32px}
+ aside{display:block;position:sticky;top:0;height:100vh;padding:28px 0}
+ aside .pg{min-height:0;height:100%;border-radius:36px;border:1px solid var(--line)}
+ main{margin:0}
+ .nav{left:auto;right:max(42px,calc(50vw - 578px));translate:0 0;width:470px}
+ .music{right:max(52px,calc(50vw - 568px))}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv .card>*{opacity:1;transform:none}.petals{display:none!important}}
+
+/* --- ornamen tambahan (lebih ramai) --- */
+.col{position:absolute;z-index:4;top:40px;bottom:40px;width:clamp(54px,15vw,100px);pointer-events:none}
+.col svg{width:100%;height:100%;display:block;overflow:visible}
+.col.l{left:-26px}.col.r{right:-26px;transform:scaleX(-1)}
+.col .sw1{transform-box:fill-box;transform-origin:0 50%;animation:sway 6s ease-in-out infinite}
+.col .sw2{transform-box:fill-box;transform-origin:0 50%;animation:sway 8s ease-in-out infinite reverse}
+.palm{position:absolute;z-index:1;bottom:30px;width:clamp(110px,34vw,170px);opacity:.22;pointer-events:none}
+.palm.l{left:4%}.palm.r{right:4%;transform:scaleX(-1)}
+.palm svg{width:100%;height:auto;display:block}
+.palm .fr{transform-box:fill-box;transform-origin:50% 100%;animation:sway 5s ease-in-out infinite}
+.tas{position:absolute;z-index:2;top:44px;left:0;right:0;height:34px;pointer-events:none}
+.tas svg{width:100%;height:100%;display:block}
+.tas g{transform-box:fill-box;transform-origin:50% 0;animation:swing 3s ease-in-out infinite}
+.tas g:nth-child(even){animation-delay:-1.5s}
+@keyframes swing{0%,100%{rotate:-6deg}50%{rotate:6deg}}
+.dove{position:absolute;z-index:5;width:52px;pointer-events:none;animation:flyx 16s linear infinite}
+.dove svg{width:100%;height:auto;overflow:visible;display:block}
+.dove .wg{transform-box:fill-box;transform-origin:50% 100%;animation:flapy .45s ease-in-out infinite alternate}
+@keyframes flapy{to{transform:scaleY(-.55)}}
+@keyframes flyx{0%{translate:-80px 0}50%{translate:calc(50vw + 40px) -40px}100%{translate:calc(100vw + 80px) 10px}}
+@media(min-width:960px){@keyframes flyx{0%{translate:-80px 0}50%{translate:260px -40px}100%{translate:580px 10px}}}
+.spk{position:absolute;z-index:4;width:14px;height:14px;pointer-events:none;color:var(--gold);animation:tw 2.6s ease-in-out infinite}
+.spk svg{width:100%;height:100%;display:block}
+@keyframes tw{0%,100%{opacity:.15;scale:.6}50%{opacity:1;scale:1}}
+.cnr{position:absolute;z-index:4;width:62px;height:62px;pointer-events:none}
+.cnr svg{width:100%;height:100%;display:block}
+.card .cnr{opacity:1!important;transform:none!important}
+.card{padding-inline:clamp(34px,10vw,44px)}
+.petals i:nth-child(3n){background:#e2dcf4;border-color:#c9c1ea}
+@media(prefers-reduced-motion:reduce){.dove{display:none}}
+</style>
+</head>
+<body class="locked">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <defs>
+  <pattern id="sgk" width="44" height="46" patternUnits="userSpaceOnUse">
+   <rect width="44" height="46" fill="#e9e4f6"/>
+   <path d="M0 6h44M0 40h44" stroke="#c9a54e" stroke-width="1.2"/>
+   <path d="M4 36 22 9 40 36Z" fill="#f6dbe0" stroke="#8e88c7" stroke-width="1.2"/>
+   <path d="M12 36 22 20 32 36Z" fill="none" stroke="#c9a54e" stroke-width="1"/>
+   <path d="M22 26l3 4-3 4-3-4z" fill="#8e88c7"/>
+   <path d="M0 43l5.5-3 5.5 3 5.5-3 5.5 3 5.5-3 5.5 3 5.5-3 5.5 3" fill="none" stroke="#8e88c7" stroke-width=".8"/>
+  </pattern>
+  <radialGradient id="pk" cx="50%" cy="80%" r="80%"><stop offset="0" stop-color="#fff"/><stop offset=".6" stop-color="#f6dbe0"/><stop offset="1" stop-color="#e3a2ae"/></radialGradient>
+  <radialGradient id="lv" cx="50%" cy="80%" r="80%"><stop offset="0" stop-color="#fff"/><stop offset=".6" stop-color="#e2dcf4"/><stop offset="1" stop-color="#a59fd6"/></radialGradient>
+  <g id="bloom"><g style="fill:var(--f,url(#pk))" stroke="#e5b3bd" stroke-width=".6"><ellipse cy="-13" rx="10" ry="14"/><ellipse cy="-13" rx="10" ry="14" transform="rotate(72)"/><ellipse cy="-13" rx="10" ry="14" transform="rotate(144)"/><ellipse cy="-13" rx="10" ry="14" transform="rotate(216)"/><ellipse cy="-13" rx="10" ry="14" transform="rotate(288)"/></g><circle r="5" fill="#e8c873"/><circle r="2" fill="#c9a54e"/></g>
+  <g id="leaf"><path d="M0 0C10-12 9-30 0-42C-9-30-10-12 0 0Z" fill="#a9c2a5"/><path d="M0-2V-38" stroke="#e6efe3" stroke-width=".7"/></g>
+  <g id="sprig"><path d="M0 0C2-20 6-40 4-60" stroke="#a9c2a5" fill="none" stroke-width="1.2"/><g fill="#b3acdf"><ellipse cx="-3" cy="-18" rx="3" ry="5"/><ellipse cx="6" cy="-26" rx="3" ry="5"/><ellipse cx="-1" cy="-34" rx="3" ry="5"/><ellipse cx="7" cy="-42" rx="3" ry="5"/><ellipse cx="2" cy="-50" rx="3" ry="5"/><ellipse cx="5" cy="-58" rx="2.5" ry="4"/></g></g>
+  <g id="cluster">
+   <use href="#leaf" transform="translate(10,90) rotate(60)"/><use href="#leaf" transform="translate(10,90) rotate(110) scale(.8)"/><use href="#leaf" transform="translate(14,60) rotate(40) scale(.7)"/><use href="#leaf" transform="translate(10,140) rotate(130) scale(.9)"/>
+   <use href="#sprig" transform="translate(20,70) rotate(60)"/><use href="#sprig" transform="translate(20,120) rotate(110) scale(.8)"/>
+   <use href="#bloom" transform="translate(30,96) scale(1.25)"/><use href="#bloom" style="--f:url(#lv)" transform="translate(48,60) scale(.85)"/><use href="#bloom" transform="translate(44,138) scale(.8)"/><use href="#bloom" style="--f:url(#lv)" transform="translate(20,170) scale(.65)"/>
+   <circle cx="62" cy="100" r="3" fill="#e3a2ae"/><circle cx="56" cy="166" r="2.5" fill="#b3acdf"/>
+  </g>
+  <g id="marawa"><path d="M4 0V170" stroke="#9b8a6b" stroke-width="3" stroke-linecap="round"/><circle cx="4" cy="-3" r="4" fill="#c9a54e"/>
+   <g class="cloth"><rect x="6" y="6" width="16" height="90" fill="#6d68a8"/><rect x="22" y="6" width="16" height="90" fill="#e3a2ae"/><rect x="38" y="6" width="16" height="90" fill="#ecd58f"/><path d="M6 96 54 96 46 104 38 96 30 106 22 96 14 104Z" fill="#e3a2ae"/></g></g>
+  <g id="rg">
+   <ellipse cx="200" cy="222" rx="200" ry="12" fill="#dfe9da"/>
+   <g fill="#e8cdb5"><rect x="78" y="170" width="8" height="46"/><rect x="128" y="170" width="8" height="46"/><rect x="178" y="170" width="8" height="46"/><rect x="214" y="170" width="8" height="46"/><rect x="264" y="170" width="8" height="46"/><rect x="314" y="170" width="8" height="46"/></g>
+   <rect x="66" y="118" width="268" height="56" rx="2" fill="#fbeee4" stroke="#d9b9a2"/>
+   <rect x="66" y="118" width="268" height="14" fill="url(#sgk)"/>
+   <rect x="66" y="162" width="268" height="12" fill="#f6dbe0" stroke="#d9b9a2"/>
+   <g fill="#8e88c7" opacity=".85"><rect x="88" y="138" width="16" height="20" rx="8"/><rect x="124" y="138" width="16" height="20" rx="8"/><rect x="160" y="138" width="16" height="20" rx="8"/><rect x="224" y="138" width="16" height="20" rx="8"/><rect x="260" y="138" width="16" height="20" rx="8"/><rect x="296" y="138" width="16" height="20" rx="8"/></g>
+   <path d="M186 174h28v-34a14 14 0 0 0-28 0z" fill="#d98593"/>
+   <path d="M180 216l6-42h28l6 42z" fill="#efd9c6" stroke="#d9b9a2"/><path d="M183 196h34M182 206h36M185 186h30" stroke="#d9b9a2"/>
+   <path d="M22 34Q70 120 118 22Q160 112 200 8Q240 112 282 22Q330 120 378 34L340 122H60Z" fill="#6d68a8"/>
+   <path d="M30 44Q72 118 118 34Q160 116 200 22Q240 116 282 34Q328 118 370 44" fill="none" stroke="#9d97d2" stroke-width="2"/>
+   <path d="M40 60Q76 120 118 50Q160 120 200 40Q240 120 282 50Q324 120 360 60" fill="none" stroke="#9d97d2" stroke-width="1.5"/>
+   <g fill="#c9a54e"><circle cx="22" cy="32" r="4"/><circle cx="118" cy="20" r="4"/><circle cx="200" cy="6" r="4.5"/><circle cx="282" cy="20" r="4"/><circle cx="378" cy="32" r="4"/></g>
+   <path d="M60 122h280" stroke="#c9a54e" stroke-width="3"/>
+  </g>
+  <g id="dove"><path d="M-20 4C-8 11 10 10 20 0C24-4 28-5 31-2C28-1 26 1 23 3C16 11 0 14-14 10C-21 9-27 6-30 1C-26 4-23 4-20 4Z" fill="#fff" stroke="#cfc8e6" stroke-width=".8"/><circle cx="25" cy="-1.5" r=".9" fill="#4f4a8a"/><path d="M-30 1-38-4-36 4-40 8-30 5Z" fill="#fff" stroke="#cfc8e6" stroke-width=".8"/><g class="wg"><path d="M-6 2C-12-10-4-24 12-26C6-16 10-6 6 2Z" fill="#fff" stroke="#cfc8e6" stroke-width=".8"/><path d="M-2-6C2-12 6-16 10-20M-4-2C2-8 6-10 9-12" stroke="#e2dcf4" fill="none"/></g></g>
+  <g id="palm"><path d="M62 260C58 200 54 140 66 70" stroke="#8a7f98" stroke-width="6" fill="none" stroke-linecap="round"/><g class="fr" fill="none" stroke="#8a7f98" stroke-width="4" stroke-linecap="round"><path d="M66 70C40 52 20 56 4 74"/><path d="M66 70C46 40 26 30 10 34"/><path d="M66 70C64 38 74 18 92 8"/><path d="M66 70C90 50 108 52 120 66"/><path d="M66 70C88 66 104 84 110 104"/><path d="M66 70C50 74 36 92 34 112"/></g><g fill="#8a7f98"><circle cx="60" cy="78" r="5"/><circle cx="70" cy="80" r="5"/></g></g>
+  <g id="spark"><path d="M7 0C7.6 5 9 6.4 14 7C9 7.6 7.6 9 7 14C6.4 9 5 7.6 0 7C5 6.4 6.4 5 7 0Z" fill="currentColor"/></g>
+  <g id="tassel"><path d="M0 0V10" stroke="#c9a54e"/><path d="M0 10l5 7-5 7-5-7z" fill="#f6dbe0" stroke="#8e88c7"/><circle cy="27" r="2" fill="#c9a54e"/></g>
+  <g id="corner"><path d="M2 2H60M2 2V60" stroke="#c9a54e" stroke-width="1.5" fill="none"/><path d="M8 8 30 8 8 30Z" fill="#f6dbe0" stroke="#8e88c7"/><path d="M14 14l6 0-6 6z" fill="#8e88c7"/><path d="M36 8h18M8 36v18" stroke="#8e88c7" stroke-dasharray="3 3"/></g>
+ </defs>
+</svg>
+
+<div class="petals" id="petals"></div>
+
+<div class="cover" id="cover"><div class="pg">
+ <div class="band"><svg><rect width="100%" height="100%" fill="url(#sgk)"/></svg></div>
+ <div class="flag l"><svg viewBox="0 -8 60 180"><use href="#marawa"/></svg></div>
+ <div class="flag r"><svg viewBox="0 -8 60 180"><use href="#marawa"/></svg></div>
+ <div class="side l"><svg viewBox="0 0 80 200"><use href="#cluster"/></svg></div>
+ <div class="side r"><svg viewBox="0 0 80 200"><use href="#cluster"/></svg></div>
+ <div class="card" style="margin-top:18px;padding-block:64px 70px">
+  <svg class="mono" viewBox="-60 -60 120 120"><circle r="50" fill="#fff" stroke="#8e88c7"/><circle r="44" fill="none" stroke="#e3d5c0" stroke-dasharray="2 4"/><text y="13" text-anchor="middle" font-family="Great Vibes" font-size="42" fill="#4f4a8a">H&amp;A</text><use href="#bloom" transform="translate(0,-50) scale(.55)"/></svg>
+  <div class="kicker">BARALEK GADANG</div>
+  <div class="big script">Hafiz &amp; Aulia</div>
+  <div class="disp mute" style="font-size:18px">25 · 04 · 2027</div>
+  <div class="mute" style="margin-top:20px;font-size:14px">Kepado Yth. Bapak/Ibu/Dunsanak</div>
+  <div class="guest" id="guest">Tamu Undangan</div>
+  <button class="btn" id="openBtn">Buka Undangan</button>
+ </div>
+ <svg class="house rise" viewBox="0 0 400 236" style="margin-top:10px" aria-label="Ilustrasi Rumah Gadang"><use href="#rg"/></svg>
+</div></div>
+
+<div class="layout">
+ <aside><div class="pg">
+  <div class="band"><svg><rect width="100%" height="100%" fill="url(#sgk)"/></svg></div>
+  <div class="flag l"><svg viewBox="0 -8 60 180"><use href="#marawa"/></svg></div>
+  <div class="flag r"><svg viewBox="0 -8 60 180"><use href="#marawa"/></svg></div>
+  <div style="position:relative;z-index:3;text-align:center;width:100%">
+   <div class="kicker">THE WEDDING OF</div>
+   <div class="script" style="font-size:84px;color:var(--ink)">Hafiz &amp; Aulia</div>
+   <div class="disp mute" style="font-size:22px;margin:8px 0 24px">Minggu, 25 April 2027 · Padang</div>
+   <svg class="house" viewBox="0 0 400 236" style="width:min(90%,480px)"><use href="#rg"/></svg>
+  </div>
+ </div></aside>
+
+ <main id="main">
+  <section class="pg rv" id="pembuka">
+   <div class="band"><svg><rect width="100%" height="100%" fill="url(#sgk)"/></svg></div>
+   <div class="side l"><svg viewBox="0 0 80 200"><use href="#cluster"/></svg></div>
+   <div class="card">
+    <div class="kicker">ASSALAMU'ALAIKUM WR. WB.</div>
+    <h2>Baralek Gadang</h2>
+    <div class="big script">Hafiz &amp; Aulia</div>
+    <svg class="orn-line" viewBox="0 0 140 18"><path d="M0 9h50M90 9h50" stroke="currentColor"/><path d="M58 15 70 3 82 15Z" fill="none" stroke="currentColor"/></svg>
+    <p class="adat">"Adat basandi syarak, syarak basandi Kitabullah"</p>
+    <p class="mute" style="font-size:14px">Falsafah adat Minangkabau</p>
+   </div>
+  </section>
+
+  <section class="pg rv" id="ayat">
+   <div class="side r"><svg viewBox="0 0 80 200"><use href="#cluster"/></svg></div>
+   <div class="card">
+    <div class="kicker">BISMILLAHIRRAHMANIRRAHIM</div>
+    <p class="adat">"Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan dari jenismu sendiri, agar kamu merasa tenteram kepadanya, dan dijadikan-Nya di antaramu rasa kasih dan sayang."</p>
+    <p class="mute" style="font-size:14px">QS. Ar-Rum: 21 · terjemahan Kemenag RI</p>
+   </div>
+  </section>
+
+  <section class="pg rv" id="pria">
+   <div class="band"><svg><rect width="100%" height="100%" fill="url(#sgk)"/></svg></div>
+   <div class="side l"><svg viewBox="0 0 80 200"><use href="#cluster"/></svg></div>
+   <div class="card box">
+    <div class="kicker">MARAPULAI</div>
+    <div class="photo"><div>H</div></div>
+    <div class="big script" style="font-size:52px">Hafiz</div>
+    <div class="full">Muhammad Hafiz Rahman, S.Kom.</div>
+    <div class="gelar">Sutan Rajo Mudo</div>
+    <p class="mute">Putra pertama dari<br>Bapak Darmawan Dt. Rajo Batuah &amp; Ibu Hj. Nurhayati</p>
+    <a class="ig" href="https://instagram.com/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg>@hafiz.rahman</a>
+   </div>
+  </section>
+
+  <section class="pg rv" id="wanita">
+   <div class="side r"><svg viewBox="0 0 80 200"><use href="#cluster"/></svg></div>
+   <div class="card box">
+    <div class="kicker">ANAK DARO</div>
+    <div class="photo"><div>A</div></div>
+    <div class="big script" style="font-size:52px">Aulia</div>
+    <div class="full">Aulia Rahmi Putri, S.Pd.</div>
+    <p class="mute">Putri kedua dari<br>Bapak H. Syamsul Bahri &amp; Ibu Elvi Yanti</p>
+    <a class="ig" href="https://instagram.com/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg>@aulia.rahmi</a>
+   </div>
+  </section>
+
+  <section class="pg rv" id="tanggal">
+   <div class="band"><svg><rect width="100%" height="100%" fill="url(#sgk)"/></svg></div>
+   <div class="flag l"><svg viewBox="0 -8 60 180"><use href="#marawa"/></svg></div>
+   <div class="flag r"><svg viewBox="0 -8 60 180"><use href="#marawa"/></svg></div>
+   <div class="card">
+    <h2>Menghitung Hari</h2>
+    <p class="mute">Menuju Minggu, 25 April 2027</p>
+    <div class="count" id="count"><div><b id="cd-d">0</b><small>Hari</small></div><div><b id="cd-h">00</b><small>Jam</small></div><div><b id="cd-m">00</b><small>Menit</small></div><div><b id="cd-s">00</b><small>Detik</small></div></div>
+    <a class="btn" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Baralek%20Hafiz%20%26%20Aulia&dates=20270425T010000Z/20270425T090000Z&location=Padang">Simpan ke Kalender</a>
+   </div>
+  </section>
+
+  <section class="pg rv" id="akad">
+   <div class="side l"><svg viewBox="0 0 80 200"><use href="#cluster"/></svg></div>
+   <div class="card box">
+    <h2>Akad Nikah</h2>
+    <div class="date"><span>Minggu</span><b>25</b><span>April<br>2027</span></div>
+    <div class="time">08.00 – 10.00 WIB</div>
+    <p class="mute">Masjid Raya Sumatera Barat<br>Jl. Khatib Sulaiman, Padang</p>
+    <a class="btn ghost" href="https://www.google.com/maps/search/?api=1&query=Masjid+Raya+Sumatera+Barat" target="_blank" rel="noopener">Petunjuk Arah</a>
+   </div>
+  </section>
+
+  <section class="pg rv" id="baralek">
+   <div class="band"><svg><rect width="100%" height="100%" fill="url(#sgk)"/></svg></div>
+   <div class="side r"><svg viewBox="0 0 80 200"><use href="#cluster"/></svg></div>
+   <div class="card box">
+    <h2>Baralek / Resepsi</h2>
+    <div class="date"><span>Minggu</span><b>25</b><span>April<br>2027</span></div>
+    <div class="time">11.00 – 16.00 WIB</div>
+    <p class="mute">Rumah Kediaman Anak Daro<br>Jl. Belanti Raya No. 9, Padang</p>
+    <a class="btn ghost" href="https://www.google.com/maps/search/?api=1&query=Padang" target="_blank" rel="noopener">Petunjuk Arah</a>
+   </div>
+  </section>
+
+  <section class="pg rv" id="lokasi">
+   <div class="side l"><svg viewBox="0 0 80 200"><use href="#cluster"/></svg></div>
+   <div class="card box">
+    <h2>Lokasi</h2>
+    <svg class="map" viewBox="0 0 400 300" aria-label="Ilustrasi peta lokasi">
+     <rect width="400" height="300" fill="#fffaf0"/>
+     <path d="M0 230C80 220 140 170 400 180" stroke="#e3d5c0" stroke-width="12" fill="none"/><path d="M130 0C150 100 170 200 160 300M290 0 300 300" stroke="#e3d5c0" stroke-width="9" fill="none"/>
+     <path d="M0 90H400M0 270H400M60 0V300M350 0V300" stroke="#efe6d6" stroke-width="5"/>
+     <path d="M300 30c40 10 60 40 100 30v80c-40-6-60-30-100-40z" fill="#d5e6ee"/>
+     <rect x="190" y="110" width="44" height="30" fill="#e9e4f6"/><path d="M184 112l10-16 18 10 18-10 10 16z" fill="#6d68a8"/>
+     <g transform="translate(212,96)"><circle r="30" fill="#d98593" opacity=".15"/><path d="M0 6C-13-7-16-14-16-21a16 16 0 0 1 32 0c0 7-3 14-16 27z" fill="#d98593"/><circle cy="-21" r="5.5" fill="#fff"/></g>
+    </svg>
+    <p class="mute">Rumah Kediaman Anak Daro<br>Jl. Belanti Raya No. 9, Padang</p>
+    <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Padang" target="_blank" rel="noopener">Buka Google Maps</a>
+   </div>
+  </section>
+
+  <section class="pg rv" id="galeri">
+   <div class="band"><svg><rect width="100%" height="100%" fill="url(#sgk)"/></svg></div>
+   <div class="card box" style="padding-inline:18px">
+    <h2>Galeri</h2>
+    <p class="mute">Kenangan sebelum hari bahagia</p>
+    <div class="gal"><div>Foto prewedding 1</div><div>Foto 2</div><div>Foto 3</div><div>Foto 4</div><div>Foto 5</div></div>
+   </div>
+  </section>
+
+  <section class="pg rv" id="kisah">
+   <div class="side r"><svg viewBox="0 0 80 200"><use href="#cluster"/></svg></div>
+   <div class="card box">
+    <h2>Kisah Kami</h2>
+    <ul class="story">
+     <li><h4>Batamu · 2019</h4><p>Bertemu pertama kali dalam kegiatan pemuda di kampung halaman.</p></li>
+     <li><h4>Saling mengenal · 2022</h4><p>Pertemanan yang tumbuh menjadi niat untuk melangkah lebih jauh.</p></li>
+     <li><h4>Maminang · 2026</h4><p>Keluarga anak daro datang maminang, dan niat baik itu diterima dengan baik.</p></li>
+     <li><h4>Baralek · 2027</h4><p>Insya Allah kami mengikat janji suci di hadapan keluarga dan dunsanak.</p></li>
+    </ul>
+   </div>
+  </section>
+
+  <section class="pg rv" id="rsvp">
+   <div class="band"><svg><rect width="100%" height="100%" fill="url(#sgk)"/></svg></div>
+   <div class="side l"><svg viewBox="0 0 80 200"><use href="#cluster"/></svg></div>
+   <div class="card box" style="padding-inline:20px">
+    <h2>Konfirmasi Kehadiran</h2>
+    <p class="mute">Mohon diisi sebelum 18 April 2027</p>
+    <form id="rsvpForm">
+     <label>Nama<input id="fName" required maxlength="60" autocomplete="name"></label>
+     <div class="row2"><label>Kehadiran<select id="fAtt"><option value="Hadir">Hadir</option><option value="Tidak Hadir">Tidak hadir</option></select></label>
+     <label>Jumlah<select id="fNum"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></label></div>
+     <label>Ucapan &amp; doa<textarea id="fMsg" required maxlength="400"></textarea></label>
+     <button class="btn" type="submit" style="justify-self:center">Kirim Ucapan</button>
+    </form>
+   </div>
+  </section>
+
+  <section class="pg rv" id="ucapan">
+   <div class="side r"><svg viewBox="0 0 80 200"><use href="#cluster"/></svg></div>
+   <div class="card box" style="padding-inline:18px">
+    <h2>Doa &amp; Ucapan</h2>
+    <div class="stat"><span><b id="sH">0</b> hadir</span>·<span><b id="sT">0</b> berhalangan</span></div>
+    <div class="wishes" id="wishes"></div>
+   </div>
+  </section>
+
+  <section class="pg rv" id="hadiah">
+   <div class="band"><svg><rect width="100%" height="100%" fill="url(#sgk)"/></svg></div>
+   <div class="card box" style="padding-inline:18px">
+    <h2>Tanda Kasih</h2>
+    <p class="mute">Kehadiran dan doa restu Anda adalah hadiah terindah bagi kami.</p>
+    <div class="tabs" role="tablist"><button class="on" data-tab="t1" role="tab">Amplop Digital</button><button data-tab="t2" role="tab">Kirim Kado</button></div>
+    <div class="tabp on" id="t1"><div class="kicker">BANK NAGARI</div><div class="acct">1100 2233 4455</div><p class="mute">a.n. Aulia Rahmi Putri</p><button class="btn ghost" data-copy="110022334455">Salin Rekening</button></div>
+    <div class="tabp" id="t2"><div class="kicker">ALAMAT KADO</div><p class="mute">Jl. Belanti Raya No. 9, Kel. Lolong Belanti, Padang Utara 25136</p><button class="btn ghost" data-copy="Jl. Belanti Raya No. 9, Kel. Lolong Belanti, Padang Utara 25136">Salin Alamat</button></div>
+   </div>
+  </section>
+
+  <section class="pg rv" id="keluarga">
+   <div class="flag l"><svg viewBox="0 -8 60 180"><use href="#marawa"/></svg></div>
+   <div class="flag r"><svg viewBox="0 -8 60 180"><use href="#marawa"/></svg></div>
+   <div class="card box">
+    <h2>Turut Mengundang</h2>
+    <div class="fam">
+     <div><b>KELUARGA MARAPULAI</b>Bapak Darmawan Dt. Rajo Batuah<br>Ibu Hj. Nurhayati</div>
+     <div><b>KELUARGA ANAK DARO</b>Bapak H. Syamsul Bahri<br>Ibu Elvi Yanti</div>
+     <div><b>NINIAK MAMAK &amp; DUNSANAK</b>Keluarga besar Suku Koto dan Suku Piliang</div>
+    </div>
+   </div>
+  </section>
+
+  <section class="pg rv last" id="penutup">
+   <div class="band"><svg><rect width="100%" height="100%" fill="url(#sgk)"/></svg></div>
+   <div class="side l"><svg viewBox="0 0 80 200"><use href="#cluster"/></svg></div>
+   <div class="side r"><svg viewBox="0 0 80 200"><use href="#cluster"/></svg></div>
+   <div class="card">
+    <p class="adat">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Dunsanak berkenan hadir dan memberikan doa restu.</p>
+    <div class="kicker" style="margin-top:12px">KAMI YANG BERBAHAGIA</div>
+    <div class="big script">Hafiz &amp; Aulia</div>
+    <p class="mute" style="margin-top:8px">Wassalamu'alaikum Wr. Wb.</p>
+    <svg class="house" viewBox="0 0 400 236" style="margin-top:10px"><use href="#rg"/></svg>
+    <p class="sample">Nama, gelar, tanggal, alamat, dan rekening di halaman ini adalah data contoh.</p>
+   </div>
+  </section>
+ </main>
+</div>
+
+<nav class="nav" id="nav" aria-label="Navigasi undangan"></nav>
+<button class="music" id="music" aria-label="Putar atau hentikan musik"><svg viewBox="0 0 24 24"><path d="M9 18.5A2.5 2.5 0 1 1 7 16V5l12-2v12.5a2.5 2.5 0 1 1-2-2.45V7.3L9 8.6z"/></svg></button>
+<div class="toast" id="toast"></div>
+
+<script>
+{
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+
+// nama tamu: ?to=Nama atau #Nama-Tamu
+const q=new URLSearchParams(location.search).get('to');
+const h=decodeURIComponent(location.hash.slice(1)||'').replace(/[-_+]/g,' ').trim();
+const nm=(q||h||'').slice(0,60);
+if(nm){$('#guest').textContent=nm;$('#fName').value=nm}
+
+
+// --- dekorasi tambahan untuk setiap halaman ---
+const colSvg=k=>`<svg viewBox="0 0 90 600" preserveAspectRatio="xMinYMid slice">${[[0,1.05],[175,.75],[330,.95],[500,.8]].map(([y,k],i)=>`<g class="${i%2?'sw2':'sw1'}"><use href="#cluster" transform="translate(0,${y-20}) scale(${k})"/></g>`).join('')}</svg>`;
+const tasSvg=`<svg viewBox="0 0 400 34" preserveAspectRatio="none">${Array.from({length:12},(_,i)=>`<g><use href="#tassel" transform="translate(${18+i*33.1},0)"/></g>`).join('')}</svg>`;
+const sp=(x,y,d)=>`<div class="spk" style="left:${x}%;top:${y}%;animation-delay:${d}s"><svg viewBox="0 0 14 14"><use href="#spark"/></svg></div>`;
+let n=0;
+$$('.pg').forEach(pg=>{
+ if(pg.closest('aside'))return;
+ pg.querySelectorAll('.side').forEach(e=>e.remove());
+ let html='';
+ if(!pg.querySelector(':scope>.band'))html+='<div class="band"><svg><rect width="100%" height="100%" fill="url(#sgk)"/></svg></div>';
+ html+='<div class="band bot"><svg><rect width="100%" height="100%" fill="url(#sgk)"/></svg></div>';
+ html+=`<div class="tas">${tasSvg}</div>`;
+ html+=`<div class="palm l"><svg viewBox="0 0 124 264"><use href="#palm"/></svg></div><div class="palm r"><svg viewBox="0 0 124 264"><use href="#palm"/></svg></div>`;
+ html+=`<div class="col l">${colSvg()}</div><div class="col r">${colSvg()}</div>`;
+ html+=sp(14,18,0)+sp(84,24,-.8)+sp(22,82,-1.4)+sp(78,76,-2)+sp(50,10,-.4)+sp(8,52,-1.1)+sp(92,58,-1.8);
+ if(n%2===0)html+=`<div class="dove" style="top:${14+(n*7)%20}%;left:0;animation-delay:${-n*3}s"><svg viewBox="-42 -28 76 44"><use href="#dove"/></svg></div>`;
+ if(n%3===1)html+=`<div class="dove" style="top:${60+(n*5)%15}%;left:0;animation-delay:${-n*5}s;animation-duration:20s;width:40px"><svg viewBox="-42 -28 76 44"><use href="#dove"/></svg></div>`;
+ pg.insertAdjacentHTML('afterbegin',html);
+ const c=pg.querySelector('.card');
+ if(c&&c.classList.contains('box'))c.insertAdjacentHTML('afterbegin','<div class="cnr" style="left:10px;bottom:10px;transform:scaleY(-1)!important"><svg viewBox="0 0 62 62"><use href="#corner"/></svg></div><div class="cnr" style="right:10px;bottom:10px;transform:scale(-1,-1)!important"><svg viewBox="0 0 62 62"><use href="#corner"/></svg></div>');
+ n++;
+});
+
+// kelopak jatuh
+$('#petals').innerHTML=Array.from({length:26},(_,i)=>`<i style="left:${(i*37)%100}%;--dx:${(i%2?1:-1)*(30+i*7)}px;animation-duration:${9+(i%5)*2}s;animation-delay:${-i*1.3}s;scale:${.7+(i%3)*.25}"></i>`).join('');
+
+// navigasi
+const items=[['pembuka','Pembuka','M4 20V10l8-6 8 6v10z'],['pria','Marapulai','M12 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM5 21c1-4 4-6 7-6s6 2 7 6'],['wanita','Anak Daro','M12 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM6 21l2-6h8l2 6'],['tanggal','Tanggal','M3 6h18v15H3zM3 10h18M8 3v4M16 3v4'],['akad','Akad','M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z'],['baralek','Baralek','M3 20h18M5 20V11l7-6 7 6v9'],['lokasi','Lokasi','M12 21s-6-6-6-11a6 6 0 0 1 12 0c0 5-6 11-6 11zM12 12a2 2 0 1 0 0-4a2 2 0 0 0 0 4z'],['galeri','Galeri','M4 5h16v14H4zM4 15l5-5 4 4 3-3 4 4'],['kisah','Kisah','M4 5h7v14H4zM13 5h7v14h-7z'],['rsvp','RSVP','M5 12l4 4L19 6'],['ucapan','Ucapan','M4 5h16v11H9l-5 4z'],['hadiah','Hadiah','M4 11h16v9H4zM3 7h18v4H3zM12 7v13']];
+$('#nav').innerHTML=items.map(([id,l,d])=>`<button data-go="${id}"><svg viewBox="0 0 24 24"><path d="${d}"/></svg>${l}</button>`).join('');
+$$('.nav button').forEach(b=>b.addEventListener('click',()=>document.getElementById(b.dataset.go).scrollIntoView({behavior:'smooth'})));
+const spy=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){$$('.nav button').forEach(b=>{const on=b.dataset.go===e.target.id;b.classList.toggle('on',on);if(on)b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'})})}}),{rootMargin:'-45% 0px -50% 0px'});
+$$('main section').forEach(s=>spy.observe(s));
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.2});
+$$('.rv').forEach(el=>io.observe(el));
+
+// musik bernuansa saluang (pentatonik minor, WebAudio)
+let ac=null,out=null,playing=false,timer=null,next=0,step=0;
+const mel=[293.7,349.2,392,440,392,349.2,293.7,261.6,293.7,349.2,440,523.3,440,392,349.2,293.7];
+const dur=[1,1,1,2,1,1,2,2,1,1,1,2,1,1,1,3];
+function note(f,t,len){const o=ac.createOscillator(),g=ac.createGain(),l=ac.createOscillator(),lg=ac.createGain();
+ o.type='sine';o.frequency.value=f;l.frequency.value=5;lg.gain.value=f*.008;l.connect(lg);lg.connect(o.frequency);
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.09,t+.12);g.gain.setValueAtTime(.09,t+len*.6);g.gain.exponentialRampToValueAtTime(.0001,t+len+.4);
+ o.connect(g);g.connect(out);o.start(t);l.start(t);o.stop(t+len+.5);l.stop(t+len+.5)}
+function sched(){while(next<ac.currentTime+.6){const len=dur[step%16]*.42;note(mel[step%16],next,len);next+=len;step++}}
+function startMusic(){try{if(!ac){ac=new (window.AudioContext||window.webkitAudioContext)();out=ac.createGain();out.gain.value=.9;const d=ac.createDelay();d.delayTime.value=.38;const fb=ac.createGain();fb.gain.value=.32;out.connect(ac.destination);out.connect(d);d.connect(fb);fb.connect(d);d.connect(ac.destination)}
+ ac.resume();next=ac.currentTime+.1;timer=setInterval(sched,120);playing=true;$('#music').classList.add('playing')}catch(e){}}
+function stopMusic(){clearInterval(timer);playing=false;$('#music').classList.remove('playing');try{ac&&ac.suspend()}catch(e){}}
+$('#music').addEventListener('click',()=>playing?stopMusic():startMusic());
+
+$('#openBtn').addEventListener('click',()=>{$('#cover').classList.add('open');document.body.classList.remove('locked');$('#nav').classList.add('show');$('#music').classList.add('show');$('#petals').classList.add('on');startMusic();window.scrollTo(0,0);setTimeout(()=>{$('#cover').style.display='none'},1400)});
+
+// hitung mundur
+const target=new Date('2027-04-25T08:00:00+07:00').getTime(),pad=n=>String(n).padStart(2,'0');
+function tick(){const d=Math.max(0,target-Date.now());
+ if(!d){$('#count').innerHTML='<div style="grid-column:1/-1"><b>Alhamdulillah</b><small>Acara telah berlangsung</small></div>';clearInterval(ct);return}
+ $('#cd-d').textContent=Math.floor(d/864e5);$('#cd-h').textContent=pad(Math.floor(d/36e5)%24);$('#cd-m').textContent=pad(Math.floor(d/6e4)%60);$('#cd-s').textContent=pad(Math.floor(d/1e3)%60)}
+const ct=setInterval(tick,1000);tick();
+
+// tab hadiah
+$$('.tabs button').forEach(b=>b.addEventListener('click',()=>{$$('.tabs button').forEach(x=>x.classList.toggle('on',x===b));$$('.tabp').forEach(p=>p.classList.toggle('on',p.id===b.dataset.tab))}));
+
+// salin
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2200)}
+$$('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(b.dataset.copy);toast('Berhasil disalin')}catch(e){toast(b.dataset.copy)}}));
+
+// RSVP & ucapan (demo: tersimpan di browser ini)
+const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const seed=[{n:'Mamak Ujang & keluarga',a:'Hadir',m:'Salamat baralek, samoga manjadi keluarga nan sakinah, mawaddah, warahmah.'},{n:'Teman kuliah Aulia',a:'Hadir',m:'Barakallahu lakuma, Aulia & Hafiz! Sampai jumpa di Padang.'},{n:'Rina di Pekanbaru',a:'Tidak Hadir',m:'Maaf alun bisa datang, doa terbaik dari jauh.'}];
+let mine=[];try{mine=JSON.parse(localStorage.getItem('rsvp-ha')||'[]')}catch(e){}
+function render(){const all=[...mine,...seed];$('#wishes').innerHTML=all.map(w=>`<div class="wish"><b>${esc(w.n)}</b><em class="${w.a==='Hadir'?'':'no'}">${esc(w.a)}</em><p>${esc(w.m)}</p></div>`).join('');$('#sH').textContent=all.filter(w=>w.a==='Hadir').length;$('#sT').textContent=all.filter(w=>w.a!=='Hadir').length}
+render();
+$('#rsvpForm').addEventListener('submit',e=>{e.preventDefault();const w={n:$('#fName').value.trim(),a:$('#fAtt').value,m:$('#fMsg').value.trim()};if(!w.n||!w.m)return;mine.unshift(w);try{localStorage.setItem('rsvp-ha',JSON.stringify(mine.slice(0,30)))}catch(err){}render();$('#fMsg').value='';toast('Tarimo kasih, ucapan terkirim');setTimeout(()=>$('#ucapan').scrollIntoView({behavior:'smooth'}),600)});
+}
+</script>
+</body>
+</html>

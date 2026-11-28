@@ -1,42 +1,23 @@
 {
   "slug": "red-beige",
   "name": "Red Beige",
-  "category": [
-    "modern",
-    "merah",
-    "foto"
-  ],
+  "category": ["modern", "merah", "foto"],
   "photos": true,
-  "palette": {
-    "bg": "#f5ece1",
-    "surface": "#fffaf3",
-    "ink": "#5a1e1e",
-    "accent": "#a8322d",
-    "muted": "#7d6656"
-  },
-  "fonts": {
-    "script": "parisienne",
-    "display": "playfair",
-    "body": "lora"
-  },
-  "ornaments": {
-    "cover": [
-      "sprig"
-    ],
-    "divider": "divider"
-  },
-  "sections": [
-    "cover",
-    "quote",
-    "mempelai",
-    "countdown",
-    "acara",
-    "maps",
-    "galeri",
-    "story",
-    "rsvp",
-    "wishes",
-    "gift",
-    "penutup"
-  ]
+  "palette": { "bg": "#5c0e10", "surface": "#f6f1e8", "ink": "#6b1214", "accent": "#b8894a", "muted": "#8a6a5e" },
+  "fonts": { "script": "pinyon-script", "display": "cormorant", "body": "cormorant" },
+  "ornaments": { "cover": ["sprig"], "divider": "divider" },
+  "sections": ["cover", "quote", "mempelai", "galeri", "countdown", "acara", "maps", "story", "rsvp", "wishes", "gift", "penutup"],
+  "splitCouple": true,
+  "labels": {
+    "quote": { "kicker": "Bismillahirrahmanirrahim" },
+    "wanita": { "kicker": "Mempelai Wanita", "title": "" },
+    "pria": { "kicker": "Mempelai Pria", "title": "" },
+    "galeri": { "title": "Galeri Kami" },
+    "countdown": { "title": "Save the Date" },
+    "maps": { "title": "Lokasi Acara" },
+    "rsvp": { "title": "Konfirmasi Kehadiran" },
+    "wishes": { "title": "Doa & Ucapan" },
+    "gift": { "title": "Amplop Digital" },
+    "penutup": { "kicker": "Terima kasih" }
+  }
 }

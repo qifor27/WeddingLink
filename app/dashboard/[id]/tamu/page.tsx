@@ -9,7 +9,7 @@ type Guest = { id: string; name: string; code: string; group: string | null };
 type Wish = { id: string; guest_id: string | null; name: string; attendance: string; pax: number; message: string | null; is_hidden: boolean; created_at: string };
 
 const ATTEND: Record<string, string> = { hadir: "Hadir", tidak_hadir: "Tidak hadir", ragu: "Ragu" };
-const pill = "inline-flex min-h-9 items-center rounded-full border border-rose px-3 text-sm text-rose";
+const pill = "inline-flex min-h-9 items-center rounded-full border border-gold px-3 text-sm text-gold-deep";
 
 // PRD F5, F7, F9: link per tamu, bagikan WhatsApp, status hadir, moderasi ucapan, ekspor CSV.
 export default async function Page({ params }: PageProps<"/dashboard/[id]/tamu">) {
@@ -38,7 +38,7 @@ export default async function Page({ params }: PageProps<"/dashboard/[id]/tamu">
     <div className="space-y-8">
       <h1 className="font-display text-3xl">Tamu &amp; RSVP</h1>
       {inv.status !== "published" && (
-        <p className="rounded-xl bg-blush px-3 py-2 text-sm">
+        <p className="rounded-xl bg-cream px-3 py-2 text-sm">
           Link tamu sudah bisa disiapkan, tetapi baru bisa dibuka tamu setelah undangan terbit (pembayaran dikonfirmasi).
         </p>
       )}
@@ -78,7 +78,7 @@ export default async function Page({ params }: PageProps<"/dashboard/[id]/tamu">
                   {g.group && <span className="ml-2 text-xs font-normal text-ink/70">{g.group}</span>}
                 </p>
                 <p className="text-sm text-ink/70">{w ? `${ATTEND[w.attendance]}${w.attendance === "hadir" ? ` · ${w.pax} org` : ""}` : "Belum respon"}</p>
-                <div className="mt-2 flex flex-wrap gap-2 text-rose">
+                <div className="mt-2 flex flex-wrap gap-2 text-gold-deep">
                   <a href={waLink(g.name, couple, link)} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-9 items-center rounded-full bg-[#25d366] px-3 text-sm font-semibold text-white">
                     Kirim WhatsApp
                   </a>

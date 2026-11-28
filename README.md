@@ -1,6 +1,6 @@
 # WeddingLink
 
-Platform undangan pernikahan digital berbasis website dengan tema adat Nusantara orisinal, RSVP bebas spam, dan fitur hari H (QR check-in, layar ucapan live, galeri tamu).
+Platform undangan pernikahan digital berbasis website yang bisa di-custom (gaya adat Nusantara, modern, atau minimalis), RSVP bebas spam, dan fitur hari H (QR check-in, layar ucapan live, galeri tamu).
 
 > Status: tahap pengembangan MVP. Detail produk ada di dokumen PRD WeddingLink.
 
@@ -37,10 +37,9 @@ Platform undangan pernikahan digital berbasis website dengan tema adat Nusantara
 
 ## Desain
 
-- Warna utama pink dan emas, gaya sederhana: Rose `#B85C73`, Blush `#F6DFE3`, Gold `#C6A15B`, latar `#FFFAF8`, teks `#3E2B30`.
+- Warna putih dengan sentuhan emas: latar `#FFFFFF`, Cream `#F8F4EC`, Gold `#C6A15B` (garis/aksen), Gold Deep `#8C6A2C` (teks emas), teks `#3E2B30`.
 - Font: Bodoni Moda (judul) + Jost (isi).
-- Landing page menampilkan banyak contoh produk di dalam mockup HP (hero 3 HP, galeri tema, video demo, fitur, testimoni). Isi mockup adalah tangkapan layar asli tema WeddingLink.
-- Bingkai HP satu komponen reusable: `components/marketing/PhoneMockup.tsx`.
+- Navbar: menu kiri, logo tengah, menu kanan. Tanpa mockup HP: tangkapan layar asli tema tampil di bingkai lengkung `components/marketing/Arch.tsx`.
 
 ## Struktur proyek
 
@@ -87,7 +86,7 @@ Satu data undangan bisa ditampilkan dengan tema apa pun. Setiap tema hanya beris
 }
 ```
 
-Skema: `lib/theme.ts` (tema) dan `lib/invitation.ts` (data undangan). Daftarkan tema baru di `themes/index.ts`, catat asetnya di `themes/<slug>/ASSETS.md`, lalu cek tampilannya di `/tema/<slug>/preview?nama=Rina%20%26%20Dimas`.
+Skema: `lib/theme.ts` (tema) dan `lib/invitation.ts` (data undangan). Tampilan khusus (ornamen SVG + CSS) ada di `themes/<slug>/skin.ts` & `skin.css`, didaftarkan di `themes/skins.ts`; tema tanpa skin memakai `components/sections/base.css`. Daftarkan tema baru di `themes/index.ts`, catat asetnya di `themes/<slug>/ASSETS.md`, lalu cek tampilannya di `/tema/<slug>/preview?nama=Rina%20%26%20Dimas`.
 
 ## Mulai mengembangkan
 

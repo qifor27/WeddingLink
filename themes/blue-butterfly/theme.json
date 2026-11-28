@@ -1,42 +1,17 @@
 {
   "slug": "blue-butterfly",
   "name": "Blue Butterfly",
-  "category": [
-    "modern",
-    "biru",
-    "foto"
-  ],
+  "category": ["modern", "biru", "foto"],
   "photos": true,
-  "palette": {
-    "bg": "#f4f1ea",
-    "surface": "#ffffff",
-    "ink": "#2b3f76",
-    "accent": "#5b84c4",
-    "muted": "#6b7590"
-  },
-  "fonts": {
-    "script": "great-vibes",
-    "display": "cormorant",
-    "body": "lora"
-  },
-  "ornaments": {
-    "cover": [
-      "butterfly"
-    ],
-    "divider": "sprig"
-  },
-  "sections": [
-    "cover",
-    "quote",
-    "mempelai",
-    "countdown",
-    "acara",
-    "maps",
-    "galeri",
-    "story",
-    "rsvp",
-    "wishes",
-    "gift",
-    "penutup"
-  ]
+  "palette": { "bg": "#dfe9f2", "surface": "#ffffff", "ink": "#2f4a63", "accent": "#4e7fb2", "muted": "#7d93a8" },
+  "fonts": { "script": "pinyon-script", "display": "cormorant", "body": "nunito-sans" },
+  "ornaments": { "cover": ["butterfly"], "divider": "sprig" },
+  "sections": ["cover", "quote", "mempelai", "acara", "countdown", "story", "maps", "galeri", "rsvp", "wishes", "gift", "penutup"],
+  "labels": {
+    "cover": { "kicker": "The Wedding of" },
+    "quote": { "kicker": "Bismillahirrahmanirrahim" },
+    "acara": { "kicker": "Rangkaian Acara" },
+    "rsvp": { "title": "Konfirmasi Kehadiran" },
+    "gift": { "title": "Tanda Kasih" }
+  }
 }

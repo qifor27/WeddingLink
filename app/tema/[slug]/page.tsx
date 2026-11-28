@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PhoneMockup } from "@/components/marketing/PhoneMockup";
+import { Arch } from "@/components/marketing/Arch";
 import { SiteShell } from "@/components/marketing/SiteShell";
 import { getPackages } from "@/lib/data";
 import { rupiah } from "@/lib/payment";
@@ -47,13 +47,13 @@ export default async function Page({ params }: PageProps<"/tema/[slug]">) {
     <SiteShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <section className="mx-auto grid max-w-5xl items-center gap-10 px-4 py-12 pb-28 md:grid-cols-2">
-        <PhoneMockup src={`/screens/${theme.slug}.webp`} alt={`Tampilan tema ${theme.name}`} preload sizes="(min-width: 768px) 300px, 70vw"
-          className="mx-auto w-64 md:w-72" />
+        <Arch src={`/screens/${theme.slug}.webp`} alt={`Tampilan tema ${theme.name}`} preload sizes="(min-width: 768px) 300px, 70vw"
+          aspect="aspect-[2/3]" className="mx-auto w-64 md:w-72" />
         <div className="space-y-5">
           <p className="text-sm text-ink/70"><Link href="/tema" className="underline">Katalog tema</Link> / {theme.name}</p>
           <h1 className="font-display text-4xl md:text-5xl">Tema {theme.name}</h1>
           <p className="flex flex-wrap gap-2">
-            {theme.category.map((c) => <span key={c} className="rounded-full bg-blush px-3 py-1 text-sm">{c}</span>)}
+            {theme.category.map((c) => <span key={c} className="rounded-full border border-gold/40 bg-cream px-3 py-1 text-sm">{c}</span>)}
           </p>
           <div className="flex gap-2" aria-label="Palet warna">
             {Object.values(theme.palette).map((c) => <span key={c} className="size-8 rounded-full border border-ink/10" style={{ background: c }} />)}
@@ -64,9 +64,9 @@ export default async function Page({ params }: PageProps<"/tema/[slug]">) {
               <span className="mb-1 block text-sm">Coba dengan nama Anda</span>
               <input name="nama" maxLength={61} placeholder="Rina & Dimas" className="w-full rounded-xl border border-ink/20 bg-white px-3 py-2.5" />
             </label>
-            <button className={`${btn} w-full border border-rose text-rose sm:w-auto`}>Lihat preview</button>
+            <button className={`${btn} w-full border border-ink/30 hover:border-gold sm:w-auto`}>Lihat preview</button>
           </form>
-          <Link href="/dashboard" className={`${btn} w-full bg-rose text-white sm:w-auto`}>Pakai tema ini</Link>
+          <Link href="/dashboard" className={`${btn} w-full bg-ink text-white hover:bg-gold-deep sm:w-auto`}>Pakai tema ini</Link>
         </div>
       </section>
     </SiteShell>

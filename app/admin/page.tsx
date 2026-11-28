@@ -34,7 +34,7 @@ export default async function Page() {
         {orders.map((o) => (
           <li key={o.id} className="rounded-2xl bg-white p-4 shadow-sm">
             <p className="flex justify-between gap-2">
-              <span className="text-xl font-semibold text-rose">{rupiah(o.amount)}</span>
+              <span className="text-xl font-semibold text-gold-deep">{rupiah(o.amount)}</span>
               <span className="text-sm">{ORDER_STATUS[o.status]}</span>
             </p>
             <p className="text-sm">
@@ -46,7 +46,7 @@ export default async function Page() {
               {o.reject_reason && ` · ditolak: ${o.reject_reason}`}
             </p>
             {o.proof_path && proofUrl.has(o.proof_path) && (
-              <a href={proofUrl.get(o.proof_path)} target="_blank" rel="noopener noreferrer" className="text-sm text-rose underline">
+              <a href={proofUrl.get(o.proof_path)} target="_blank" rel="noopener noreferrer" className="text-sm text-gold-deep underline">
                 Lihat bukti transfer
               </a>
             )}

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fadli & Ratna · Sunda Minang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Parisienne&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* VOICE: agung, hangat, bernuansa pusaka; dua adat bertemu dalam satu pelaminan
+   IDEA: kartu kapsul berkaca di atas lukisan kampung sepia, dibingkai ukiran emas, mawar marun, dan dua rumah adat
+   PICTURE: Julang Ngapak + siger (Sunda) berdampingan dengan Rumah Gadang + suntiang (Minang), ukiran emas di sudut, mawar marun, merpati
+   COLOUR and TYPE: krem #f7efe0, emas #b08a4a, marun #6e1f2b dominan aksen, cokelat tua #4a2a22 teks; Parisienne + Cinzel + Lora
+   LAYOUT: ponsel = halaman penuh bergulir; layar lebar = panel dua rumah adat menempel di kiri + kolom undangan di kanan */
+:root{color-scheme:light;--cream:#f7efe0;--sepia:#efe2c8;--gold:#b08a4a;--gold2:#e6cf98;--maroon:#6e1f2b;--rose:#a8394c;--ink:#4a2a22;--mute:#7d6450;--line:#dcc59a}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth}
+body{margin:0;background:#e9dcc2;color:var(--ink);font:16px/1.65 Lora,Georgia,serif;overflow-x:clip}
+body.locked{overflow:hidden}
+.script{font-family:Parisienne,cursive;font-weight:400;line-height:1.05}
+.cz{font-family:Cinzel,Georgia,serif;letter-spacing:.08em}
+aside{display:none}
+main{max-width:500px;margin:0 auto;box-shadow:0 0 50px #4a2a2233}
+.pg{position:relative;min-height:100svh;padding:76px 18px 70px;display:grid;place-items:center;overflow:hidden;background:var(--sepia)}
+.land{position:absolute;inset:0;z-index:0;opacity:.75;pointer-events:none}
+.land svg{width:100%;height:100%;display:block}
+.bar{position:absolute;left:0;right:0;top:0;height:30px;z-index:6}
+.bar.b{top:auto;bottom:0}
+.bar svg{width:100%;height:100%;display:block}
+.card{position:relative;z-index:5;width:min(100%,400px);background:#fffaf0c4;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);border:1.5px solid var(--gold);border-radius:999px;box-shadow:inset 0 0 0 7px #fffaf080,inset 0 0 0 8px var(--line),0 18px 40px #4a2a2222;padding:clamp(84px,24vw,104px) clamp(34px,10vw,46px);text-align:center}
+.card.box{border-radius:200px 200px 30px 30px;padding-bottom:48px}
+.fil{position:absolute;z-index:4;width:clamp(96px,30vw,150px);pointer-events:none}
+.fil svg{width:100%;height:auto;display:block;overflow:visible}
+.fil.tl{top:22px;left:-4px}.fil.tr{top:22px;right:-4px;transform:scaleX(-1)}
+.fil.bl{bottom:22px;left:-4px;transform:scaleY(-1)}.fil.br{bottom:22px;right:-4px;transform:scale(-1,-1)}
+.ros{position:absolute;z-index:7;width:clamp(110px,34vw,170px);pointer-events:none}
+.ros svg{width:100%;height:auto;display:block;overflow:visible}
+.ros .sw{transform-box:fill-box;transform-origin:0 0;animation:sway 7s ease-in-out infinite}
+.ros.tr{top:14px;right:-14px;transform:scaleX(-1)}.ros.bl{bottom:14px;left:-14px;transform:scaleY(-1)}
+.ros.tl{top:14px;left:-14px}.ros.br{bottom:14px;right:-14px;transform:scale(-1,-1)}
+@keyframes sway{50%{rotate:2.5deg}}
+.col{position:absolute;z-index:6;top:120px;bottom:120px;width:clamp(48px,13vw,84px);pointer-events:none}
+.col.l{left:-22px}.col.r{right:-22px;transform:scaleX(-1)}
+.col svg{width:100%;height:100%;display:block;overflow:visible}
+.col .s1{transform-box:fill-box;transform-origin:0 50%;animation:sway 6s ease-in-out infinite}
+.col .s2{transform-box:fill-box;transform-origin:0 50%;animation:sway 8s ease-in-out infinite reverse}
+.tas{position:absolute;z-index:6;top:30px;left:12%;right:12%;height:30px;pointer-events:none}
+.tas svg{width:100%;height:100%;display:block}
+.tas g{transform-box:fill-box;transform-origin:50% 0;animation:swing 3s ease-in-out infinite}
+.tas g:nth-child(even){animation-delay:-1.5s}
+@keyframes swing{0%,100%{rotate:-7deg}50%{rotate:7deg}}
+.dove{position:absolute;z-index:8;left:0;width:50px;pointer-events:none;animation:flyx 17s linear infinite}
+.dove svg{width:100%;height:auto;overflow:visible;display:block}
+.dove .wg{transform-box:fill-box;transform-origin:50% 100%;animation:flapy .45s ease-in-out infinite alternate}
+@keyframes flapy{to{transform:scaleY(-.55)}}
+@keyframes flyx{0%{translate:-80px 0}50%{translate:calc(50vw + 40px) -40px}100%{translate:calc(100vw + 80px) 10px}}
+.spk{position:absolute;z-index:7;width:14px;height:14px;pointer-events:none;color:#c9a55c;animation:tw 2.6s ease-in-out infinite}
+.spk svg{width:100%;height:100%;display:block}
+@keyframes tw{0%,100%{opacity:.15;scale:.6}50%{opacity:1;scale:1}}
+.crown{width:clamp(110px,32vw,140px);height:auto;margin:0 auto 4px;display:block;overflow:visible}
+.houses{width:min(100%,420px);display:block;margin:0 auto;overflow:visible}
+.rise{animation:rise 1.6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(30px)}}
+h2{font:600 clamp(26px,7.5vw,32px)/1.15 Cinzel,Georgia,serif;letter-spacing:.06em;margin:0 0 10px;color:var(--maroon);text-wrap:balance}
+.kicker{font:600 12px Cinzel,serif;letter-spacing:.2em;color:var(--gold);margin-bottom:8px}
+.big{font-size:clamp(50px,15vw,66px);color:var(--maroon);margin:2px 0}
+.amp{font:400 34px Parisienne,cursive;color:var(--gold)}
+p{margin:0 0 12px}
+.mute{color:var(--mute)}
+.it{font-style:italic;font-size:17px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 24px;border:0;border-radius:99px;background:linear-gradient(135deg,#8a6a32,#c9a55c 50%,#9c7a40);color:#fff;font:600 14px Cinzel,serif;letter-spacing:.08em;cursor:pointer;text-decoration:none;box-shadow:0 8px 20px #8a6a3240;transition:filter .2s,transform .2s}
+.btn:hover{filter:brightness(1.08)}.btn:active{transform:scale(.97)}
+.btn.ghost{background:#fffaf0;color:var(--maroon);border:1px solid var(--gold);box-shadow:none}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.nav button:focus-visible,.tabs button:focus-visible{outline:2px solid var(--maroon);outline-offset:3px}
+.rule{width:150px;height:20px;margin:12px auto;display:block}
+.cover{position:fixed;inset:0;z-index:40;background:#e9dcc2;overflow:auto;transition:transform 1.3s cubic-bezier(.7,0,.2,1)}
+.cover.open{transform:translateY(-105%);pointer-events:none}
+.cover .pg{max-width:500px;margin:0 auto;align-content:center}
+.guest{font:600 21px Lora,serif;color:var(--maroon);margin:2px 0 18px}
+.toBox{margin:16px auto 0;padding:12px 16px;border-radius:16px;background:#efe2c899;border:1px solid var(--line);max-width:280px}
+.photo{width:clamp(150px,44vw,178px);aspect-ratio:3/4;margin:6px auto 14px;border-radius:999px;border:1.5px solid var(--gold);padding:6px}
+.photo div{width:100%;height:100%;border-radius:inherit;background:linear-gradient(170deg,#efe2c8,#e2cfa6);display:grid;place-items:center;font:72px Parisienne,cursive;color:var(--maroon)}
+.full{font:600 18px Lora,serif;margin:4px 0}
+.tag{display:inline-block;font:600 12px Cinzel,serif;letter-spacing:.14em;color:#fff;background:var(--maroon);border-radius:99px;padding:3px 12px;margin-bottom:8px}
+.ig{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 16px;border-radius:99px;border:1px solid var(--line);color:var(--maroon);text-decoration:none;font-size:14px;background:#fffaf0}
+.ig svg,.nav svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:8px 0}
+.duo div{background:#fffaf0;border:1px solid var(--line);border-radius:20px;padding:12px 8px}
+.duo svg{width:100%;max-width:110px;height:auto;display:block;margin:0 auto 4px;overflow:visible}
+.duo b{display:block;font:600 14px Cinzel,serif;color:var(--maroon);letter-spacing:.06em}
+.duo span{font-size:14px;color:var(--mute);line-height:1.45;display:block}
+.date{display:flex;align-items:center;justify-content:center;gap:12px;margin:8px 0}
+.date b{font:600 54px/1 Cinzel,serif;color:var(--maroon);padding:0 14px;border-inline:1px solid var(--line)}
+.date span{font-size:15px;color:var(--mute);line-height:1.35}
+.time{font-weight:600;white-space:nowrap;margin:4px 0;color:var(--maroon)}
+.count{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:10px 0 18px}
+.count div{background:#fffaf0;border:1px solid var(--line);border-radius:16px;padding:12px 2px}
+.count b{display:block;font:600 clamp(22px,7vw,28px)/1 Cinzel,serif;color:var(--maroon)}
+.count small{font-size:13px;color:var(--mute)}
+.map{width:100%;aspect-ratio:4/3;border-radius:22px;border:1px solid var(--line);margin:8px 0 14px;display:block}
+.gal{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:8px}
+.gal div{aspect-ratio:3/4;border-radius:18px;background:linear-gradient(170deg,#f3e8d2,#e2cfa6);display:grid;place-items:center;color:var(--mute);font-size:13px;border:1px solid var(--line)}
+.gal div:first-child{grid-column:span 2;aspect-ratio:16/10;border-radius:120px 120px 18px 18px}
+.story{list-style:none;margin:6px 0 0;padding:0 0 0 26px;text-align:start;position:relative}
+.story::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:1px;background:var(--gold)}
+.story li{position:relative;margin:0 0 18px}
+.story li::before{content:"";position:absolute;left:-24px;top:7px;width:12px;height:12px;transform:rotate(45deg);background:var(--gold2);border:1.5px solid var(--maroon)}
+.story h4{margin:0;font:600 15px Cinzel,serif;color:var(--maroon);letter-spacing:.04em}
+.story p{margin:2px 0 0;color:var(--mute);font-size:15px}
+form{text-align:start;display:grid;gap:13px}
+label{font:600 13px Cinzel,serif;letter-spacing:.06em;color:var(--maroon)}
+input,select,textarea{width:100%;margin-top:6px;font:16px Lora,serif;color:var(--ink);background:#fffaf0;border:1px solid var(--line);border-radius:14px;padding:11px 14px;min-height:46px}
+textarea{min-height:96px;resize:vertical}
+.row2{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:10px}
+.wishes{max-height:50svh;overflow:auto;display:grid;gap:10px;text-align:start;padding-right:4px}
+.wish{background:#fffaf0;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.wish b{color:var(--maroon)}
+.wish em{font-style:normal;font-size:12px;font-weight:600;color:#fff;background:var(--gold);border-radius:99px;padding:1px 9px;margin-left:6px;white-space:nowrap}
+.wish em.no{background:#b9a58f}
+.wish p{margin:4px 0 0;font-size:15px}
+.stat{display:flex;gap:10px;justify-content:center;margin:0 0 12px;color:var(--mute);font-size:15px}
+.stat b{color:var(--maroon)}
+.tabs{display:flex;justify-content:center;gap:8px;margin:10px 0 14px;flex-wrap:wrap}
+.tabs button{min-height:44px;padding:0 16px;border-radius:99px;border:1px solid var(--gold);background:#fffaf0;color:var(--maroon);font:600 13px Cinzel,serif;cursor:pointer}
+.tabs button.on{background:var(--maroon);color:#fff;border-color:var(--maroon)}
+.tabp{display:none;background:#fffaf0;border:1px solid var(--line);border-radius:22px;padding:18px 14px}
+.tabp.on{display:block}
+.acct{font:600 22px Cinzel,serif;letter-spacing:.1em;color:var(--maroon);margin:4px 0}
+.fam{display:grid;gap:12px;margin:8px 0}
+.fam div{background:#fffaf0;border:1px solid var(--line);border-radius:18px;padding:12px}
+.fam b{display:block;font:600 12px Cinzel,serif;color:var(--gold);letter-spacing:.12em}
+.sample{font-size:13px;color:var(--mute);margin-top:12px}
+.petals{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden;display:none}
+.petals.on{display:block}
+.petals i{position:absolute;top:-20px;width:11px;height:8px;border-radius:60% 40% 60% 40%;background:var(--rose);opacity:.8;animation:fall linear infinite}
+.petals i:nth-child(3n){background:#e6cf98;border-radius:50%;width:6px;height:6px}
+@keyframes fall{to{transform:translate(var(--dx),110vh) rotate(540deg)}}
+.nav{position:fixed;left:50%;bottom:10px;translate:-50% 0;z-index:30;width:min(480px,calc(100vw - 20px));display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:6px;border-radius:22px;background:#6e1f2bed;backdrop-filter:blur(8px);box-shadow:0 10px 30px #0004;opacity:0;transform:translateY(30px);transition:.6s}
+.nav::-webkit-scrollbar{display:none}
+.nav.show{opacity:1;transform:none}
+.nav button{flex:none;min-width:62px;min-height:52px;border:0;border-radius:16px;background:none;color:#ead9b8;display:grid;justify-items:center;align-content:center;gap:2px;font:12px Lora,serif;cursor:pointer;padding:4px 6px}
+.nav button.on{background:var(--gold2);color:var(--maroon)}
+.music{position:fixed;right:max(12px,calc(50vw - 240px));bottom:86px;z-index:31;width:48px;height:48px;border-radius:50%;border:1px solid var(--gold);background:#fffaf0;color:var(--maroon);display:none;place-items:center;cursor:pointer;box-shadow:0 6px 18px #0003}
+.music.show{display:grid}
+.music svg{width:22px;height:22px;fill:currentColor}
+.music.playing svg{animation:spin 4s linear infinite}
+@keyframes spin{to{rotate:360deg}}
+.toast{position:fixed;left:50%;bottom:150px;translate:-50% 20px;z-index:60;background:var(--maroon);color:#fff;padding:10px 18px;border-radius:99px;font-size:14px;opacity:0;transition:.3s;pointer-events:none}
+.toast.show{opacity:1;translate:-50% 0}
+.rv .card>*{opacity:0;transform:translateY(20px);transition:opacity .9s ease .15s,transform .9s ease .15s}
+.rv.in .card>*{opacity:1;transform:none}
+.last{padding-bottom:120px}
+@media(min-width:960px){
+ body{background:#e3d3b4}
+ .layout{display:grid;grid-template-columns:minmax(0,1fr) 500px;max-width:1240px;margin:0 auto;gap:40px;padding:0 32px}
+ aside{display:block;position:sticky;top:0;height:100vh;padding:28px 0}
+ aside .pg{min-height:0;height:100%;border-radius:36px;border:1px solid var(--line)}
+ main{margin:0}
+ .nav{left:auto;right:max(42px,calc(50vw - 578px));translate:0 0;width:470px}
+ .music{right:max(52px,calc(50vw - 568px))}
+ @keyframes flyx{0%{translate:-80px 0}50%{translate:260px -40px}100%{translate:580px 10px}}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv .card>*{opacity:1;transform:none}.petals,.dove{display:none!important}}
+</style>
+</head>
+<body class="locked">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <defs>
+  <linearGradient id="gd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a6a32"/><stop offset=".45" stop-color="#ead39c"/><stop offset=".7" stop-color="#b08a4a"/><stop offset="1" stop-color="#7a5a28"/></linearGradient>
+  <radialGradient id="rg1" cx="50%" cy="60%" r="70%"><stop offset="0" stop-color="#d7798a"/><stop offset=".55" stop-color="#a8394c"/><stop offset="1" stop-color="#5e1622"/></radialGradient>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f8f0e0"/><stop offset="1" stop-color="#ead9b8"/></linearGradient>
+  <pattern id="barp" width="36" height="30" patternUnits="userSpaceOnUse"><rect width="36" height="30" fill="#6e1f2b"/><path d="M0 4h36M0 26h36" stroke="#c9a55c" stroke-width="1"/><path d="M5 23 18 8 31 23Z" fill="none" stroke="#e6cf98" stroke-width="1.1"/><path d="M18 14l3 4-3 4-3-4z" fill="#c9a55c"/></pattern>
+  <pattern id="bilik" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#eadcbc"/><path d="M0 8 8 0M-2 2 2-2M6 10 10 6" stroke="#cdb488" stroke-width="1"/></pattern>
+  <g id="fil" fill="none" stroke="url(#gd)" stroke-linecap="round">
+   <path d="M6 6C50 8 92 20 118 52C128 64 126 80 112 82C100 84 96 70 106 66" stroke-width="3"/>
+   <path d="M6 6C8 50 20 92 52 118C64 128 80 126 82 112C84 100 70 96 66 106" stroke-width="3"/>
+   <path d="M70 30c14-6 26 4 20 14c-4 6-12 4-12-2M30 70c-6 14 4 26 14 20c6-4 4-12-2-12" stroke-width="2"/>
+   <path d="M120 40c10-2 18 6 14 12M40 120c-2 10 6 18 12 14" stroke-width="1.6"/>
+   <g fill="url(#gd)" stroke="none"><path d="M18 18C40 16 60 26 68 44C54 37 41 37 30 46C35 35 31 26 18 18Z"/><path d="M18 18C16 40 26 60 44 68C37 54 37 41 46 30C35 35 26 31 18 18Z"/><path d="M84 18c10 0 18 6 22 14c-8-4-15-3-20 2c1-6 0-11-2-16Z"/><path d="M18 84c0 10 6 18 14 22c-4-8-3-15 2-20c-6 1-11 0-16-2Z"/>
+   <circle cx="54" cy="54" r="4"/><circle cx="66" cy="66" r="3"/><circle cx="76" cy="76" r="2"/><circle cx="140" cy="54" r="2.5"/><circle cx="54" cy="140" r="2.5"/></g>
+   <path d="M10 10l14 6M10 10l6 14M10 10l12 12" stroke-width="1.4"/>
+  </g>
+  <g id="rose"><g fill="url(#rg1)" stroke="#5e1622" stroke-width=".5"><ellipse cy="-12" rx="16" ry="19"/><ellipse cy="-12" rx="16" ry="19" transform="rotate(60)"/><ellipse cy="-12" rx="16" ry="19" transform="rotate(120)"/><ellipse cy="-12" rx="16" ry="19" transform="rotate(180)"/><ellipse cy="-12" rx="16" ry="19" transform="rotate(240)"/><ellipse cy="-12" rx="16" ry="19" transform="rotate(300)"/></g>
+   <g fill="#8b2a38" stroke="#5e1622" stroke-width=".5"><ellipse cy="-6" rx="10" ry="12" transform="rotate(30)"/><ellipse cy="-6" rx="10" ry="12" transform="rotate(150)"/><ellipse cy="-6" rx="10" ry="12" transform="rotate(270)"/></g>
+   <circle r="6" fill="#6b1a27"/><path d="M0 0c4-2 6 2 3 5c-4 4-10 0-8-5c3-7 13-6 15 1" fill="none" stroke="#3e0b13" stroke-width="1.2"/></g>
+  <g id="dleaf"><path d="M0 0C12-10 30-10 44 2C30 12 12 10 0 0Z" fill="#6f7d5f"/><path d="M2 0H40" stroke="#9aa88a" stroke-width=".7"/></g>
+  <g id="rcl">
+   <use href="#dleaf" transform="translate(20,40) rotate(10)"/><use href="#dleaf" transform="translate(30,30) rotate(70)"/><use href="#dleaf" transform="translate(60,24) rotate(-10) scale(.8)"/><use href="#dleaf" transform="translate(26,60) rotate(95) scale(.8)"/>
+   <g fill="none" stroke="#c9a55c" stroke-width="1"><path d="M40 40C70 50 90 70 110 72M40 40C50 70 70 90 72 110"/></g>
+   <g fill="#e6cf98"><circle cx="110" cy="72" r="3"/><circle cx="96" cy="64" r="2"/><circle cx="72" cy="110" r="3"/><circle cx="64" cy="96" r="2"/></g>
+   <g fill="#f7efe0" stroke="#dcc59a" stroke-width=".5"><circle cx="84" cy="40" r="2.5"/><circle cx="92" cy="46" r="2"/><circle cx="40" cy="86" r="2.5"/><circle cx="46" cy="94" r="2"/></g>
+   <use href="#rose" transform="translate(32,30) scale(1.25)"/><use href="#rose" transform="translate(76,46) scale(.85)"/><use href="#rose" transform="translate(40,80) scale(.8)"/>
+   <g fill="#a8394c"><ellipse cx="102" cy="30" rx="5" ry="7" transform="rotate(40 102 30)"/><ellipse cx="22" cy="104" rx="5" ry="7" transform="rotate(-20 22 104)"/></g>
+  </g>
+  <g id="tassel"><path d="M0 0V9" stroke="#c9a55c"/><path d="M0 9l5 7-5 7-5-7z" fill="#a8394c" stroke="#c9a55c"/><path d="M-2 23v6M0 23v7M2 23v6" stroke="#c9a55c"/></g>
+  <g id="spark"><path d="M7 0C7.6 5 9 6.4 14 7C9 7.6 7.6 9 7 14C6.4 9 5 7.6 0 7C5 6.4 6.4 5 7 0Z" fill="currentColor"/></g>
+  <g id="dove"><path d="M-20 4C-8 11 10 10 20 0C24-4 28-5 31-2C28-1 26 1 23 3C16 11 0 14-14 10C-21 9-27 6-30 1C-26 4-23 4-20 4Z" fill="#fff" stroke="#d8c7a6" stroke-width=".8"/><circle cx="25" cy="-1.5" r=".9" fill="#4a2a22"/><path d="M-30 1-38-4-36 4-40 8-30 5Z" fill="#fff" stroke="#d8c7a6" stroke-width=".8"/><g class="wg"><path d="M-6 2C-12-10-4-24 12-26C6-16 10-6 6 2Z" fill="#fff" stroke="#d8c7a6" stroke-width=".8"/></g></g>
+  <g id="palm"><path d="M62 260C58 200 54 140 66 70" stroke="#c7ad7e" stroke-width="6" fill="none" stroke-linecap="round"/><g fill="none" stroke="#c7ad7e" stroke-width="4" stroke-linecap="round"><path d="M66 70C40 52 20 56 4 74"/><path d="M66 70C46 40 26 30 10 34"/><path d="M66 70C64 38 74 18 92 8"/><path d="M66 70C90 50 108 52 120 66"/><path d="M66 70C88 66 104 84 110 104"/><path d="M66 70C50 74 36 92 34 112"/></g></g>
+  <g id="cloud" fill="#fbf5ea" stroke="#e2cfa6" stroke-width="1.2"><path d="M0 0a12 12 0 0 1 22-6a14 14 0 0 1 26 2a10 10 0 0 1 8 16H-4a8 8 0 0 1 4-12Z"/><path d="M14 4a5 5 0 1 1 6 6" fill="none"/></g>
+  <g id="land">
+   <rect width="400" height="700" fill="url(#sky)"/>
+   <use href="#cloud" transform="translate(40,90) scale(1.3)"/><use href="#cloud" transform="translate(250,60) scale(1.1)"/><use href="#cloud" transform="translate(300,170) scale(.9)"/><use href="#cloud" transform="translate(70,220) scale(.8)"/>
+   <path d="M0 360 70 290 120 330 190 240 260 320 320 280 400 340V700H0Z" fill="#e6d4ad"/>
+   <path d="M0 420C80 390 140 400 200 380C280 360 330 390 400 380V700H0Z" fill="#eadcbc"/>
+   <g fill="none" stroke="#d8c294" stroke-width="2"><path d="M0 470C100 450 300 450 400 470M0 520C100 500 300 500 400 520M0 570C100 552 300 552 400 570M0 620C100 604 300 604 400 620"/></g>
+   <use href="#palm" transform="translate(-10,330) scale(.9)"/><use href="#palm" transform="translate(300,350) scale(.8)"/><use href="#palm" transform="translate(330,300) scale(1.05)"/><use href="#palm" transform="translate(20,380) scale(.65)"/>
+  </g>
+  <g id="sunda">
+   <ellipse cx="130" cy="186" rx="120" ry="9" fill="#dccaa0"/>
+   <g fill="#b89a68"><rect x="66" y="152" width="10" height="30"/><rect x="104" y="152" width="10" height="30"/><rect x="146" y="152" width="10" height="30"/><rect x="184" y="152" width="10" height="30"/></g>
+   <rect x="58" y="98" width="144" height="56" fill="url(#bilik)" stroke="#9c7a45"/>
+   <rect x="58" y="146" width="144" height="8" fill="#9c7a45"/>
+   <rect x="84" y="112" width="20" height="18" fill="#7a5a3a"/><rect x="156" y="112" width="20" height="18" fill="#7a5a3a"/><path d="M94 112v18M166 112v18M84 121h20M156 121h20" stroke="#eadcbc"/>
+   <rect x="118" y="108" width="24" height="40" fill="#6e1f2b"/>
+   <path d="M116 182l6-28h16l6 28z" fill="#cdb488" stroke="#9c7a45"/><path d="M118 172h24M120 162h20" stroke="#9c7a45"/>
+   <path d="M66 100 130 28 194 100Z" fill="#8a6440"/>
+   <path d="M10 118C40 104 58 98 74 86L66 100Z" fill="#5a3a26"/><path d="M250 118C220 104 202 98 186 86L194 100Z" fill="#5a3a26"/>
+   <path d="M20 116 66 98H194L240 116 232 121H28Z" fill="#7a5a3a"/>
+   <g stroke="#8a6a48" stroke-width="1.2"><path d="M84 92 130 38 176 92M98 92 130 54 162 92"/></g>
+   <path d="M120 20 140 40M140 20 120 40" stroke="#5a3a26" stroke-width="3" stroke-linecap="round"/>
+   <g fill="#c9a55c"><circle cx="120" cy="20" r="2.5"/><circle cx="140" cy="20" r="2.5"/></g>
+  </g>
+  <g id="gadang">
+   <ellipse cx="200" cy="222" rx="196" ry="11" fill="#dccaa0"/>
+   <g fill="#b89a68"><rect x="78" y="170" width="8" height="46"/><rect x="128" y="170" width="8" height="46"/><rect x="178" y="170" width="8" height="46"/><rect x="214" y="170" width="8" height="46"/><rect x="264" y="170" width="8" height="46"/><rect x="314" y="170" width="8" height="46"/></g>
+   <rect x="66" y="118" width="268" height="56" fill="#f3e6cc" stroke="#9c7a45"/>
+   <rect x="66" y="118" width="268" height="14" fill="url(#barp)"/>
+   <rect x="66" y="162" width="268" height="12" fill="#c9a55c" opacity=".7"/>
+   <g fill="#6e1f2b"><rect x="88" y="138" width="16" height="20" rx="8"/><rect x="124" y="138" width="16" height="20" rx="8"/><rect x="160" y="138" width="16" height="20" rx="8"/><rect x="224" y="138" width="16" height="20" rx="8"/><rect x="260" y="138" width="16" height="20" rx="8"/><rect x="296" y="138" width="16" height="20" rx="8"/></g>
+   <path d="M186 174h28v-34a14 14 0 0 0-28 0z" fill="#8a6a32"/>
+   <path d="M180 216l6-42h28l6 42z" fill="#e6d4ad" stroke="#9c7a45"/>
+   <path d="M22 34Q70 120 118 22Q160 112 200 8Q240 112 282 22Q330 120 378 34L340 122H60Z" fill="#5a3a26"/>
+   <path d="M30 44Q72 118 118 34Q160 116 200 22Q240 116 282 34Q328 118 370 44" fill="none" stroke="#8a6a48" stroke-width="2"/>
+   <path d="M40 60Q76 120 118 50Q160 120 200 40Q240 120 282 50Q324 120 360 60" fill="none" stroke="#8a6a48" stroke-width="1.5"/>
+   <g fill="#c9a55c"><circle cx="22" cy="32" r="4"/><circle cx="118" cy="20" r="4"/><circle cx="200" cy="6" r="4.5"/><circle cx="282" cy="20" r="4"/><circle cx="378" cy="32" r="4"/></g>
+   <path d="M60 122h280" stroke="#c9a55c" stroke-width="3"/>
+  </g>
+  <g id="siger"></g>
+  <g id="suntiang"></g>
+ </defs>
+</svg>
+
+<div class="petals" id="petals"></div>
+
+<div class="cover" id="cover"><div class="pg" data-deco="cover">
+ <div class="card" style="padding-top:clamp(70px,20vw,90px);padding-bottom:40px">
+  <div class="kicker">THE WEDDING OF</div>
+  <svg class="crown" viewBox="-60 -70 120 90"><use href="#suntiang"/></svg>
+  <div class="big script">Ratna</div>
+  <div class="amp">&amp;</div>
+  <div class="big script">Fadli</div>
+  <div class="cz mute" style="font-size:15px;margin-top:4px">Sabtu · 29 · Mei · 2027</div>
+  <div class="toBox"><div class="mute" style="font-size:14px">Kepada Yth. Bapak/Ibu/Saudara/i</div><div class="guest" id="guest" style="margin:2px 0 0">Tamu Undangan</div></div>
+  <div style="margin-top:18px"><button class="btn" id="openBtn">Buka Undangan</button></div>
+  <svg class="houses rise" viewBox="0 0 680 240" style="margin-top:22px"><use href="#sunda" transform="translate(0,48) scale(1)"/><use href="#gadang" transform="translate(262,6) scale(1.04)"/></svg>
+ </div>
+</div></div>
+
+<div class="layout">
+ <aside><div class="pg" data-deco="aside">
+  <div class="card" style="width:min(92%,620px);border-radius:300px 300px 40px 40px">
+   <div class="kicker">SUNDA · MINANG</div>
+   <div class="script" style="font-size:80px;color:var(--maroon)">Ratna &amp; Fadli</div>
+   <div class="cz mute" style="font-size:18px;margin:8px 0 18px">Sabtu, 29 Mei 2027 · Bandung</div>
+   <svg class="houses" viewBox="0 0 680 240"><use href="#sunda" transform="translate(0,48)"/><use href="#gadang" transform="translate(262,6) scale(1.04)"/></svg>
+  </div>
+ </div></aside>
+
+ <main id="main">
+  <section class="pg rv" id="pembuka">
+   <div class="card">
+    <div class="kicker">ASSALAMU'ALAIKUM WR. WB.</div>
+    <h2>Dua Adat, Satu Ikatan</h2>
+    <div class="big script">Ratna &amp; Fadli</div>
+    <svg class="rule" viewBox="0 0 150 20"><path d="M0 10h55M95 10h55" stroke="#b08a4a"/><path d="M75 2l8 8-8 8-8-8z" fill="#6e1f2b" stroke="#b08a4a"/></svg>
+    <p class="it">Mojang Priangan dan bujang Ranah Minang dipertemukan dalam satu niat suci.</p>
+   </div>
+  </section>
+
+  <section class="pg rv" id="ayat">
+   <div class="card">
+    <div class="kicker">BISMILLAHIRRAHMANIRRAHIM</div>
+    <p class="it">"Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan dari jenismu sendiri, agar kamu merasa tenteram kepadanya, dan dijadikan-Nya di antaramu rasa kasih dan sayang."</p>
+    <p class="mute" style="font-size:14px">QS. Ar-Rum: 21 · terjemahan Kemenag RI</p>
+   </div>
+  </section>
+
+  <section class="pg rv" id="wanita">
+   <div class="card box">
+    <span class="tag">MOJANG SUNDA</span>
+    <svg class="crown" viewBox="-60 -50 120 70" style="width:110px"><use href="#siger"/></svg>
+    <div class="photo"><div>R</div></div>
+    <div class="big script" style="font-size:52px">Ratna</div>
+    <div class="full">Ratna Sari Kartika, S.E.</div>
+    <p class="mute">Putri kedua dari<br>Bapak H. Asep Saepudin &amp; Ibu Hj. Euis Komariah</p>
+    <a class="ig" href="https://instagram.com/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg>@ratna.kartika</a>
+   </div>
+  </section>
+
+  <section class="pg rv" id="pria">
+   <div class="card box">
+    <span class="tag">BUJANG MINANG</span>
+    <svg class="crown" viewBox="0 0 400 236" style="width:120px"><use href="#gadang"/></svg>
+    <div class="photo"><div>F</div></div>
+    <div class="big script" style="font-size:52px">Fadli</div>
+    <div class="full">Muhammad Fadli Rahman, S.T.</div>
+    <p class="mute" style="font-size:14px;margin-bottom:6px">Bagala Sutan Mangkuto</p>
+    <p class="mute">Putra pertama dari<br>Bapak Yusrizal Dt. Bandaro &amp; Ibu Nurhasanah</p>
+    <a class="ig" href="https://instagram.com/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg>@fadli.rahman</a>
+   </div>
+  </section>
+
+  <section class="pg rv" id="adat">
+   <div class="card box" style="padding-inline:22px">
+    <h2>Perpaduan Adat</h2>
+    <p class="mute">Dua budaya yang kami hormati di hari bahagia</p>
+    <div class="duo">
+     <div><svg viewBox="-60 -50 120 70"><use href="#siger"/></svg><b>Siger</b><span>Mahkota pengantin wanita Sunda</span></div>
+     <div><svg viewBox="-60 -70 120 90"><use href="#suntiang"/></svg><b>Suntiang</b><span>Hiasan kepala anak daro Minangkabau</span></div>
+     <div><svg viewBox="0 0 260 196"><use href="#sunda"/></svg><b>Julang Ngapak</b><span>Rumah adat Sunda beratap seperti sayap terbentang</span></div>
+     <div><svg viewBox="0 0 400 236"><use href="#gadang"/></svg><b>Rumah Gadang</b><span>Rumah adat Minang beratap gonjong</span></div>
+    </div>
+   </div>
+  </section>
+
+  <section class="pg rv" id="tanggal">
+   <div class="card">
+    <h2>Menghitung Hari</h2>
+    <p class="mute">Menuju Sabtu, 29 Mei 2027</p>
+    <div class="count" id="count"><div><b id="cd-d">0</b><small>Hari</small></div><div><b id="cd-h">00</b><small>Jam</small></div><div><b id="cd-m">00</b><small>Menit</small></div><div><b id="cd-s">00</b><small>Detik</small></div></div>
+    <a class="btn" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pernikahan%20Ratna%20%26%20Fadli&dates=20270529T010000Z/20270529T090000Z&location=Bandung">Simpan ke Kalender</a>
+   </div>
+  </section>
+
+  <section class="pg rv" id="akad">
+   <div class="card box">
+    <h2>Akad Nikah</h2>
+    <div class="date"><span>Sabtu</span><b>29</b><span>Mei<br>2027</span></div>
+    <div class="time">08.00 – 10.00 WIB</div>
+    <p class="mute">Masjid Pusdai Jawa Barat<br>Jl. Diponegoro, Bandung</p>
+    <a class="btn ghost" href="https://www.google.com/maps/search/?api=1&query=Pusdai+Bandung" target="_blank" rel="noopener">Petunjuk Arah</a>
+   </div>
+  </section>
+
+  <section class="pg rv" id="resepsi">
+   <div class="card box">
+    <h2>Resepsi</h2>
+    <div class="date"><span>Sabtu</span><b>29</b><span>Mei<br>2027</span></div>
+    <div class="time">11.00 – 15.00 WIB</div>
+    <p class="mute">Gedung Sasana Budaya Ganesha<br>Jl. Tamansari, Bandung</p>
+    <p class="mute" style="font-size:14px">Diiringi degung Sunda dan talempong Minang</p>
+    <a class="btn ghost" href="https://www.google.com/maps/search/?api=1&query=Bandung" target="_blank" rel="noopener">Petunjuk Arah</a>
+   </div>
+  </section>
+
+  <section class="pg rv" id="lokasi">
+   <div class="card box">
+    <h2>Lokasi</h2>
+    <svg class="map" viewBox="0 0 400 300" aria-label="Ilustrasi peta lokasi">
+     <rect width="400" height="300" fill="#fffaf0"/>
+     <path d="M0 230C80 220 140 170 400 180" stroke="#e6d4ad" stroke-width="12" fill="none"/><path d="M130 0C150 100 170 200 160 300M290 0 300 300" stroke="#e6d4ad" stroke-width="9" fill="none"/>
+     <path d="M0 90H400M0 270H400M60 0V300M350 0V300" stroke="#f1e6cf" stroke-width="5"/>
+     <path d="M300 30c40 10 60 40 100 30v80c-40-6-60-30-100-40z" fill="#dfe6d2"/>
+     <g transform="translate(212,104)"><circle r="30" fill="#6e1f2b" opacity=".12"/><path d="M0 6C-13-7-16-14-16-21a16 16 0 0 1 32 0c0 7-3 14-16 27z" fill="#6e1f2b"/><circle cy="-21" r="5.5" fill="#e6cf98"/></g>
+    </svg>
+    <p class="mute">Gedung Sasana Budaya Ganesha<br>Jl. Tamansari, Bandung</p>
+    <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Bandung" target="_blank" rel="noopener">Buka Google Maps</a>
+   </div>
+  </section>
+
+  <section class="pg rv" id="galeri">
+   <div class="card box" style="padding-inline:20px">
+    <h2>Galeri</h2>
+    <p class="mute">Kenangan menuju hari bahagia</p>
+    <div class="gal"><div>Foto prewedding 1</div><div>Foto 2</div><div>Foto 3</div><div>Foto 4</div><div>Foto 5</div></div>
+   </div>
+  </section>
+
+  <section class="pg rv" id="kisah">
+   <div class="card box">
+    <h2>Kisah Kami</h2>
+    <ul class="story">
+     <li><h4>Bandung · 2019</h4><p>Bertemu di bangku kuliah, ia dari Bukittinggi dan aku asli Garut.</p></li>
+     <li><h4>Bertukar budaya · 2021</h4><p>Belajar rendang dan nasi liwet, belajar sabar dan saling memahami.</p></li>
+     <li><h4>Lamaran · 2026</h4><p>Keluarga dari Ranah Minang datang ke Tanah Pasundan menyampaikan niat baik.</p></li>
+     <li><h4>Menikah · 2027</h4><p>Insya Allah, dua adat menjadi satu keluarga.</p></li>
+    </ul>
+   </div>
+  </section>
+
+  <section class="pg rv" id="rsvp">
+   <div class="card box" style="padding-inline:22px">
+    <h2>Konfirmasi Kehadiran</h2>
+    <p class="mute">Mohon diisi sebelum 22 Mei 2027</p>
+    <form id="rsvpForm">
+     <label>Nama<input id="fName" required maxlength="60" autocomplete="name"></label>
+     <div class="row2"><label>Kehadiran<select id="fAtt"><option value="Hadir">Hadir</option><option value="Tidak Hadir">Tidak hadir</option></select></label>
+     <label>Jumlah<select id="fNum"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></label></div>
+     <label>Ucapan &amp; doa<textarea id="fMsg" required maxlength="400"></textarea></label>
+     <button class="btn" type="submit" style="justify-self:center">Kirim Ucapan</button>
+    </form>
+   </div>
+  </section>
+
+  <section class="pg rv" id="ucapan">
+   <div class="card box" style="padding-inline:20px">
+    <h2>Doa &amp; Ucapan</h2>
+    <div class="stat"><span><b id="sH">0</b> hadir</span>·<span><b id="sT">0</b> berhalangan</span></div>
+    <div class="wishes" id="wishes"></div>
+   </div>
+  </section>
+
+  <section class="pg rv" id="hadiah">
+   <div class="card box" style="padding-inline:20px">
+    <h2>Tanda Kasih</h2>
+    <p class="mute">Doa restu Anda adalah hadiah terindah bagi kami.</p>
+    <div class="tabs" role="tablist"><button class="on" data-tab="t1" role="tab">Amplop Digital</button><button data-tab="t2" role="tab">Kirim Kado</button></div>
+    <div class="tabp on" id="t1"><div class="kicker">BANK BJB</div><div class="acct">0012 3456 7890</div><p class="mute">a.n. Ratna Sari Kartika</p><button class="btn ghost" data-copy="001234567890">Salin Rekening</button></div>
+    <div class="tabp" id="t2"><div class="kicker">ALAMAT KADO</div><p class="mute">Jl. Cigadung Raya No. 15, Cibeunying Kaler, Bandung 40191</p><button class="btn ghost" data-copy="Jl. Cigadung Raya No. 15, Cibeunying Kaler, Bandung 40191">Salin Alamat</button></div>
+   </div>
+  </section>
+
+  <section class="pg rv" id="keluarga">
+   <div class="card box">
+    <h2>Turut Mengundang</h2>
+    <div class="fam">
+     <div><b>KELUARGA MOJANG</b>Bapak H. Asep Saepudin<br>Ibu Hj. Euis Komariah</div>
+     <div><b>KELUARGA BUJANG</b>Bapak Yusrizal Dt. Bandaro<br>Ibu Nurhasanah</div>
+     <div><b>KELUARGA BESAR</b>Wargi Garut &amp; Bandung, niniak mamak dan dunsanak Bukittinggi</div>
+    </div>
+   </div>
+  </section>
+
+  <section class="pg rv last" id="penutup">
+   <div class="card">
+    <p class="it">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.</p>
+    <div class="kicker" style="margin-top:12px">KAMI YANG BERBAHAGIA</div>
+    <div class="big script">Ratna &amp; Fadli</div>
+    <p class="mute" style="margin-top:6px">Hatur nuhun · Tarimo kasih</p>
+    <svg class="houses" viewBox="0 0 680 240" style="margin-top:8px"><use href="#sunda" transform="translate(0,48)"/><use href="#gadang" transform="translate(262,6) scale(1.04)"/></svg>
+    <p class="sample">Nama, gelar, tanggal, alamat, dan rekening di halaman ini adalah data contoh.</p>
+   </div>
+  </section>
+ </main>
+</div>
+
+<nav class="nav" id="nav" aria-label="Navigasi undangan"></nav>
+<button class="music" id="music" aria-label="Putar atau hentikan musik"><svg viewBox="0 0 24 24"><path d="M9 18.5A2.5 2.5 0 1 1 7 16V5l12-2v12.5a2.5 2.5 0 1 1-2-2.45V7.3L9 8.6z"/></svg></button>
+<div class="toast" id="toast"></div>
+
+<script>
+{
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+
+// siger & suntiang (dibangkitkan)
+{let s='<path d="M-52 8Q0-14 52 8L48 16Q0-4-48 16Z" fill="url(#gd)" stroke="#7a5a28" stroke-width=".6"/>';
+ s+='<path d="M-46 8Q0-62 46 8" fill="none" stroke="url(#gd)" stroke-width="3"/><path d="M-36 6Q0-44 36 6" fill="none" stroke="url(#gd)" stroke-width="2"/>';
+ for(let i=0;i<=12;i++){const t=i/12,x=(1-t)**2*-46+2*(1-t)*t*0+t*t*46,y=(1-t)**2*8+2*(1-t)*t*-62+t*t*8;const a=Math.atan2(y+20,x),dx=Math.cos(a)*10,dy=Math.sin(a)*10;
+  s+=`<path d="M${x.toFixed(1)} ${y.toFixed(1)}l${dx.toFixed(1)} ${dy.toFixed(1)}" stroke="#b08a4a" stroke-width="1.4"/><circle cx="${(x+dx).toFixed(1)}" cy="${(y+dy).toFixed(1)}" r="2.6" fill="#e6cf98" stroke="#8a6a32" stroke-width=".5"/>`}
+ s+='<path d="M0-40l7 10-7 10-7-10z" fill="#a8394c" stroke="url(#gd)" stroke-width="1.5"/><circle cy="-30" r="2.5" fill="#e6cf98"/><circle cx="-20" cy="-8" r="3" fill="#a8394c"/><circle cx="20" cy="-8" r="3" fill="#a8394c"/>';
+ $('#siger').innerHTML=s;
+ let u='<path d="M-50 12Q0-4 50 12L46 20Q0 6-46 20Z" fill="url(#gd)" stroke="#7a5a28" stroke-width=".6"/>';
+ [[11,62,0],[9,48,6],[7,34,12]].forEach(([n,L,o])=>{for(let i=0;i<n;i++){const a=(-72+i*144/(n-1))*Math.PI/180,bx=Math.sin(a)*(30-o),by=10-Math.abs(Math.sin(a))*4,tx=bx+Math.sin(a)*L*.55,ty=by-Math.cos(a)*L;
+  u+=`<path d="M${bx.toFixed(1)} ${by.toFixed(1)}L${tx.toFixed(1)} ${ty.toFixed(1)}" stroke="#b08a4a" stroke-width="1"/>`;
+  for(let k=1;k<=3;k++){const px=bx+(tx-bx)*k/3,py=by+(ty-by)*k/3;u+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${k===3?3.4:1.8}" fill="${k===3?'url(#gd)':'#e6cf98'}" stroke="#8a6a32" stroke-width=".4"/>`}}});
+ u+='<g fill="#a8394c"><circle cx="0" cy="4" r="3"/><circle cx="-16" cy="6" r="2"/><circle cx="16" cy="6" r="2"/></g>';
+ $('#suntiang').innerHTML=u;}
+
+// dekorasi tiap halaman
+const sp=(x,y,d)=>`<div class="spk" style="left:${x}%;top:${y}%;animation-delay:${d}s"><svg viewBox="0 0 14 14"><use href="#spark"/></svg></div>`;
+const colSvg=()=>`<svg viewBox="0 0 70 500" preserveAspectRatio="xMinYMid slice">${[[0,.55],[130,.42],[250,.5],[380,.42]].map(([y,k],i)=>`<g class="${i%2?'s2':'s1'}"><use href="#rcl" transform="translate(0,${y}) scale(${k})"/></g>`).join('')}</svg>`;
+const tas=`<svg viewBox="0 0 300 30" preserveAspectRatio="none">${Array.from({length:9},(_,i)=>`<g><use href="#tassel" transform="translate(${18+i*33},0)"/></g>`).join('')}</svg>`;
+let n=0;
+$$('.pg').forEach(pg=>{
+ const side=pg.dataset.deco==='aside';
+ let h=`<div class="land"><svg viewBox="0 0 400 700" preserveAspectRatio="xMidYMax slice"><use href="#land"/></svg></div>`;
+ h+=`<div class="bar"><svg><rect width="100%" height="100%" fill="url(#barp)"/></svg></div><div class="bar b"><svg><rect width="100%" height="100%" fill="url(#barp)"/></svg></div>`;
+ h+=`<div class="tas">${tas}</div>`;
+ h+=['tl','tr','bl','br'].map(c=>`<div class="fil ${c}"><svg viewBox="0 0 150 150"><use href="#fil"/></svg></div>`).join('');
+ const rc=n%2?['tl','br']:['tr','bl'];
+ h+=rc.map(c=>`<div class="ros ${c}"><svg viewBox="0 0 130 130"><g class="sw"><use href="#rcl"/></g></svg></div>`).join('');
+ if(!side)h+=`<div class="col l">${colSvg()}</div><div class="col r">${colSvg()}</div>`;
+ h+=sp(16,20,0)+sp(82,26,-.8)+sp(20,80,-1.4)+sp(80,74,-2)+sp(50,8,-.4)+sp(10,50,-1.1)+sp(90,56,-1.8)+sp(36,92,-.6)+sp(64,90,-1.5);
+ if(n%2===0)h+=`<div class="dove" style="top:${16+(n*7)%22}%;animation-delay:${-n*3}s"><svg viewBox="-42 -28 76 44"><use href="#dove"/></svg></div>`;
+ if(n%3===1)h+=`<div class="dove" style="top:${62+(n*5)%14}%;animation-delay:${-n*5}s;animation-duration:21s;width:38px"><svg viewBox="-42 -28 76 44"><use href="#dove"/></svg></div>`;
+ pg.insertAdjacentHTML('afterbegin',h);n++;
+});
+
+// nama tamu
+const q=new URLSearchParams(location.search).get('to');
+const hh=decodeURIComponent(location.hash.slice(1)||'').replace(/[-_+]/g,' ').trim();
+const nm=(q||hh||'').slice(0,60);
+if(nm){$('#guest').textContent=nm;$('#fName').value=nm}
+
+$('#petals').innerHTML=Array.from({length:26},(_,i)=>`<i style="left:${(i*37)%100}%;--dx:${(i%2?1:-1)*(30+i*7)}px;animation-duration:${9+(i%5)*2}s;animation-delay:${-i*1.3}s;scale:${.7+(i%3)*.25}"></i>`).join('');
+
+// navigasi
+const items=[['pembuka','Pembuka','M4 20V10l8-6 8 6v10z'],['wanita','Mojang','M12 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM6 21l2-6h8l2 6'],['pria','Bujang','M12 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM5 21c1-4 4-6 7-6s6 2 7 6'],['adat','Adat','M3 20h18M5 20V11l7-6 7 6v9'],['tanggal','Tanggal','M3 6h18v15H3zM3 10h18M8 3v4M16 3v4'],['akad','Akad','M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z'],['resepsi','Resepsi','M8 21h8M12 21v-6M6 3h12l-2 8a4 4 0 0 1-8 0z'],['lokasi','Lokasi','M12 21s-6-6-6-11a6 6 0 0 1 12 0c0 5-6 11-6 11zM12 12a2 2 0 1 0 0-4a2 2 0 0 0 0 4z'],['galeri','Galeri','M4 5h16v14H4zM4 15l5-5 4 4 3-3 4 4'],['kisah','Kisah','M4 5h7v14H4zM13 5h7v14h-7z'],['rsvp','RSVP','M5 12l4 4L19 6'],['ucapan','Ucapan','M4 5h16v11H9l-5 4z'],['hadiah','Hadiah','M4 11h16v9H4zM3 7h18v4H3zM12 7v13']];
+$('#nav').innerHTML=items.map(([id,l,d])=>`<button data-go="${id}"><svg viewBox="0 0 24 24"><path d="${d}"/></svg>${l}</button>`).join('');
+$$('.nav button').forEach(b=>b.addEventListener('click',()=>document.getElementById(b.dataset.go).scrollIntoView({behavior:'smooth'})));
+const spy=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){$$('.nav button').forEach(b=>{const on=b.dataset.go===e.target.id;b.classList.toggle('on',on);if(on)b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'})})}}),{rootMargin:'-45% 0px -50% 0px'});
+$$('main section').forEach(s=>spy.observe(s));
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.2});
+$$('.rv').forEach(el=>io.observe(el));
+
+// musik petikan bernuansa kecapi (WebAudio)
+let ac=null,out=null,playing=false,timer=null,next=0,step=0;
+const sc=[293.7,311.1,392,440,466.2,587.3,622.3];
+const mel=[0,2,3,4,3,2,0,1,2,3,5,4,3,2,1,0];
+function pluck(f,t,v){const o=ac.createOscillator(),g=ac.createGain(),fl=ac.createBiquadFilter();o.type='triangle';o.frequency.value=f;fl.type='lowpass';fl.frequency.setValueAtTime(f*6,t);fl.frequency.exponentialRampToValueAtTime(f*1.2,t+.6);
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.005);g.gain.exponentialRampToValueAtTime(.0001,t+1.4);o.connect(fl);fl.connect(g);g.connect(out);o.start(t);o.stop(t+1.5)}
+function sched(){while(next<ac.currentTime+.5){const f=sc[mel[step%16]];pluck(f,next,.12);if(step%2===0)pluck(f*2,next+.18,.04);if(step%8===0)pluck(sc[0]/2,next,.09);next+=.36;step++}}
+function startMusic(){try{if(!ac){ac=new (window.AudioContext||window.webkitAudioContext)();out=ac.createGain();out.gain.value=.9;const d=ac.createDelay();d.delayTime.value=.36;const fb=ac.createGain();fb.gain.value=.3;out.connect(ac.destination);out.connect(d);d.connect(fb);fb.connect(d);d.connect(ac.destination)}
+ ac.resume();next=ac.currentTime+.1;timer=setInterval(sched,120);playing=true;$('#music').classList.add('playing')}catch(e){}}
+function stopMusic(){clearInterval(timer);playing=false;$('#music').classList.remove('playing');try{ac&&ac.suspend()}catch(e){}}
+$('#music').addEventListener('click',()=>playing?stopMusic():startMusic());
+
+$('#openBtn').addEventListener('click',()=>{$('#cover').classList.add('open');document.body.classList.remove('locked');$('#nav').classList.add('show');$('#music').classList.add('show');$('#petals').classList.add('on');startMusic();window.scrollTo(0,0);setTimeout(()=>{$('#cover').style.display='none'},1400)});
+
+// hitung mundur
+const target=new Date('2027-05-29T08:00:00+07:00').getTime(),pad=v=>String(v).padStart(2,'0');
+function tick(){const d=Math.max(0,target-Date.now());
+ if(!d){$('#count').innerHTML='<div style="grid-column:1/-1"><b>Alhamdulillah</b><small>Acara telah berlangsung</small></div>';clearInterval(ct);return}
+ $('#cd-d').textContent=Math.floor(d/864e5);$('#cd-h').textContent=pad(Math.floor(d/36e5)%24);$('#cd-m').textContent=pad(Math.floor(d/6e4)%60);$('#cd-s').textContent=pad(Math.floor(d/1e3)%60)}
+const ct=setInterval(tick,1000);tick();
+
+$$('.tabs button').forEach(b=>b.addEventListener('click',()=>{$$('.tabs button').forEach(x=>x.classList.toggle('on',x===b));$$('.tabp').forEach(p=>p.classList.toggle('on',p.id===b.dataset.tab))}));
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2200)}
+$$('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(b.dataset.copy);toast('Berhasil disalin')}catch(e){toast(b.dataset.copy)}}));
+
+const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const seed=[{n:'Keluarga Pak RT Cigadung',a:'Hadir',m:'Wilujeng nikah, mugia janten kulawarga sakinah, mawaddah, warahmah.'},{n:'Mamak Rizal di Bukittinggi',a:'Hadir',m:'Salamat baralek, Fadli jo Ratna. Samoga barakah.'},{n:'Teman kantor Ratna',a:'Tidak Hadir',m:'Maaf belum bisa hadir, doa terbaik untuk kalian berdua.'}];
+let mine=[];try{mine=JSON.parse(localStorage.getItem('rsvp-rf')||'[]')}catch(e){}
+function render(){const all=[...mine,...seed];$('#wishes').innerHTML=all.map(w=>`<div class="wish"><b>${esc(w.n)}</b><em class="${w.a==='Hadir'?'':'no'}">${esc(w.a)}</em><p>${esc(w.m)}</p></div>`).join('');$('#sH').textContent=all.filter(w=>w.a==='Hadir').length;$('#sT').textContent=all.filter(w=>w.a!=='Hadir').length}
+render();
+$('#rsvpForm').addEventListener('submit',e=>{e.preventDefault();const w={n:$('#fName').value.trim(),a:$('#fAtt').value,m:$('#fMsg').value.trim()};if(!w.n||!w.m)return;mine.unshift(w);try{localStorage.setItem('rsvp-rf',JSON.stringify(mine.slice(0,30)))}catch(err){}render();$('#fMsg').value='';toast('Hatur nuhun, ucapan terkirim');setTimeout(()=>$('#ucapan').scrollIntoView({behavior:'smooth'}),600)});
+}
+</script>
+</body>
+</html>

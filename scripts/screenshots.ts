@@ -15,7 +15,8 @@ const out = "public/screens";
 const viewport = { width: 390, height: 844 };
 const themes = ["blue-butterfly", "red-beige", "minang-pastel", "sunda-minang", "gold-blush", "sage-botanical"];
 const FEATURE_THEME = "gold-blush";
-const FEATURES = ["cover", "acara", "rsvp", "wishes", "gift"];
+// [nama file, id halaman]: acara berisi satu halaman per acara, ambil yang pertama.
+const FEATURES = [["cover", "cover"], ["acara", "acara-1"], ["rsvp", "rsvp"], ["wishes", "wishes"], ["gift", "gift"]];
 const hideWatermark = "[aria-hidden='true'].fixed{display:none!important} *{animation:none!important;transition:none!important}";
 
 const webp = (png: Buffer, file: string) => sharp(png).resize({ width: 540 }).webp({ quality: 72 }).toFile(`${out}/${file}.webp`);
@@ -34,19 +35,25 @@ for (const slug of themes) {
 const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
 const { data: user, error: userErr } = await db.auth.admin.createUser({ email: `demo-${Date.now()}@example.com`, email_confirm: true });
 if (userErr) throw userErr;
-const { data: theme } = await db.from("themes").select("id").eq("slug", FEATURE_THEME).single();
-const { data: inv, error: invErr } = await db.from("invitations").insert({
-  owner_id: user.user.id, theme_id: theme!.id, data: sampleData, status: "published", expires_at: new Date(Date.now() + 86_400_000).toISOString(),
+let inv: { id: string; slug: string } | undefined;
+
+// Semua langkah setelah user dibuat ada di dalam try, supaya data demo selalu dihapus walau gagal.
+try {
+const { data: theme, error: themeErr } = await db.from("themes").select("id").eq("slug", FEATURE_THEME).single();
+if (themeErr) throw themeErr;
+const { data: created, error: invErr } = await db.from("invitations").insert({
+  owner_id: user.user.id, theme_id: theme.id, data: sampleData, status: "published", expires_at: new Date(Date.now() + 86_400_000).toISOString(),
 }).select("id, slug").single();
 if (invErr) throw invErr;
-await db.from("wishes").insert([
+inv = created;
+const { error: wishErr } = await db.from("wishes").insert([
   { invitation_id: inv.id, name: "Bapak Ahmad", attendance: "hadir", pax: 2, message: "Selamat menempuh hidup baru, semoga sakinah mawaddah warahmah." },
   { invitation_id: inv.id, name: "Ibu Sari", attendance: "hadir", pax: 1, message: "Bahagia selalu untuk Rina & Dimas!" },
   { invitation_id: inv.id, name: "Andi", attendance: "ragu", pax: 1, message: "Barakallah, semoga lancar sampai hari H." },
 ]);
+if (wishErr) throw wishErr;
 const demoUrl = `${base}/${inv.slug}`;
 
-try {
 // Turnstile membuat jaringan tidak pernah idle: tunggu load + RSVP ter-hydrate.
 const openDemo = async (p: typeof page) => {
   await p.goto(`${demoUrl}?to=${encodeURIComponent("Bapak Ahmad")}`, { waitUntil: "load" });
@@ -55,10 +62,10 @@ const openDemo = async (p: typeof page) => {
 };
 await openDemo(page);
 await page.addStyleTag({ content: hideWatermark });
-for (const s of FEATURES) {
-  const el = page.locator(`[data-section="${s}"]`);
+for (const [name, id] of FEATURES) {
+  const el = page.locator(`#${id}`);
   await el.scrollIntoViewIfNeeded();
-  await webp(await el.screenshot(), `fitur-${s}`);
+  await webp(await el.screenshot(), `fitur-${name}`);
 }
 
 // Rekaman layar ≤ 10 dtk: gulir pelan dari sampul ke RSVP.
@@ -81,8 +88,10 @@ await rm(`${out}/tmp`, { recursive: true });
 
 } finally {
 await browser.close();
-await db.from("wishes").delete().eq("invitation_id", inv.id);
-await db.from("invitations").delete().eq("id", inv.id);
+if (inv) {
+  await db.from("wishes").delete().eq("invitation_id", inv.id);
+  await db.from("invitations").delete().eq("id", inv.id);
+}
 await db.auth.admin.deleteUser(user.user.id);
 }
 console.log("Selesai:", (await readdir(out)).join(", "));

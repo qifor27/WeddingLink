@@ -12,10 +12,11 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <SiteShell>
-      <section className="mx-auto max-w-6xl space-y-8 px-4 py-12 pb-28">
-        <div className="space-y-2 text-center">
-          <h1 className="font-display text-4xl md:text-5xl">Katalog tema</h1>
-          <p className="text-ink/80">Ketuk tema untuk melihat detail dan preview dengan nama Anda.</p>
+      <section className="mx-auto max-w-6xl space-y-12 px-4 py-16 pb-32">
+        <div className="space-y-4 text-center">
+          <p className="text-xs tracking-[0.3em] text-gold-deep uppercase">Katalog tema</p>
+          <h1 className="font-display text-4xl md:text-5xl">Temukan gaya undangan Anda</h1>
+          <p className="text-ink/75">Adat, modern, atau minimalis. Ketuk tema untuk melihat detail dan preview dengan nama Anda.</p>
         </div>
         <ThemeGallery themes={themes.map(({ slug, name, category }) => ({ slug, name, category }))} />
       </section>

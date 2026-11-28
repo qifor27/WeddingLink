@@ -2,10 +2,11 @@
 
 export type Pkg = { code: string; name: string; price: number; active_days: number; features: Record<string, unknown> };
 
+export const activeMonths = (p: Pkg) => Math.round(p.active_days / 30);
+
 // Isi paket dari kolom features (DB), bukan teks hardcode, supaya ikut berubah bila paket diubah.
 export function packageFeatures(p: Pkg) {
   const f = p.features;
-  const months = Math.round(p.active_days / 30);
   return [
     f.self_edit ? "Isi & edit sendiri lewat dashboard" : "Dibuatkan admin, Anda cukup kirim data",
     f.photos ? "Foto mempelai & galeri" : "Tema tanpa foto",
@@ -13,7 +14,7 @@ export function packageFeatures(p: Pkg) {
     "RSVP & ucapan anti-spam",
     typeof f.revisions === "number" && f.revisions > 0 ? `${f.revisions}× revisi` : f.revisions === "wajar" ? "Revisi wajar" : null,
     f.priority ? "Pengerjaan prioritas" : null,
-    `Aktif ${months} bulan sejak terbit`,
+    `Aktif ${activeMonths(p)} bulan sejak terbit`,
   ].filter((x): x is string => !!x);
 }
 

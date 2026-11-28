@@ -25,7 +25,7 @@ export function UploadProof({ orderId, hasProof }: { orderId: string; hasProof: 
         <span className="mb-1 block text-sm">{hasProof ? "Ganti bukti transfer" : "Unggah bukti transfer"} (JPG/PNG/PDF, maks. 5 MB)</span>
         <input name="file" type="file" required accept="image/jpeg,image/png,application/pdf" className="block w-full text-sm" />
       </label>
-      <button disabled={busy} className="min-h-11 rounded-full bg-rose px-5 text-sm font-semibold text-white disabled:opacity-60">
+      <button disabled={busy} className="min-h-11 rounded-full bg-ink px-5 text-sm font-semibold text-white disabled:opacity-60">
         {busy ? "Mengunggah…" : "Kirim bukti"}
       </button>
       {msg && <p role="alert" className="text-sm">{msg}</p>}

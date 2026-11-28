@@ -10,8 +10,6 @@ declare global {
   }
 }
 
-const field = "w-full rounded-xl border border-(--muted)/40 bg-(--surface) px-4 py-3";
-
 export function RsvpForm({ invitationId }: { invitationId: string }) {
   const params = useSearchParams();
   const [attendance, setAttendance] = useState("hadir");
@@ -40,21 +38,23 @@ export function RsvpForm({ invitationId }: { invitationId: string }) {
   }
 
   if (state.status === "done") {
-    return <p className="rounded-2xl bg-(--surface) p-6">Terima kasih! Konfirmasi dan ucapan Anda sudah kami terima.</p>;
+    return <p className="box">Terima kasih! Konfirmasi dan ucapan Anda sudah kami terima.</p>;
   }
 
   return (
-    <form onSubmit={submit} className="space-y-4 text-left">
-      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="lazyOnload" />
-      <label className="block">
-        <span className="mb-1 block text-sm">Nama</span>
-        <input name="name" required maxLength={60} defaultValue={params.get("to")?.slice(0, 60) ?? ""} className={field} />
+    <form onSubmit={submit} className="rsvp">
+      {/* afterInteractive, bukan lazyOnload: animasi ornamen tema membuat browser jarang idle,
+          sehingga skrip lazyOnload bisa tidak pernah dimuat. */}
+      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
+      <label>
+        <span>Nama</span>
+        <input name="name" required maxLength={60} defaultValue={params.get("to")?.slice(0, 60) ?? ""} />
       </label>
       <fieldset>
-        <legend className="mb-1 text-sm">Kehadiran</legend>
-        <div className="grid grid-cols-3 gap-2">
+        <legend>Kehadiran</legend>
+        <div className="att">
           {[["hadir", "Hadir"], ["tidak_hadir", "Tidak hadir"], ["ragu", "Masih ragu"]].map(([v, label]) => (
-            <label key={v} className="flex min-h-11 cursor-pointer items-center justify-center rounded-xl border border-(--muted)/40 text-sm has-checked:bg-(--ink) has-checked:text-(--surface)">
+            <label key={v}>
               <input type="radio" name="attendance" value={v} checked={attendance === v} onChange={() => setAttendance(v)} className="sr-only" />
               {label}
             </label>
@@ -62,25 +62,22 @@ export function RsvpForm({ invitationId }: { invitationId: string }) {
         </div>
       </fieldset>
       {attendance === "hadir" && (
-        <label className="block">
-          <span className="mb-1 block text-sm">Jumlah orang</span>
-          <select name="pax" defaultValue="1" className={field}>
+        <label>
+          <span>Jumlah orang</span>
+          <select name="pax" defaultValue="1">
             {[1, 2, 3, 4, 5].map((n) => (
               <option key={n}>{n}</option>
             ))}
           </select>
         </label>
       )}
-      <label className="block">
-        <span className="mb-1 block text-sm">Ucapan & doa (opsional)</span>
-        <textarea name="message" maxLength={500} rows={4} className={field} />
+      <label>
+        <span>Ucapan & doa (opsional)</span>
+        <textarea name="message" maxLength={500} rows={4} />
       </label>
       <div className="cf-turnstile" data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY} />
-      {state.status === "error" && <p role="alert" className="text-sm text-red-700">{state.msg}</p>}
-      <button
-        disabled={state.status === "sending"}
-        className="min-h-11 w-full rounded-full bg-(--ink) font-semibold text-(--surface) disabled:opacity-60"
-      >
+      {state.status === "error" && <p role="alert" className="err">{state.msg}</p>}
+      <button disabled={state.status === "sending"} className="btn">
         {state.status === "sending" ? "Mengirim…" : "Kirim"}
       </button>
     </form>

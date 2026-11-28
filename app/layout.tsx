@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   openGraph: { siteName: "WeddingLink", locale: "id_ID", type: "website" },
   title: "WeddingLink — Undangan Pernikahan Digital",
-  description: "Undangan pernikahan digital dengan tema adat Nusantara orisinal, RSVP, dan link per tamu.",
+  description: "Undangan pernikahan digital custom: adat Nusantara, modern, atau minimalis, dengan cerita Anda sendiri, RSVP, dan link per tamu.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

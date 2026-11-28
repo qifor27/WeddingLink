@@ -1,0 +1,87 @@
+/* Port dari "tema dari saya/red-beige.html". Font: script = Pinyon Script, display & body = Cormorant Garamond (+ small-caps). */
+.skin-red-beige { --red: #7a1416; --red2: #5c0e10; --beige: #efe8dc; --paper: #f6f1e8; --gold: #b8894a; --mute: #8a6a5e; --line: #d9c9b4; background: var(--red2); font: 17px/1.6 var(--font-body), serif; }
+.skin-red-beige main { max-width: 500px; }
+.skin-red-beige .sc, .skin-red-beige .kicker, .skin-red-beige .btn, .skin-red-beige .time, .skin-red-beige .guest, .skin-red-beige .dline, .skin-red-beige .story h3, .skin-red-beige .rsvp label > span, .skin-red-beige .rsvp legend { font-family: var(--font-display), serif; font-variant: small-caps; letter-spacing: .08em; }
+.skin-red-beige .pg { min-height: 100svh; padding: 22px 16px; display: grid; place-items: center; }
+.skin-red-beige .card { --r: 44px; width: 100%; min-height: calc(100svh - 44px); padding: clamp(110px, 30vw, 150px) 26px; background: var(--beige); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.skin-red-beige .card, .skin-red-beige .card::before, .skin-red-beige .card::after {
+  -webkit-mask: radial-gradient(var(--r) at 0 0, #0000 98%, #000) top left / 51% 51% no-repeat, radial-gradient(var(--r) at 100% 0, #0000 98%, #000) top right / 51% 51% no-repeat, radial-gradient(var(--r) at 0 100%, #0000 98%, #000) bottom left / 51% 51% no-repeat, radial-gradient(var(--r) at 100% 100%, #0000 98%, #000) bottom right / 51% 51% no-repeat;
+  mask: radial-gradient(var(--r) at 0 0, #0000 98%, #000) top left / 51% 51% no-repeat, radial-gradient(var(--r) at 100% 0, #0000 98%, #000) top right / 51% 51% no-repeat, radial-gradient(var(--r) at 0 100%, #0000 98%, #000) bottom left / 51% 51% no-repeat, radial-gradient(var(--r) at 100% 100%, #0000 98%, #000) bottom right / 51% 51% no-repeat;
+}
+.skin-red-beige .card::before, .skin-red-beige .card::after { content: ""; position: absolute; pointer-events: none; }
+.skin-red-beige .card::before { inset: 10px; --r: 40px; background: var(--line); }
+.skin-red-beige .card::after { inset: 11px; --r: 40px; background: var(--beige); }
+.skin-red-beige .card > :not(.decor) { position: relative; z-index: 2; }
+.skin-red-beige .orn { position: absolute; z-index: 1; color: var(--red); pointer-events: none; width: clamp(110px, 34vw, 170px); }
+.skin-red-beige .orn svg { width: 100%; height: auto; overflow: visible; display: block; }
+.skin-red-beige .o-tl { top: 14px; left: 14px; }
+.skin-red-beige .o-tr { top: 14px; right: 14px; transform: scaleX(-1); }
+.skin-red-beige .o-bl { bottom: 14px; left: 14px; }
+.skin-red-beige .o-br { bottom: 14px; right: 14px; transform: scaleX(-1); }
+.skin-red-beige .o-tc { top: 22px; left: 50%; translate: -50% 0; width: clamp(120px, 36vw, 170px); }
+.skin-red-beige .d { stroke-dasharray: 1; animation: rb-draw 2.6s cubic-bezier(.4, 0, .2, 1) .3s backwards; }
+@keyframes rb-draw { from { stroke-dashoffset: 1; } }
+.skin-red-beige .float { animation: rb-float 6s ease-in-out infinite; }
+.skin-red-beige .o-tc.float { animation-name: rb-floatc; }
+@keyframes rb-float { 50% { translate: 0 -6px; } }
+@keyframes rb-floatc { 50% { translate: -50% -6px; } }
+.skin-red-beige h2 { font: 600 clamp(32px, 9vw, 42px)/1.05 var(--font-display), serif; margin: 0 0 8px; color: var(--red); text-wrap: balance; }
+.skin-red-beige h2 em { font-style: italic; }
+.skin-red-beige .kicker { font-size: 15px; color: var(--gold); margin-bottom: 6px; }
+.skin-red-beige p { margin: 0 0 12px; }
+.skin-red-beige .mute, .skin-red-beige .place, .skin-red-beige .src { color: var(--mute); }
+.skin-red-beige .intro { position: relative; z-index: 2; font-size: 16px; line-height: 1.4; }
+.skin-red-beige .names { font-family: var(--font-script), cursive; font-weight: 400; color: var(--red); line-height: 1; margin: 18px 0 0; }
+.skin-red-beige .names .big { display: block; font-size: clamp(54px, 16vw, 74px); margin: 4px 0; }
+.skin-red-beige .names .amp { display: block; font: 600 46px var(--font-display), serif; margin: 6px 0; }
+.skin-red-beige .dline { color: var(--red); font-size: 20px; font-weight: 600; margin-top: 8px; }
+.skin-red-beige .to { margin-top: 22px; }
+.skin-red-beige .to p:first-child { color: var(--mute); font-variant: small-caps; }
+.skin-red-beige .guest { font-size: 24px; font-weight: 600; color: var(--red); margin: 4px 0 0; }
+.skin-red-beige .it { font-size: 20px; font-style: italic; max-width: 30ch; }
+.skin-red-beige .src { font-size: 15px; font-variant: small-caps; }
+.skin-red-beige .btn { border: 0; background: var(--red); color: var(--beige); font-size: 17px; font-weight: 600; box-shadow: 0 6px 18px #5c0e1033; transition: background .2s, transform .2s; }
+.skin-red-beige .btn:hover { background: var(--red2); }
+.skin-red-beige .btn.ghost { background: transparent; color: var(--red); border: 1px solid var(--red); box-shadow: none; }
+.skin-red-beige :is(.btn, input, select, textarea, .ig):focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.skin-red-beige .photo { width: clamp(150px, 46vw, 190px); aspect-ratio: 3 / 4; border-radius: 999px 999px 22px 22px; border: 1px solid var(--red); padding: 7px; margin: 6px auto 16px; }
+.skin-red-beige .photo > div { width: 100%; height: 100%; border-radius: inherit; background: linear-gradient(160deg, #e5d8c4, #d6c2a6); display: grid; place-items: center; color: var(--red); font: 80px var(--font-script), cursive; }
+.skin-red-beige .pn { font: 400 clamp(46px, 13vw, 60px)/1 var(--font-script), cursive; color: var(--red); margin: 4px 0; }
+.skin-red-beige .full { font-weight: 600; font-size: 20px; color: var(--red); margin: 0 0 4px; }
+.skin-red-beige .par { color: var(--mute); }
+.skin-red-beige .ig { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 99px; border: 1px solid var(--line); color: var(--red); font-size: 16px; }
+.skin-red-beige .couple { display: grid; gap: 30px; }
+.skin-red-beige .gal { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; width: 100%; margin-top: 10px; }
+.skin-red-beige .gal img { aspect-ratio: 3 / 4; border-radius: 18px; border: 1px solid var(--line); }
+.skin-red-beige .gal img:first-child { grid-column: span 2; aspect-ratio: 4 / 3; }
+.skin-red-beige .date { display: flex; justify-content: center; align-items: center; gap: 14px; margin: 10px 0; }
+.skin-red-beige .date b { font: 600 64px/1 var(--font-display), serif; color: var(--red); padding: 0 14px; border-inline: 1px solid var(--line); }
+.skin-red-beige .date span { font-size: 17px; line-height: 1.3; color: var(--mute); }
+.skin-red-beige .time { font-size: 20px; font-weight: 600; color: var(--red); white-space: nowrap; margin: 6px 0; }
+.skin-red-beige .place b { font-weight: 600; color: var(--ink); }
+.skin-red-beige .count { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; width: 100%; margin: 12px 0 20px; }
+.skin-red-beige .count div { border: 1px solid var(--line); border-radius: 16px; padding: 12px 2px; background: var(--paper); }
+.skin-red-beige .count b { display: block; font: 600 clamp(26px, 8vw, 34px)/1 var(--font-display), serif; color: var(--red); }
+.skin-red-beige .count small { font-size: 14px; color: var(--mute); }
+.skin-red-beige .story { position: relative; margin: 6px 0 0; padding: 0 0 0 26px; text-align: start; }
+.skin-red-beige .story::before { content: ""; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 1px; background: var(--line); }
+.skin-red-beige .story li { position: relative; margin: 0 0 20px; }
+.skin-red-beige .story li::before { content: ""; position: absolute; left: -24px; top: 8px; width: 11px; height: 11px; transform: rotate(45deg); background: var(--beige); border: 1.5px solid var(--red); }
+.skin-red-beige .story h3 { font-weight: 600; font-size: 20px; color: var(--red); }
+.skin-red-beige .story p { margin: 2px 0 0; color: var(--mute); font-size: 16px; }
+.skin-red-beige .rsvp { width: 100%; }
+.skin-red-beige .rsvp label > span, .skin-red-beige .rsvp legend { font-weight: 600; font-size: 16px; color: var(--red); }
+.skin-red-beige .rsvp input:not([type="radio"]), .skin-red-beige .rsvp select, .skin-red-beige .rsvp textarea { background: var(--paper); border: 1px solid var(--line); }
+.skin-red-beige .rsvp .att label { border: 1px solid var(--line); background: var(--paper); color: var(--red); font-size: 16px; }
+.skin-red-beige .rsvp .att label:has(:checked) { background: var(--red); border-color: var(--red); color: var(--beige); }
+.skin-red-beige .wishes { width: 100%; max-height: 52svh; overflow: auto; display: grid; gap: 10px; text-align: start; padding-right: 4px; }
+.skin-red-beige .wish { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; }
+.skin-red-beige .wish b { color: var(--red); font-size: 18px; }
+.skin-red-beige .wish em { font-style: normal; font-size: 13px; color: var(--beige); background: var(--red); border-radius: 99px; padding: 1px 10px; white-space: nowrap; }
+.skin-red-beige .wish em.no { background: #a38b7c; }
+.skin-red-beige .wish p { margin: 4px 0 0; font-size: 16px; }
+.skin-red-beige .wish small { color: var(--mute); }
+.skin-red-beige .stack { width: 100%; }
+.skin-red-beige .stack .box { border: 1px solid var(--line); border-radius: 20px; background: var(--paper); padding: 20px 16px; }
+.skin-red-beige .acct { font: 600 26px var(--font-display), serif; letter-spacing: .08em; color: var(--red); margin: 4px 0; }
+.skin-red-beige .last { padding-bottom: 96px; }

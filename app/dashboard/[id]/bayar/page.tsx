@@ -29,7 +29,7 @@ export default async function Page({ params }: PageProps<"/dashboard/[id]/bayar"
       <h1 className="font-display text-3xl">Pembayaran</h1>
 
       {order && (
-        <p className="rounded-xl bg-blush px-3 py-2 text-sm">
+        <p className="rounded-xl bg-cream px-3 py-2 text-sm">
           Pesanan {order.packages.name}: <strong>{ORDER_STATUS[order.status]}</strong>
           {order.status === "rejected" && order.reject_reason && <> — {order.reject_reason}</>}
           {order.status === "paid" && <> — undangan siap diterbitkan dari halaman edit.</>}
@@ -40,7 +40,7 @@ export default async function Page({ params }: PageProps<"/dashboard/[id]/bayar"
         <section className="space-y-4 rounded-2xl bg-white p-4 shadow-sm">
           <div>
             <p className="text-sm">Transfer tepat sebesar</p>
-            <p className="text-3xl font-semibold text-rose">{rupiah(order.amount)}</p>
+            <p className="text-3xl font-semibold text-gold-deep">{rupiah(order.amount)}</p>
             <p className="text-xs text-ink/70">Tiga digit terakhir adalah kode unik untuk mencocokkan transfer Anda.</p>
           </div>
           {bank.no && (
@@ -53,7 +53,7 @@ export default async function Page({ params }: PageProps<"/dashboard/[id]/bayar"
           )}
           {qris && (
             // eslint-disable-next-line @next/next/no-img-element -- QRIS statis dari env, tidak perlu optimasi
-            <img src={qris} alt="QRIS WeddingLink" width={240} height={240} className="rounded-xl border border-blush" />
+            <img src={qris} alt="QRIS WeddingLink" width={240} height={240} className="rounded-xl border border-gold/30" />
           )}
           <UploadProof orderId={order.id} hasProof={!!order.proof_path} />
         </section>

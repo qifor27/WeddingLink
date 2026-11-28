@@ -32,7 +32,7 @@ export function TwoFactor({ factorId: verifiedId }: { factorId?: string }) {
 
   if (!factorId)
     return (
-      <button onClick={start} className="min-h-11 rounded-full bg-rose px-5 text-sm font-semibold text-white">
+      <button onClick={start} className="min-h-11 rounded-full bg-ink px-5 text-sm font-semibold text-white">
         Siapkan aplikasi autentikator
       </button>
     );
@@ -52,7 +52,7 @@ export function TwoFactor({ factorId: verifiedId }: { factorId?: string }) {
         <input name="code" inputMode="numeric" pattern="\d{6}" maxLength={6} required autoComplete="one-time-code"
           className="w-full rounded-xl border border-ink/20 bg-white px-3 py-2.5" />
       </label>
-      <button className="min-h-11 rounded-full bg-rose px-5 text-sm font-semibold text-white">Verifikasi</button>
+      <button className="min-h-11 rounded-full bg-ink px-5 text-sm font-semibold text-white">Verifikasi</button>
       {error && <p role="alert" className="text-sm text-red-700">{error}</p>}
     </form>
   );
